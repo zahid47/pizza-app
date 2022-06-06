@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema(
 );
 
 userSchema.pre("save", async function (next) {
-  let user = this as userDocument;
+  let user = this as userDocument; // skipcq
   if (!user.isModified("password")) return next();
 
   const salt = await bcrypt.genSalt(process.env.SALT_WORK_FACTOR);
@@ -30,7 +30,7 @@ userSchema.pre("save", async function (next) {
 userSchema.methods["comparePassword"] = function (
   givenPassword: string
 ): Promise<boolean> {
-  let user = this as userDocument;
+  const user = this as userDocument; // skipcq
 
   return new Promise((resolve, reject) => {
     bcrypt.compare(givenPassword, user.password, (err, success) => {
