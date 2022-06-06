@@ -4,3 +4,5 @@ build
 images
 coverage
 yarn-error.log
+error.log
+combined.log
