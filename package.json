@@ -1,20 +1,40 @@
 {
-  "name": "backend",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "pizza-app-backend",
+  "version": "0.0.1",
+  "description": "yet another pizza shop backend",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+    "testDev": "jest --watchAll",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/zahid47/pizza-app.git"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "zahid <epiczahid@gmail.com>",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/zahid47/pizza-app/issues"
+    "url": "https://github.com/zahid47/IceCreamApi/issues"
   },
-  "homepage": "https://github.com/zahid47/pizza-app#readme"
+  "homepage": "https://github.com/zahid47/pizza-app#readme",
+  "dependencies": {
+    "body-parser": "^1.20.0",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "mongoose": "^6.3.3"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.13",
+    "@types/jest": "^27.5.1",
+    "@types/node": "^17.0.32",
+    "@types/supertest": "^2.0.12",
+    "jest": "^28.1.0",
+    "mongodb-memory-server": "^8.6.0",
+    "supertest": "^6.2.3",
+    "ts-jest": "^28.0.2",
+    "ts-node-dev": "^1.1.8",
+    "typescript": "^4.6.4"
+  }
 }
