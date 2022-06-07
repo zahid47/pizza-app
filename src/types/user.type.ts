@@ -8,7 +8,7 @@ export interface userDocument extends mongoose.Document {
   phone: string;
   address?: string;
   orders?: mongoose.Types.ObjectId[];
-  isAdmin: boolean;
+  role: string;
   comparePassword(givenPassword: string): Promise<boolean>;
 }
 
