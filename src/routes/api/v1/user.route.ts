@@ -7,7 +7,11 @@ import {
   getAllUserController,
 } from "../../../controllers/user.controller";
 import validate from "../../../middlewares/validate";
-import { createUserSchema } from "../../../schema/user.schema";
+import {
+  createUserSchema,
+  deleteUserSchema,
+  updateUserSchema,
+} from "../../../schema/user.schema";
 
 const router = Router();
 
@@ -19,7 +23,7 @@ router
 router
   .route("/:id")
   .get(getUserController)
-  .put(updateUserController)
-  .delete(deleteUserController);
+  .put(validate(updateUserSchema), updateUserController)
+  .delete(validate(deleteUserSchema), deleteUserController);
 
 export default router;
