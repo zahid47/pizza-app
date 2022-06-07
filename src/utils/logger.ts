@@ -18,7 +18,7 @@ const logger = createLogger({
     // - Write all logs error (and below) to `error.log`.
     //
     new transports.File({ filename: "error.log", level: "error" }),
-    new transports.File({ filename: "combined.log" }),
+    // new transports.File({ filename: "combined.log" }),
   ],
 });
 
@@ -27,9 +27,13 @@ const logger = createLogger({
 // with the colorized simple format.
 //
 if (process.env.NODE_ENV !== "production") {
-  const customConsoleFormat = format.printf(({ timestamp, level, message }) => {
-    return `[${level}] ${dayjs(timestamp).format("HH:mm:ss")}: ${message}`;
-  });
+  const customConsoleFormat = format.printf(
+    ({ timestamp, level, message, stack }) => {
+      if (stack)
+        return `[${level}] ${dayjs(timestamp).format("HH:mm:ss")}: ${stack}`;
+      return `[${level}] ${dayjs(timestamp).format("HH:mm:ss")}: ${message}`;
+    }
+  );
   logger.add(
     new transports.Console({
       format: format.combine(format.colorize(), customConsoleFormat),
