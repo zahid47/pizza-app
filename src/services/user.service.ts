@@ -5,7 +5,7 @@ import { UpdateQuery } from "mongoose";
 export const createUser = async (input: userType) => {
   try {
     return await User.create(input);
-  } catch (err: any) {
+  } catch (err: any) { // skipcq
     throw new Error(err);
   }
 };
@@ -13,7 +13,7 @@ export const createUser = async (input: userType) => {
 export const findUser = async (id: string) => {
   try {
     return await User.findById(id);
-  } catch (err: any) {
+  } catch (err: any) { // skipcq
     throw new Error(err);
   }
 };
@@ -21,7 +21,7 @@ export const findUser = async (id: string) => {
 export const findAllUser = async () => {
   try {
     return await User.find();
-  } catch (err: any) {
+  } catch (err: any) { // skipcq
     throw new Error(err);
   }
 };
@@ -32,7 +32,7 @@ export const findAndUpdateUser = async (
 ) => {
   try {
     return await User.findByIdAndUpdate(id, update, { new: true });
-  } catch (err: any) {
+  } catch (err: any) { // skipcq
     throw new Error(err);
   }
 };
@@ -40,7 +40,7 @@ export const findAndUpdateUser = async (
 export const findAndDeleteUser = async (id: string) => {
   try {
     return await User.findByIdAndDelete(id);
-  } catch (err: any) {
+  } catch (err: any) { // skipcq
     throw new Error(err);
   }
 };

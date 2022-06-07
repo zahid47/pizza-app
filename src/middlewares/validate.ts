@@ -11,7 +11,7 @@ const validate =
         params: req.params,
       });
       next();
-    } catch (err: any) {
+    } catch (err: any) { // skipcq
       if (err instanceof ZodError) {
         return res.status(400).json(err.flatten());
       } else {
