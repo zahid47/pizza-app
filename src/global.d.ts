@@ -5,7 +5,6 @@ declare global {
       PORT: number;
       HOST: string;
       MONGO_URI: string;
-      SALT_WORK_FACTOR: number;
     }
   }
 }

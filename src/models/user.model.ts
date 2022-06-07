@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import bcrypt from "bcryptjs";
+import argon2 from "argon2";
 import { userDocument } from "../types/user.type";
 
 const userSchema = new mongoose.Schema(
@@ -20,24 +20,25 @@ userSchema.pre("save", async function (next) {
   let user = this as userDocument; // skipcq
   if (!user.isModified("password")) return next();
 
-  const salt = await bcrypt.genSalt(process.env.SALT_WORK_FACTOR);
-  const hash = await bcrypt.hash(user.password, salt);
-
+  const hash = await argon2.hash(user.password);
   user.password = hash;
   return next();
 });
 
-userSchema.methods["comparePassword"] = function (
+userSchema.methods["comparePassword"] = async function (
   givenPassword: string
 ): Promise<boolean> {
   const user = this as userDocument; // skipcq
 
-  return new Promise((resolve, reject) => {
-    bcrypt.compare(givenPassword, user.password, (err, success) => {
-      if (err) return reject(err);
-      return resolve(success);
-    });
-  });
+  try {
+    if (await argon2.verify(user.password, givenPassword)) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch {
+    return false;
+  }
 };
 
 const User = mongoose.model<userDocument>("User", userSchema);
