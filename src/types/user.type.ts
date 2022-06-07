@@ -6,7 +6,14 @@ export interface userDocument extends mongoose.Document {
   verified: boolean;
   password: string;
   phone: string;
-  address?: string;
+  address?: {
+    address: string;
+    city?: string;
+    state?: string;
+    zip?: string;
+    country?: string;
+    comment?: string;
+  };
   orders?: mongoose.Types.ObjectId[];
   role: string;
   comparePassword(givenPassword: string): Promise<boolean>;
@@ -17,5 +24,12 @@ export interface userType {
   email: string;
   password: string;
   phone: string;
-  address?: string;
+  address?: {
+    address: string;
+    city?: string;
+    state?: string;
+    zip?: string;
+    country?: string;
+    comment?: string;
+  };
 }

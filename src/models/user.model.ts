@@ -9,7 +9,14 @@ const userSchema = new mongoose.Schema(
     verified: { type: Boolean, default: false },
     password: { type: String, required: true },
     phone: { type: String, required: true },
-    address: { type: String },
+    address: {
+      address: { type: String, required: true },
+      city: String,
+      state: String,
+      zip: String,
+      country: String,
+      comment: String, //user can add a commnet to find their place easily
+    },
     orders: { type: [mongoose.Types.ObjectId] },
     role: { type: String, default: "user" },
   },
