@@ -5,13 +5,13 @@ import { userDocument } from "../types/user.type";
 const userSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
+    email: { type: String, required: true, lowercase: true, unique: true },
     verified: { type: Boolean, default: false },
     password: { type: String, required: true },
     phone: { type: String, required: true },
     address: { type: String },
     orders: { type: [mongoose.Types.ObjectId] },
-    isAdmin: { type: Boolean, default: false },
+    role: { type: String, default: "user" },
   },
   { timestamps: true }
 );
