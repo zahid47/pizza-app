@@ -14,7 +14,7 @@ export const createUserController = async (req: Request, res: Response) => {
     return res.status(201).send(user);
   } catch (err) {
     log.error(err);
-    return res.sendStatus(409);
+    return res.status(409).json({ email: "email already exists" });
   }
 };
 
