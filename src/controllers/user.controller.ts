@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { omit } from "lodash";
 import {
   createUser,
   findUser,
@@ -11,7 +12,7 @@ import log from "../utils/logger";
 export const createUserController = async (req: Request, res: Response) => {
   try {
     const user = await createUser(req.body);
-    return res.status(201).send(user);
+    return res.status(201).send(omit(user.toJSON(), "password"));
   } catch (err) {
     log.error(err);
     return res.status(409).json({ email: "email already exists" });
@@ -24,7 +25,7 @@ export const getUserController = async (req: Request, res: Response) => {
     const user = await findUser(id);
 
     if (!user) return res.sendStatus(404);
-    return res.status(200).json(user);
+    return res.status(200).json(omit(user.toJSON(), "password"));
   } catch (err) {
     log.error(err);
     return res.sendStatus(500);
@@ -34,7 +35,7 @@ export const getUserController = async (req: Request, res: Response) => {
 export const getAllUserController = async (_req: Request, res: Response) => {
   try {
     const users = await findAllUser();
-    return res.status(200).json(users);
+    return res.status(200).json(users); //TODO omit password
   } catch (err) {
     log.error(err);
     return res.sendStatus(500);
@@ -53,7 +54,7 @@ export const updateUserController = async (req: Request, res: Response) => {
 
     if (!user) return res.sendStatus(404);
 
-    return res.status(200).json(user);
+    return res.status(200).json(omit(user.toJSON(), "password"));
   } catch (err) {
     log.error(err);
     return res.sendStatus(500);
