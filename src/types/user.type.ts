@@ -1,9 +1,8 @@
 import mongoose from "mongoose";
 
-export interface userDocument extends mongoose.Document {
+export interface userInputType {
   name: string;
   email: string;
-  verified: boolean;
   password: string;
   phone: string;
   address?: {
@@ -14,6 +13,10 @@ export interface userDocument extends mongoose.Document {
     country?: string;
     comment?: string;
   };
+}
+
+export interface userDocument extends userInputType, mongoose.Document {
+  verified: boolean;
   orders?: mongoose.Types.ObjectId[];
   role: string;
   couponsUsed?: {
@@ -22,20 +25,7 @@ export interface userDocument extends mongoose.Document {
     dateUsed: Date;
     orderId: mongoose.Types.ObjectId;
   }[];
+  createdAt: Date;
+  updatedAt: Date;
   comparePassword(givenPassword: string): Promise<boolean>;
-}
-
-export interface userType {
-  name: string;
-  email: string;
-  password: string;
-  phone: string;
-  address?: {
-    address: string;
-    city?: string;
-    state?: string;
-    zip?: string;
-    country?: string;
-    comment?: string;
-  };
 }
