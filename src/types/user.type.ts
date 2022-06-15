@@ -17,6 +17,7 @@ export interface userDocument extends mongoose.Document {
   orders?: mongoose.Types.ObjectId[];
   role: string;
   couponsUsed?: {
+    couponId: string;
     couponCode: string;
     dateUsed: Date;
     orderId: mongoose.Types.ObjectId;
