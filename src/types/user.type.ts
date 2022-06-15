@@ -16,6 +16,11 @@ export interface userDocument extends mongoose.Document {
   };
   orders?: mongoose.Types.ObjectId[];
   role: string;
+  couponsUsed?: {
+    couponCode: string;
+    dateUsed: Date;
+    orderId: mongoose.Types.ObjectId;
+  }[];
   comparePassword(givenPassword: string): Promise<boolean>;
 }
 
