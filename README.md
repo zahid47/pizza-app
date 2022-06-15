@@ -4,5 +4,4 @@
 
 ### TO-DO
 
-- [x] add validation middleware
-- [x] finish user crud
+- [x] next up: login
