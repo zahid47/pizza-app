@@ -12,6 +12,8 @@ export const loginController = async (req: Request, res: Response) => {
     const user = await User.findOne({ email });
     if (!user) return res.status(404).json({ email: "Email not found" });
 
+    // if(!user.verified) return res.status(401).json({ email: "Email not verified" });
+
     const isMatched = await user.comparePassword(password);
     if (!isMatched) return res.status(401).json({ password: "Invalid password" });
 
