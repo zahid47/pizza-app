@@ -1,4 +1,3 @@
-// import dayjs from "dayjs";
 import { createLogger, format, transports } from "winston";
 
 const logger = createLogger({
@@ -29,10 +28,7 @@ const logger = createLogger({
 if (process.env.NODE_ENV !== "production") {
   const customConsoleFormat = format.printf(
     ({ timestamp, level, message, stack }) => {
-      if (stack)
-        // return `[${level}] ${dayjs(timestamp).format("HH:mm:ss")}: ${stack}`;
-        return `[${level}] ${timestamp}: ${stack}`;
-      // return `[${level}] ${dayjs(timestamp).format("HH:mm:ss")}: ${message}`;
+      if (stack) return `[${level}] ${timestamp}: ${stack}`;
       return `[${level}] ${timestamp}: ${message}`;
     }
   );
