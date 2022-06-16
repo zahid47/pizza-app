@@ -9,7 +9,7 @@ export const createUserSchema = object({
     password: string({ required_error: "password is required" }),
     phone: string({ required_error: "phone is required" }),
     address: object({
-      address: string({ required_error: "address line is required" }),
+      addressLine: string().optional(),
       city: string().optional(),
       state: string().optional(),
       zip: string().optional(),
@@ -29,7 +29,7 @@ export const updateUserSchema = object({
     password: string().optional(),
     phone: string().optional(),
     address: object({
-      address: string({ required_error: "address line is required" }),
+      addressLine: string().optional(),
       city: string().optional(),
       state: string().optional(),
       zip: string().optional(),
