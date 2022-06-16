@@ -40,7 +40,7 @@ userSchema.pre("save", async function (next) {
   return next();
 });
 
-userSchema.methods["comparePassword"] = async function (
+userSchema.methods.comparePassword = async function (
   givenPassword: string
 ): Promise<boolean> {
   const user = this as userDocument; // skipcq
