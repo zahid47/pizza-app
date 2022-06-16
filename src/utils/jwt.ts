@@ -1,60 +1,34 @@
 import JWT from "jsonwebtoken";
+import logger from "./logger";
 
 export const signToken = (
   userId: string,
-  type: "ACCESS" | "REFRESH" | "OTHER",
+  secret: string,
+  expiry: string,
   payload: object = {}
 ) => {
-  return new Promise((resolve, reject) => {
-    let secret = "";
-    let expiry = "";
-
-    if (type === "ACCESS") {
-      secret = process.env["ACCESS_SECRET"]!;
-      expiry = process.env["ACCESS_TTL"]!;
-    } else if (type === "REFRESH") {
-      secret = process.env["REFRESH_SECRET"]!;
-      expiry = process.env["REFRESH_TTL"]!;
-    } else {
-      secret = process.env["TOKEN_SECRET"]!;
-      expiry = process.env["TOKEN_EXPIRY"]!;
-    }
-    const options = {
-      expiresIn: expiry,
-      issuer: "pizza-app",
-      audience: userId,
-    };
-    JWT.sign(payload, secret, options, (err, token) => {
-      if (err) {
-        return reject(err.message);
-      }
-      resolve(token);
-    });
-  });
+  const options = {
+    expiresIn: expiry,
+    issuer: "pizza-app",
+    audience: userId,
+  };
+  return JWT.sign(payload, secret, options);
 };
 
-export const verifyToken = (
-  token: string,
-  type: "ACCESS" | "REFRESH" | "OTHER"
-) => {
-  return new Promise((resolve, reject) => {
-    let secret = "";
-    let expiry = "";
-
-    if (type === "ACCESS") {
-      secret = process.env["ACCESS_SECRET"]!;
-      expiry = process.env["ACCESS_TTL"]!;
-    } else if (type === "REFRESH") {
-      secret = process.env["REFRESH_SECRET"]!;
-      expiry = process.env["REFRESH_TTL"]!;
-    } else {
-      secret = process.env["TOKEN_SECRET"]!;
-      expiry = process.env["TOKEN_EXPIRY"]!;
-    }
-
-    JWT.verify(token, secret, (err, payload) => {
-      if (err) return reject(err);
-      return resolve(payload);
-    });
-  });
+export const verifyToken = (token: string, secret: string) => {
+  try {
+    const payload = JWT.verify(token, secret);
+    return {
+      valid: true,
+      expired: false,
+      payload,
+    };
+  } catch (err: any) {
+    logger.error(err);
+    return {
+      valid: false,
+      expired: err.message === "jwt expired",
+      payload: null,
+    };
+  }
 };

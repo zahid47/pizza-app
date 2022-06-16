@@ -5,6 +5,12 @@ declare global {
       PORT: number;
       HOST: string;
       MONGO_URI: string;
+      ACCESS_SECRET: string;
+      ACCESS_TTL: string;
+      REFRESH_SECRET: string;
+      REFRESH_TTL: string;
+      TOKEN_SECRET: string;
+      TOKEN_TTL: string;
     }
   }
 }

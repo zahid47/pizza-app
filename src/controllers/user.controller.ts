@@ -46,7 +46,7 @@ export const updateUserController = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const update = req.body;
-    const currentUser = { id: "1234" }; //TODO req.user from auth middleware
+    const currentUser = res.locals.user; //res.locals.user is set in the "protect" middleware
 
     if (currentUser.id !== id) return res.sendStatus(403);
 
@@ -64,7 +64,7 @@ export const updateUserController = async (req: Request, res: Response) => {
 export const deleteUserController = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const currentUser = { id: "1234" }; //TODO req.user from auth middleware
+    const currentUser = res.locals.user; //res.locals.user is set in the "protect" middleware
 
     if (currentUser.id !== id) return res.sendStatus(403);
 

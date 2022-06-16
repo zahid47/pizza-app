@@ -6,6 +6,7 @@ import {
   getUserController,
   getAllUserController,
 } from "../../../controllers/user.controller";
+import protect from "../../../middlewares/protect";
 import validate from "../../../middlewares/validate";
 import {
   createUserSchema,
@@ -23,7 +24,7 @@ router
 router
   .route("/:id")
   .get(getUserController)
-  .put(validate(updateUserSchema), updateUserController)
-  .delete(validate(deleteUserSchema), deleteUserController);
+  .put(validate(updateUserSchema), protect, updateUserController)
+  .delete(validate(deleteUserSchema), protect, deleteUserController);
 
 export default router;

@@ -15,16 +15,25 @@ export const loginController = async (req: Request, res: Response) => {
     // if(!user.verified) return res.status(401).json({ email: "Email not verified" });
 
     const isMatched = await user.comparePassword(password);
-    if (!isMatched) return res.status(401).json({ password: "Invalid password" });
+    if (!isMatched)
+      return res.status(401).json({ password: "Invalid password" });
 
     //sign tokens
-    const accessToken = await signToken(user.id, "ACCESS")
-    const refreshToken = await signToken(user.id, "REFRESH")
+    const access_secret = process.env.ACCESS_SECRET;
+    const refresh_secret = process.env.REFRESH_SECRET;
+    const access_expiry = process.env.ACCESS_TTL;
+    const refresh_expiry = process.env.REFRESH_TTL;
+
+    const accessToken =  signToken(user.id, access_secret, access_expiry);
+    const refreshToken =  signToken(
+      user.id,
+      refresh_secret,
+      refresh_expiry
+    );
 
     //send tokens
     res.cookie("refreshToken", refreshToken, refreshCookieOptions);
     res.status(200).json({ accessToken });
-
   } catch (err) {
     log.error(err);
     return res.sendStatus(500);
