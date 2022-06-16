@@ -6,7 +6,7 @@ import refreshCookieOptions from "../utils/refreshCookieOptions";
 
 export const loginController = async (req: Request, res: Response) => {
   try {
-    const { email, password } = req.body; //TODO validate this
+    const { email, password } = req.body;
 
     //validate email and pass
     const user = await User.findOne({ email });
