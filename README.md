@@ -4,4 +4,4 @@
 
 ### TO-DO
 
-- [x] next up: login
+- [ ] auth - verify email and phone, logout, refresh token rotation, sessions
