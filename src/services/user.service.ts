@@ -34,6 +34,12 @@ export const findAndUpdateUser = async (
   update: UpdateQuery<Partial<userInputType>>
 ) => {
   try {
+    const email = update.email || "";
+    if (email) {
+      const userWithDuplicateEmail = await User.findOne({ email });
+      if (userWithDuplicateEmail) throw new Error("email already exists");
+    }
+
     return await User.findByIdAndUpdate(id, update, { new: true });
     // skipcq
   } catch (err: any) {
