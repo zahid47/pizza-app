@@ -8,14 +8,13 @@ export interface productInputType {
   ingredients?: string[];
   category?: string;
   isVegan?: boolean;
-  optionsAvailable?: string[];
   prices: {
     price: number;
     option: string;
   }[];
   extraIngredients?: {
     name: string;
-    price: string;
+    price: number;
   }[];
   tags?: string[];
 }

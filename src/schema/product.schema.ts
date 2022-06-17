@@ -3,13 +3,11 @@ import { array, boolean, number, object, string, TypeOf } from "zod";
 export const createProductSchema = object({
   body: object({
     name: string({ required_error: "product name is required" }),
-    slug: string().optional(),
     description: string().optional(),
-    image: array(string().url("Image must be an URL")).optional(),
-    ingredients: array(string()).optional(),
+    images: string().url("Image must be an URL").optional(),
+    ingredients: string().optional(),
     category: string().optional(),
     isVegan: boolean().optional(),
-    optionsAvailable: array(string()).optional(),
     prices: array(
       object(
         {
@@ -22,10 +20,10 @@ export const createProductSchema = object({
     extraIngredients: array(
       object({
         name: string({ required_error: "ingredient name is required" }),
-        price: string({ required_error: "ingredient price is required" }),
+        price: number({ required_error: "ingredient price is required" }),
       })
     ).optional(),
-    tags: array(string()).optional(),
+    tags: string().optional(),
   }).strict(),
 });
 
@@ -53,24 +51,24 @@ export const updateProductSchema = object({
   }),
   body: object({
     name: string().optional(),
-    slug: string().optional(),
     description: string().optional(),
-    image: array(string().url("Image must be an URL")).optional(),
-    ingredients: array(string()).optional(),
+    images: string().url("Image must be an URL").optional(),
+    ingredients: string().optional(),
     category: string().optional(),
     isVegan: boolean().optional(),
-    optionsAvailable: array(string()).optional(),
     prices: array(
       object({
         price: number({ required_error: "price value is required" }),
         option: string({ required_error: "option text is required" }),
       })
     ).optional(),
-    extraIngredients: object({
-      name: string({ required_error: "ingredient name is required" }),
-      price: string({ required_error: "ingredient price is required" }),
-    }).optional(),
-    tags: array(string()).optional(),
+    extraIngredients: array(
+      object({
+        name: string({ required_error: "ingredient name is required" }),
+        price: number({ required_error: "ingredient price is required" }),
+      })
+    ).optional(),
+    tags: string().optional(),
   }).strict(),
 });
 

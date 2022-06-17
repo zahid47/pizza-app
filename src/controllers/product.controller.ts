@@ -15,17 +15,19 @@ import {
   getProductsInput,
   updateProductInput,
 } from "../schema/product.schema";
+import productSerializer from "../utils/productSerializer";
 
 export const createProductController = async (
   req: Request<{}, {}, createProductInput["body"]>,
   res: Response
 ) => {
   try {
-    const product = await createProduct(req.body);
+    const newProduct = productSerializer(req.body);
+    const product = await createProduct(newProduct);
     return res.status(201).send(product);
-  } catch (err) {
+  } catch (err: any) {
     log.error(err);
-    return res.status(500).json(err);
+    return res.status(500).json(err.message || err);
   }
 };
 
@@ -39,9 +41,9 @@ export const getProductController = async (
 
     if (!product) return res.sendStatus(404);
     return res.status(200).json(product);
-  } catch (err) {
+  } catch (err: any) {
     log.error(err);
-    return res.sendStatus(500);
+    return res.status(500).json(err.message || err);
   }
 };
 
@@ -60,12 +62,12 @@ export const getProductsController = async (
       skip = limit * (parseInt(req.query.page) - 1);
     }
     const query = filterQueryBuilder(req.query);
-
+    console.log(query)
     const products = await findProducts(query, limit, skip);
     return res.status(200).json(products);
-  } catch (err) {
+  } catch (err: any) {
     log.error(err);
-    return res.sendStatus(500);
+    return res.status(500).json(err.message || err);
   }
 };
 
@@ -82,9 +84,9 @@ export const updateProductController = async (
     if (!product) return res.sendStatus(404);
 
     return res.status(200).json(product);
-  } catch (err) {
+  } catch (err: any) {
     log.error(err);
-    return res.sendStatus(500);
+    return res.status(500).json(err.message || err);
   }
 };
 
@@ -100,8 +102,8 @@ export const deleteProductController = async (
     if (!product) return res.sendStatus(404);
 
     return res.sendStatus(200);
-  } catch (err) {
+  } catch (err: any) {
     log.error(err);
-    return res.sendStatus(500);
+    return res.status(500).json(err.message || err);
   }
 };

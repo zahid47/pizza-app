@@ -4,13 +4,12 @@ import { productDocument } from "../types/product.type";
 const productSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
-    slug: { type: String, required: true },
+    slug: { type: String },
     description: String,
     images: [String],
     ingredients: [String],
     category: String,
     isVegan: { type: Boolean, default: false },
-    optionsAvailable: [String],
     prices: {
       type: [
         {
@@ -23,7 +22,7 @@ const productSchema = new mongoose.Schema(
     extraIngredients: [
       {
         name: { type: String, required: true },
-        price: { type: String, required: true },
+        price: { type: Number, required: true },
       },
     ],
     tags: [String],
