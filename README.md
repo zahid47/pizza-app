@@ -4,5 +4,6 @@
 
 ### TO-DO
 
+- [ ] next - filter by price (complex mongodb query builder)
 - [ ] next - cloudinary
 - [ ] auth - verify email and phone, logout, refresh token rotation, sessions
