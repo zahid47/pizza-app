@@ -34,8 +34,8 @@ export const loginController = async (
     //send tokens
     res.cookie("refreshToken", refreshToken, refreshCookieOptions);
     res.status(200).json({ accessToken });
-  } catch (err) {
+  } catch (err: any) {
     log.error(err);
-    return res.sendStatus(500);
+    return res.status(500).json(err.message || err);
   }
 };

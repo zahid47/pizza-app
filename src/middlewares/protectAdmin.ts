@@ -23,8 +23,8 @@ const protect = async (req: Request, res: Response, next: NextFunction) => {
     if (user?.role === "user") return res.sendStatus(403)
     res.locals.user = user;
     next();
-  } catch (err) {
-    return res.status(500).json(err);
+  } catch (err: any) {
+    return res.status(500).json(err.message || err);
   }
 };
 

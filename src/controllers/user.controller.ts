@@ -23,7 +23,7 @@ export const createUserController = async (
   try {
     const user = await createUser(req.body);
     return res.status(201).send(omit(user.toJSON(), "password"));
-  } catch (err) {
+  } catch (err: any) {
     log.error(err);
     return res.status(409).json({ email: "email already exists" });
   }
@@ -39,9 +39,9 @@ export const getUserController = async (
 
     if (!user) return res.sendStatus(404);
     return res.status(200).json(omit(user.toJSON(), "password"));
-  } catch (err) {
+  } catch (err: any) {
     log.error(err);
-    return res.sendStatus(500);
+    return res.status(500).json(err.message || err);
   }
 };
 
@@ -62,9 +62,9 @@ export const getUsersController = async (
 
     const users = await findUsers(limit, skip);
     return res.status(200).json(users); //TODO omit password
-  } catch (err) {
+  } catch (err: any) {
     log.error(err);
-    return res.sendStatus(500);
+    return res.status(500).json(err.message || err);
   }
 };
 
@@ -75,18 +75,19 @@ export const updateUserController = async (
   try {
     const id = req.params.id;
     const update = req.body;
+
     const currentUser = res.locals.user; //res.locals.user is set in the "protect" middleware
-    
-    if (currentUser.id !== id) return res.sendStatus(403);
+    if (currentUser.role !== "admin" && currentUser.id !== id)
+      return res.sendStatus(403);
 
     const user = await findAndUpdateUser(id, update);
 
     if (!user) return res.sendStatus(404);
 
     return res.status(200).json(omit(user.toJSON(), "password"));
-  } catch (err) {
+  } catch (err: any) {
     log.error(err);
-    return res.sendStatus(500);
+    return res.status(500).json(err.message || err);
   }
 };
 
@@ -96,17 +97,18 @@ export const deleteUserController = async (
 ) => {
   try {
     const { id } = req.params;
+    
     const currentUser = res.locals.user; //res.locals.user is set in the "protect" middleware
-
-    if (currentUser.id !== id) return res.sendStatus(403);
+    if (currentUser.role !== "admin" && currentUser.id !== id)
+    return res.sendStatus(403);
 
     const user = await findAndDeleteUser(id);
 
     if (!user) return res.sendStatus(404);
 
     return res.sendStatus(200);
-  } catch (err) {
+  } catch (err: any) {
     log.error(err);
-    return res.sendStatus(500);
+    return res.status(500).json(err.message || err);
   }
 };

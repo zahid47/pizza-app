@@ -22,7 +22,7 @@ const protect = async (req: Request, res: Response, next: NextFunction) => {
     const user = await User.findById(payload.aud); //we know for a fact that payload.aud exists here
     res.locals.user = user;
     next();
-  } catch (err) {
+  } catch (err: any) {
     return res.sendStatus(401);
   }
 };
