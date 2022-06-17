@@ -2,7 +2,7 @@ import { Router } from "express";
 import {
   createProductController,
   deleteProductController,
-  getAllProductController,
+  getProductsController,
   getProductController,
   updateProductController,
 } from "../../../controllers/product.controller";
@@ -19,7 +19,7 @@ const router = Router();
 router
   .route("/")
   .post(validate(createProductSchema), protectAdmin, createProductController)
-  .get(getAllProductController);
+  .get(getProductsController);
 
 router
   .route("/:id")

@@ -20,9 +20,13 @@ export const findProduct = async (id: string) => {
   }
 };
 
-export const findAllProduct = async () => {
+export const findProducts = async (
+  query: object,
+  limit: number,
+  skip: number
+) => {
   try {
-    return await Product.find();
+    return await Product.find(query).limit(limit).skip(skip);
     // skipcq
   } catch (err: any) {
     throw new Error(err);

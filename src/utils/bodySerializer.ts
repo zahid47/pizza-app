@@ -37,7 +37,6 @@ const bodySerializer = (body: any) => {
     images?: string[];
     ingredients?: string[];
     category?: string;
-    type?: string;
     isVegan?: boolean;
     optionsAvailable?: string[];
     prices: any[];
@@ -51,7 +50,6 @@ const bodySerializer = (body: any) => {
     images,
     ingredients,
     category: body.category,
-    type: body.type,
     isVegan: body.isVegan,
     optionsAvailable,
     prices,

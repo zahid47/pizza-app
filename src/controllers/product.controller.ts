@@ -1,16 +1,25 @@
-//TODO add search filters to getAllProductController
-
 import { Request, Response } from "express";
 import {
   createProduct,
-  findAllProduct,
+  findProducts,
   findAndDeleteProduct,
   findAndUpdateProduct,
   findProduct,
 } from "../services/product.service";
+import { filterQueryBuilder } from "../utils/filterQueryBuilder";
 import log from "../utils/logger";
+import {
+  createProductInput,
+  deleteProductInput,
+  getProductInput,
+  getProductsInput,
+  updateProductInput,
+} from "../schema/product.schema";
 
-export const createProductController = async (req: Request, res: Response) => {
+export const createProductController = async (
+  req: Request<{}, {}, createProductInput["body"]>,
+  res: Response
+) => {
   try {
     const product = await createProduct(req.body);
     return res.status(201).send(product);
@@ -20,7 +29,10 @@ export const createProductController = async (req: Request, res: Response) => {
   }
 };
 
-export const getProductController = async (req: Request, res: Response) => {
+export const getProductController = async (
+  req: Request<getProductInput["params"]>,
+  res: Response
+) => {
   try {
     const { id } = req.params;
     const product = await findProduct(id);
@@ -33,9 +45,23 @@ export const getProductController = async (req: Request, res: Response) => {
   }
 };
 
-export const getAllProductController = async (_req: Request, res: Response) => {
+export const getProductsController = async (
+  req: Request<{}, {}, {}, getProductsInput["query"]>,
+  res: Response
+) => {
   try {
-    const products = await findAllProduct();
+    let limit = 10; //default limit 10
+    if (req.query.limit) {
+      limit = parseInt(req.query.limit);
+    }
+
+    let skip = 0; //default skip 0
+    if (req.query.page) {
+      skip = limit * (parseInt(req.query.page) - 1);
+    }
+    const query = filterQueryBuilder(req.query);
+
+    const products = await findProducts(query, limit, skip);
     return res.status(200).json(products);
   } catch (err) {
     log.error(err);
@@ -43,7 +69,10 @@ export const getAllProductController = async (_req: Request, res: Response) => {
   }
 };
 
-export const updateProductController = async (req: Request, res: Response) => {
+export const updateProductController = async (
+  req: Request<updateProductInput["params"], {}, updateProductInput["body"]>,
+  res: Response
+) => {
   try {
     const { id } = req.params;
     const update = req.body;
@@ -59,7 +88,10 @@ export const updateProductController = async (req: Request, res: Response) => {
   }
 };
 
-export const deleteProductController = async (req: Request, res: Response) => {
+export const deleteProductController = async (
+  req: Request<deleteProductInput["params"]>,
+  res: Response
+) => {
   try {
     const { id } = req.params;
 

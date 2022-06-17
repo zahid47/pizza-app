@@ -4,6 +4,5 @@
 
 ### TO-DO
 
-- [ ] next - limit, skip, filter products
-- [ ] next - slug
+- [ ] next - cloudinary
 - [ ] auth - verify email and phone, logout, refresh token rotation, sessions

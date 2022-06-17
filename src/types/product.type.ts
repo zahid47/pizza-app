@@ -2,11 +2,11 @@ import mongoose from "mongoose";
 
 export interface productInputType {
   name: string;
+  slug?: string;
   description?: string;
-  image?: string;
+  images?: string[];
   ingredients?: string[];
   category?: string;
-  type?: string;
   isVegan?: boolean;
   optionsAvailable?: string[];
   prices: {
