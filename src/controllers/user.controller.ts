@@ -73,10 +73,10 @@ export const updateUserController = async (
   res: Response
 ) => {
   try {
-    const { id } = req.params;
+    const id = req.params.id;
     const update = req.body;
     const currentUser = res.locals.user; //res.locals.user is set in the "protect" middleware
-
+    
     if (currentUser.id !== id) return res.sendStatus(403);
 
     const user = await findAndUpdateUser(id, update);
