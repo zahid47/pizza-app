@@ -14,16 +14,16 @@ const protect = async (req: Request, res: Response, next: NextFunction) => {
     const access_secret: string = process.env.ACCESS_SECRET;
     const { valid, expired, payload } = verifyToken(token, access_secret);
 
+    if (expired) return res.status(401).json({ error: "expired token" });
     if (!valid)
       return res.status(401).json({ error: "unauthorized, bad token" });
-    if (expired) return res.status(401).json({ error: "expired token" });
 
     //@ts-ignore
     const user = await User.findById(payload.aud); //we know for a fact that payload.aud exists here
     res.locals.user = user;
     next();
   } catch (err) {
-    return res.status(500).json(err);
+    return res.sendStatus(401);
   }
 };
 
