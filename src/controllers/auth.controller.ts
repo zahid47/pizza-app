@@ -1,10 +1,14 @@
 import { Request, Response } from "express";
 import User from "../models/user.model";
+import { loginType } from "../schema/auth.schema";
 import { signToken } from "../utils/jwt";
 import log from "../utils/logger";
 import refreshCookieOptions from "../utils/refreshCookieOptions";
 
-export const loginController = async (req: Request, res: Response) => {
+export const loginController = async (
+  req: Request<{}, {}, loginType["body"]>,
+  res: Response
+) => {
   try {
     const { email, password } = req.body;
 
@@ -24,12 +28,8 @@ export const loginController = async (req: Request, res: Response) => {
     const access_expiry = process.env.ACCESS_TTL;
     const refresh_expiry = process.env.REFRESH_TTL;
 
-    const accessToken =  signToken(user.id, access_secret, access_expiry);
-    const refreshToken =  signToken(
-      user.id,
-      refresh_secret,
-      refresh_expiry
-    );
+    const accessToken = signToken(user.id, access_secret, access_expiry);
+    const refreshToken = signToken(user.id, refresh_secret, refresh_expiry);
 
     //send tokens
     res.cookie("refreshToken", refreshToken, refreshCookieOptions);

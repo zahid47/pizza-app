@@ -1,4 +1,4 @@
-import { object, string } from "zod";
+import { object, string, TypeOf } from "zod";
 
 export const loginSchema = object({
   body: object({
@@ -8,3 +8,5 @@ export const loginSchema = object({
     password: string({ required_error: "password is required" }),
   }).strict(),
 });
+
+export type loginType = TypeOf<typeof loginSchema>;

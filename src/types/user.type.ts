@@ -6,7 +6,7 @@ export interface userInputType {
   password: string;
   phone: string;
   address?: {
-    address: string;
+    addressLine?: string;
     city?: string;
     state?: string;
     zip?: string;

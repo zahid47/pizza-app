@@ -1,4 +1,4 @@
-import { object, string } from "zod";
+import { object, string, TypeOf } from "zod";
 
 export const createUserSchema = object({
   body: object({
@@ -17,6 +17,19 @@ export const createUserSchema = object({
       comment: string().optional(),
     }).optional(),
   }).strict(),
+});
+
+export const getUsersSchema = object({
+  query: object({
+    limit: string().optional(),
+    page: string().optional(),
+  }),
+}).strict();
+
+export const getUserSchema = object({
+  params: object({
+    id: string(),
+  }),
 });
 
 export const updateUserSchema = object({
@@ -44,3 +57,9 @@ export const deleteUserSchema = object({
     id: string({ required_error: "id is required" }),
   }),
 });
+
+export type createUserInput = TypeOf<typeof createUserSchema>;
+export type getUsersInput = TypeOf<typeof getUsersSchema>;
+export type getUserInput = TypeOf<typeof getUserSchema>;
+export type updateUserInput = TypeOf<typeof updateUserSchema>;
+export type deleteUserInput = TypeOf<typeof deleteUserSchema>;

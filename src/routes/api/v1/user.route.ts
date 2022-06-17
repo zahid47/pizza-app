@@ -4,7 +4,7 @@ import {
   updateUserController,
   deleteUserController,
   getUserController,
-  getAllUserController,
+  getUsersController,
 } from "../../../controllers/user.controller";
 import protect from "../../../middlewares/protect";
 import validate from "../../../middlewares/validate";
@@ -19,7 +19,7 @@ const router = Router();
 router
   .route("/")
   .post(validate(createUserSchema), createUserController)
-  .get(getAllUserController);
+  .get(getUsersController);
 
 router
   .route("/:id")

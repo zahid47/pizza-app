@@ -1,15 +1,25 @@
 import { Request, Response } from "express";
 import { omit } from "lodash";
 import {
+  createUserInput,
+  deleteUserInput,
+  getUserInput,
+  getUsersInput,
+  updateUserInput,
+} from "../schema/user.schema";
+import {
   createUser,
   findUser,
-  findAllUser,
+  findUsers,
   findAndUpdateUser,
   findAndDeleteUser,
 } from "../services/user.service";
 import log from "../utils/logger";
 
-export const createUserController = async (req: Request, res: Response) => {
+export const createUserController = async (
+  req: Request<{}, {}, createUserInput["body"]>,
+  res: Response
+) => {
   try {
     const user = await createUser(req.body);
     return res.status(201).send(omit(user.toJSON(), "password"));
@@ -19,7 +29,10 @@ export const createUserController = async (req: Request, res: Response) => {
   }
 };
 
-export const getUserController = async (req: Request, res: Response) => {
+export const getUserController = async (
+  req: Request<getUserInput["params"]>,
+  res: Response
+) => {
   try {
     const { id } = req.params;
     const user = await findUser(id);
@@ -32,9 +45,22 @@ export const getUserController = async (req: Request, res: Response) => {
   }
 };
 
-export const getAllUserController = async (_req: Request, res: Response) => {
+export const getUsersController = async (
+  req: Request<{}, {}, {}, getUsersInput["query"]>,
+  res: Response
+) => {
   try {
-    const users = await findAllUser();
+    let limit = 10; //default limit 10
+    if (req.query.limit) {
+      limit = parseInt(req.query.limit);
+    }
+
+    let skip = 0; //default skip 0
+    if (req.query.page) {
+      skip = limit * (parseInt(req.query.page) - 1);
+    }
+
+    const users = await findUsers(limit, skip);
     return res.status(200).json(users); //TODO omit password
   } catch (err) {
     log.error(err);
@@ -42,7 +68,10 @@ export const getAllUserController = async (_req: Request, res: Response) => {
   }
 };
 
-export const updateUserController = async (req: Request, res: Response) => {
+export const updateUserController = async (
+  req: Request<updateUserInput["params"], {}, updateUserInput["body"]>,
+  res: Response
+) => {
   try {
     const { id } = req.params;
     const update = req.body;
@@ -61,7 +90,10 @@ export const updateUserController = async (req: Request, res: Response) => {
   }
 };
 
-export const deleteUserController = async (req: Request, res: Response) => {
+export const deleteUserController = async (
+  req: Request<deleteUserInput["params"]>,
+  res: Response
+) => {
   try {
     const { id } = req.params;
     const currentUser = res.locals.user; //res.locals.user is set in the "protect" middleware

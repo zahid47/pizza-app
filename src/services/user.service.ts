@@ -20,9 +20,9 @@ export const findUser = async (id: string) => {
   }
 };
 
-export const findAllUser = async () => {
+export const findUsers = async (limit: number, skip: number) => {
   try {
-    return await User.find();
+    return await User.find().limit(limit).skip(skip);
     // skipcq
   } catch (err: any) {
     throw new Error(err);
