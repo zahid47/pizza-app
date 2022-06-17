@@ -62,7 +62,6 @@ export const getProductsController = async (
       skip = limit * (parseInt(req.query.page) - 1);
     }
     const query = filterQueryBuilder(req.query);
-    console.log(query)
     const products = await findProducts(query, limit, skip);
     return res.status(200).json(products);
   } catch (err: any) {
