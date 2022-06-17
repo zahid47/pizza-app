@@ -4,4 +4,5 @@
 
 ### TO-DO
 
+- [ ] next - limit, skip, filter products
 - [ ] auth - verify email and phone, logout, refresh token rotation, sessions
