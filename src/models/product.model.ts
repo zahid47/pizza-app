@@ -31,7 +31,7 @@ const productSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-productSchema.pre("save", async function (next) {
+productSchema.pre("save", function (next) {
   const product = this as productDocument; // skipcq
   if (!product.isModified("name")) return next();
 
