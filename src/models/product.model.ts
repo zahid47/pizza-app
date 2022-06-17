@@ -4,11 +4,11 @@ import { productDocument } from "../types/product.type";
 const productSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
+    slug: { type: String, required: true },
     description: String,
-    image: String,
+    images: [String],
     ingredients: [String],
     category: String,
-    type: String,
     isVegan: { type: Boolean, default: false },
     optionsAvailable: [String],
     prices: {
@@ -31,6 +31,14 @@ const productSchema = new mongoose.Schema(
 
   { timestamps: true }
 );
+
+productSchema.pre("save", async function (next) {
+  const product = this as productDocument; // skipcq
+  if (!product.isModified("name")) return next();
+
+  product.slug = product.name.replaceAll(" ", "-");
+  return next();
+});
 
 const Product = mongoose.model<productDocument>("Product", productSchema);
 export default Product;
