@@ -33,8 +33,6 @@ export const getProductsSchema = object({
     page: string().optional(),
     searchTerm: string().optional(),
     isVegan: boolean().optional(),
-    minPrice: number().optional(),
-    maxPrice: number().optional(),
     category: string().optional(),
   }),
 }).strict();
