@@ -1,4 +1,3 @@
-import { Request } from "express";
 import cloudinary from "cloudinary";
 
 export const cloudinaryUpload = async (imagePath: string) => {

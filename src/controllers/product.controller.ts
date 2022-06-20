@@ -28,7 +28,7 @@ export const createProductController = async (
     let imgURLs: string[] = [];
     if (files) imgURLs = (await getCloudinaryURLs(files)) as string[];
 
-    const newProduct = await productSerializer(req.body, imgURLs);
+    const newProduct = productSerializer(req.body, imgURLs);
     const product = await createProduct(newProduct);
     return res.status(201).json(product);
   } catch (err: any) {
@@ -90,7 +90,7 @@ export const updateProductController = async (
 
     const { id } = req.params;
 
-    const update = await productSerializer(req.body, imgURLs);
+    const update = productSerializer(req.body, imgURLs);
 
     const product = await findAndUpdateProduct(id, update);
 

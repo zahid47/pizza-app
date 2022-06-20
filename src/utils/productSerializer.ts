@@ -1,4 +1,4 @@
-const productSerializer = async (body: any, imgURLs: string[]) => {
+const productSerializer = (body: any, imgURLs: string[]) => {
   let ingredients: string[] = body.ingredients?.split(",");
   ingredients = ingredients?.map((ingredient) => {
     return ingredient.trim();

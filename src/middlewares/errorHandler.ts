@@ -4,6 +4,7 @@ const errorHandler = (
   err: any, //FIXME whats the type of this err? IDK
   _req: Request,
   res: Response,
+  //skipcq
   _next: NextFunction
 ) => {
   const status: number = err.status || 500;
