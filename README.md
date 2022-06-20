@@ -4,6 +4,5 @@
 
 ### TO-DO
 
-- [ ] next - cloudinary
-- [ ] next - error handler middleware
+- [ ] next - write tests
 - [ ] auth - verify email and phone, logout, refresh token rotation, sessions
