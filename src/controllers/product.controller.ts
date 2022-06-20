@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import {
   createProduct,
   findProducts,
@@ -16,24 +16,31 @@ import {
   updateProductInput,
 } from "../schema/product.schema";
 import productSerializer from "../utils/productSerializer";
+import { getCloudinaryURLs } from "../utils/cloudinary";
 
 export const createProductController = async (
   req: Request<{}, {}, createProductInput["body"]>,
-  res: Response
+  res: Response,
+  next: NextFunction
 ) => {
   try {
-    const newProduct = productSerializer(req.body);
+    const files = req.files as any[];
+    let imgURLs: string[] = [];
+    if (files) imgURLs = (await getCloudinaryURLs(files)) as string[];
+
+    const newProduct = await productSerializer(req.body, imgURLs);
     const product = await createProduct(newProduct);
-    return res.status(201).send(product);
+    return res.status(201).json(product);
   } catch (err: any) {
     log.error(err);
-    return res.status(500).json(err.message || err);
+    return next(err);
   }
 };
 
 export const getProductController = async (
   req: Request<getProductInput["params"]>,
-  res: Response
+  res: Response,
+  next: NextFunction
 ) => {
   try {
     const { id } = req.params;
@@ -43,13 +50,14 @@ export const getProductController = async (
     return res.status(200).json(product);
   } catch (err: any) {
     log.error(err);
-    return res.status(500).json(err.message || err);
+    return next(err);
   }
 };
 
 export const getProductsController = async (
   req: Request<{}, {}, {}, getProductsInput["query"]>,
-  res: Response
+  res: Response,
+  next: NextFunction
 ) => {
   try {
     let limit = 10; //default limit 10
@@ -66,17 +74,23 @@ export const getProductsController = async (
     return res.status(200).json(products);
   } catch (err: any) {
     log.error(err);
-    return res.status(500).json(err.message || err);
+    return next(err);
   }
 };
 
 export const updateProductController = async (
   req: Request<updateProductInput["params"], {}, updateProductInput["body"]>,
-  res: Response
+  res: Response,
+  next: NextFunction
 ) => {
   try {
+    const files = req.files as any[];
+    let imgURLs: string[] = [];
+    if (files) imgURLs = (await getCloudinaryURLs(files)) as string[];
+
     const { id } = req.params;
-    const update = req.body;
+
+    const update = await productSerializer(req.body, imgURLs);
 
     const product = await findAndUpdateProduct(id, update);
 
@@ -85,13 +99,14 @@ export const updateProductController = async (
     return res.status(200).json(product);
   } catch (err: any) {
     log.error(err);
-    return res.status(500).json(err.message || err);
+    return next(err);
   }
 };
 
 export const deleteProductController = async (
   req: Request<deleteProductInput["params"]>,
-  res: Response
+  res: Response,
+  next: NextFunction
 ) => {
   try {
     const { id } = req.params;
@@ -103,6 +118,6 @@ export const deleteProductController = async (
     return res.sendStatus(200);
   } catch (err: any) {
     log.error(err);
-    return res.status(500).json(err.message || err);
+    return next(err);
   }
 };

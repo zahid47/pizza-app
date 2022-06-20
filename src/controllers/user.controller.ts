@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { omit } from "lodash";
 import {
   createUserInput,
@@ -31,7 +31,8 @@ export const createUserController = async (
 
 export const getUserController = async (
   req: Request<getUserInput["params"]>,
-  res: Response
+  res: Response,
+  next: NextFunction
 ) => {
   try {
     const { id } = req.params;
@@ -41,13 +42,14 @@ export const getUserController = async (
     return res.status(200).json(omit(user.toJSON(), "password"));
   } catch (err: any) {
     log.error(err);
-    return res.status(500).json(err.message || err);
+    return next(err);
   }
 };
 
 export const getUsersController = async (
   req: Request<{}, {}, {}, getUsersInput["query"]>,
-  res: Response
+  res: Response,
+  next: NextFunction
 ) => {
   try {
     let limit = 10; //default limit 10
@@ -64,13 +66,14 @@ export const getUsersController = async (
     return res.status(200).json(users); //TODO omit password
   } catch (err: any) {
     log.error(err);
-    return res.status(500).json(err.message || err);
+    return next(err);
   }
 };
 
 export const updateUserController = async (
   req: Request<updateUserInput["params"], {}, updateUserInput["body"]>,
-  res: Response
+  res: Response,
+  next: NextFunction
 ) => {
   try {
     const id = req.params.id;
@@ -87,20 +90,21 @@ export const updateUserController = async (
     return res.status(200).json(omit(user.toJSON(), "password"));
   } catch (err: any) {
     log.error(err);
-    return res.status(500).json(err.message || err);
+    return next(err);
   }
 };
 
 export const deleteUserController = async (
   req: Request<deleteUserInput["params"]>,
-  res: Response
+  res: Response,
+  next: NextFunction
 ) => {
   try {
     const { id } = req.params;
-    
+
     const currentUser = res.locals.user; //res.locals.user is set in the "protect" middleware
     if (currentUser.role !== "admin" && currentUser.id !== id)
-    return res.sendStatus(403);
+      return res.sendStatus(403);
 
     const user = await findAndDeleteUser(id);
 
@@ -109,6 +113,6 @@ export const deleteUserController = async (
     return res.sendStatus(200);
   } catch (err: any) {
     log.error(err);
-    return res.status(500).json(err.message || err);
+    return next(err);
   }
 };

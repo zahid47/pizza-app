@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import User from "../models/user.model";
 import { loginType } from "../schema/auth.schema";
 import { signToken } from "../utils/jwt";
@@ -7,7 +7,8 @@ import refreshCookieOptions from "../utils/refreshCookieOptions";
 
 export const loginController = async (
   req: Request<{}, {}, loginType["body"]>,
-  res: Response
+  res: Response,
+  next: NextFunction
 ) => {
   try {
     const { email, password } = req.body;
@@ -36,6 +37,6 @@ export const loginController = async (
     res.status(200).json({ accessToken });
   } catch (err: any) {
     log.error(err);
-    return res.status(500).json(err.message || err);
+    return next(err);
   }
 };

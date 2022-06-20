@@ -2,6 +2,7 @@ import express, { Express } from "express";
 import bodyParser from "body-parser";
 import dotenv from "dotenv";
 import path from "path";
+import errorHandler from "../middlewares/errorHandler";
 
 import healthcheck from "../routes/api/v1/healthcheck.route";
 import user from "../routes/api/v1/user.route";
@@ -19,5 +20,7 @@ app.use("/api/v1/healthcheck", healthcheck);
 app.use("/api/v1/user", user);
 app.use("/api/v1/auth", auth);
 app.use("/api/v1/product", product);
+
+app.use(errorHandler);
 
 export default app;

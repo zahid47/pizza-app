@@ -1,12 +1,7 @@
-const productSerializer = (body: any) => {
+const productSerializer = async (body: any, imgURLs: string[]) => {
   let ingredients: string[] = body.ingredients?.split(",");
   ingredients = ingredients?.map((ingredient) => {
     return ingredient.trim();
-  });
-
-  let images: string[] = body.images?.split(",");
-  images = images?.map((image) => {
-    return image.trim();
   });
 
   let tags: string[] = body.tags?.split(",");
@@ -17,7 +12,7 @@ const productSerializer = (body: any) => {
   const serializedBody: any = {
     name: body.name,
     description: body.description,
-    images,
+    images: imgURLs,
     ingredients,
     category: body.category,
     isVegan: body.isVegan,

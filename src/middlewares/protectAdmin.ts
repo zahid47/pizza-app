@@ -24,7 +24,7 @@ const protect = async (req: Request, res: Response, next: NextFunction) => {
     res.locals.user = user;
     next();
   } catch (err: any) {
-    return res.status(500).json(err.message || err);
+    return next(err)
   }
 };
 

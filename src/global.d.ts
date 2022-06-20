@@ -11,6 +11,9 @@ declare global {
       REFRESH_TTL: string;
       TOKEN_SECRET: string;
       TOKEN_TTL: string;
+      CLOUDINARY_CLOUD_NAME: string;
+      CLOUDINARY_API_KEY: string;
+      CLOUDINARY_API_SECRET: string;
     }
   }
 }
