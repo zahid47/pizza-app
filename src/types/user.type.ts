@@ -4,7 +4,7 @@ export interface userInputType {
   name: string;
   email: string;
   password: string;
-  phone: string;
+  phone?: string;
   address?: {
     addressLine?: string;
     city?: string;
