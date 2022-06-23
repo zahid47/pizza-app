@@ -3,8 +3,9 @@ import app from "../utils/app";
 import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import User from "../models/user.model";
-import { createUser } from "../services/user.service";
+import { createUser, findUser } from "../services/user.service";
 import generateRandomUser from "./testUtils/generateRandomUser";
+import { generateAuthTokens } from "../services/auth.service";
 
 describe("user", () => {
   beforeAll(async () => {
@@ -110,6 +111,113 @@ describe("user", () => {
         );
         expect(statusCode).toBe(200);
         expect(body.name).toEqual(user.name);
+      });
+    });
+  });
+
+  describe("PUT /api/v1/user/:id", () => {
+    describe("given the user is not authorized", () => {
+      it("should return a 401 and not update the user", async () => {
+        const user = await createUser(generateRandomUser());
+        const updated = { name: "updated" };
+
+        const { statusCode, body } = await request(app)
+          .put(`/api/v1/user/${user._id}`)
+          .send(updated);
+
+        expect(statusCode).toBe(401);
+        expect(body.name).not.toEqual(updated.name);
+      });
+    });
+  });
+
+  describe("PUT /api/v1/user/:id", () => {
+    describe("given the user is trying to update someone else's profile", () => {
+      it("should return a 403", async () => {
+        const user1 = await createUser(generateRandomUser());
+        const user2 = await createUser(generateRandomUser());
+        const update = { name: "updated" };
+        const { accessToken } = generateAuthTokens(user2.id); //logging in as user2
+
+        const { statusCode, body } = await request(app)
+          .put(`/api/v1/user/${user1._id}`) //but trying to update user1's profile
+          .set("Authorization", `Bearer ${accessToken}`)
+          .send(update);
+
+        expect(statusCode).toBe(403);
+        expect(body.name).not.toEqual(update.name);
+      });
+    });
+  });
+
+  describe("PUT /api/v1/user/:id", () => {
+    describe("given the user is authorized as the correct user", () => {
+      it("should return a 200 and update the user", async () => {
+        const userInfo = generateRandomUser();
+        const user = await createUser(userInfo);
+        const update = { name: "updated" };
+        const { accessToken } = generateAuthTokens(user.id);
+
+        const { statusCode, body } = await request(app)
+          .put(`/api/v1/user/${user._id}`)
+          .set("Authorization", `Bearer ${accessToken}`) //sending an access token with the request so that the user is authorized
+          .send(update);
+
+        expect(statusCode).toBe(200);
+        expect(body.name).toEqual(update.name);
+      });
+    });
+  });
+
+  describe("DELETE /api/v1/user/:id", () => {
+    describe("given the user is not authorized", () => {
+      it("should return a 401 and not delete the user", async () => {
+        const user = await createUser(generateRandomUser());
+
+        const { statusCode } = await request(app).delete(
+          `/api/v1/user/${user._id}`
+        );
+        const notDeletedUser = await findUser(user.id);
+
+        expect(statusCode).toBe(401);
+        expect(notDeletedUser).not.toBe(null);
+      });
+    });
+  });
+
+  describe("DELETE /api/v1/user/:id", () => {
+    describe("given the user is trying to delete someone else's profile", () => {
+      it("should return a 403", async () => {
+        const user1 = await createUser(generateRandomUser());
+        const user2 = await createUser(generateRandomUser());
+        const { accessToken } = generateAuthTokens(user2.id); //logging in as user2
+
+        const { statusCode } = await request(app)
+          .delete(`/api/v1/user/${user1._id}`) //but trying to delete user1's profile
+          .set("Authorization", `Bearer ${accessToken}`);
+
+        const notDeletedUser = await findUser(user1.id);
+
+        expect(statusCode).toBe(403);
+        expect(notDeletedUser).not.toBe(null);
+      });
+    });
+  });
+
+  describe("DELETE /api/v1/user/:id", () => {
+    describe("given the user is authorized as the correct user", () => {
+      it("should return a 200 and delete the user", async () => {
+        const user = await createUser(generateRandomUser());
+        const { accessToken } = generateAuthTokens(user.id);
+
+        const { statusCode } = await request(app)
+          .delete(`/api/v1/user/${user._id}`)
+          .set("Authorization", `Bearer ${accessToken}`); //sending an access token with the request so that the user is authorized
+
+        const deletedUser = await findUser(user.id);
+
+        expect(statusCode).toBe(200);
+        expect(deletedUser).toBe(null);
       });
     });
   });
