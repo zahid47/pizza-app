@@ -1,8 +1,8 @@
 import { faker } from "@faker-js/faker";
 
-const generateRandomUser = (name?: string) => {
+const generateRandomUser = () => {
   return {
-    name: name || faker.name.findName(),
+    name: faker.name.findName(),
     email: faker.internet.email(),
     password: faker.internet.password(),
     phone: faker.phone.number(),
