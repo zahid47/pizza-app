@@ -5,9 +5,9 @@ import { userDocument } from "../types/user.type";
 interface verifyEmailPassReturnType {
   valid: boolean;
   statusCode: number;
-  errorField: string | null;
-  errorMessage: string | null;
-  user: userDocument | null;
+  context?: string;
+  message?: string;
+  user?: userDocument;
 }
 
 export const verifyEmailPass = async (
@@ -21,20 +21,19 @@ export const verifyEmailPass = async (
       return {
         valid: false,
         statusCode: 404,
-        errorField: "email",
-        errorMessage: "email not found",
-        user: null,
+        context: "email",
+        message: "email not found",
       };
 
     //email verified?
-    // if (!user.verified)
-    //   return {
-    //     valid: false,
-    //     statusCode: 401,
-    //     errorField: "email",
-    //     errorMessage: "email not verified",
-    //     user: null,
-    //   };
+    if (!user.verified)
+      return {
+        valid: false,
+        statusCode: 401,
+        context: "email",
+        message: "email not verified",
+  
+      };
 
     //password correct?
     const isMatched = await user.comparePassword(password);
@@ -42,17 +41,14 @@ export const verifyEmailPass = async (
       return {
         valid: false,
         statusCode: 401,
-        errorField: "password",
-        errorMessage: "incorrect password",
-        user: null,
+        context: "password",
+        message: "incorrect password",
       };
 
     //all good!
     return {
       valid: true,
       statusCode: 200,
-      errorField: null,
-      errorMessage: null,
       user,
     };
 

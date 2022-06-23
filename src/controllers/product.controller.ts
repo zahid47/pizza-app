@@ -17,6 +17,7 @@ import {
 } from "../schema/product.schema";
 import productSerializer from "../utils/productSerializer";
 import { getCloudinaryURLs } from "../utils/cloudinary";
+import createError from "../utils/createError";
 
 export const createProductController = async (
   req: Request<{}, {}, createProductInput["body"]>,
@@ -33,7 +34,7 @@ export const createProductController = async (
     return res.status(201).json(product);
   } catch (err: any) {
     log.error(err);
-    return next(err);
+    return next(createError(undefined, "createProductController", err.message));
   }
 };
 
@@ -50,7 +51,7 @@ export const getProductController = async (
     return res.status(200).json(product);
   } catch (err: any) {
     log.error(err);
-    return next(err);
+    return next(createError(undefined, "getProductController", err));
   }
 };
 
@@ -74,7 +75,7 @@ export const getProductsController = async (
     return res.status(200).json(products);
   } catch (err: any) {
     log.error(err);
-    return next(err);
+    return next(createError(undefined, "getProductsController", err));
   }
 };
 
@@ -99,7 +100,7 @@ export const updateProductController = async (
     return res.status(200).json(product);
   } catch (err: any) {
     log.error(err);
-    return next(err);
+    return next(createError(undefined, "updateProductController", err));
   }
 };
 
@@ -118,6 +119,6 @@ export const deleteProductController = async (
     return res.sendStatus(200);
   } catch (err: any) {
     log.error(err);
-    return next(err);
+    return next(createError(undefined, "deleteProductController", err));
   }
 };

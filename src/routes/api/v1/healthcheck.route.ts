@@ -1,6 +1,7 @@
 import { Router, Request, Response, NextFunction } from "express";
 import { name, description, version } from "../../../../package.json";
 import dayjs from "dayjs";
+import createError from "../../../utils/createError";
 
 const router = Router();
 
@@ -14,8 +15,9 @@ router.route("/").get((_req: Request, res: Response, next: NextFunction) => {
       status: "OK",
       time: dayjs(new Date()).toString(),
     });
-  } catch (err) {
-    return next(err);
+    //skipcq
+  } catch (err: any) {
+    return next(createError(undefined, "healthcheck", err.message));
   }
 });
 

@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import User from "../models/user.model";
+import createError from "../utils/createError";
 import { verifyToken } from "../utils/jwt";
 
 const protect = async (req: Request, res: Response, next: NextFunction) => {
@@ -20,11 +21,11 @@ const protect = async (req: Request, res: Response, next: NextFunction) => {
 
     //@ts-ignore
     const user = await User.findById(payload.aud); //we know for a fact that payload.aud exists here
-    if (user?.role === "user") return res.sendStatus(403)
+    if (user?.role === "user") return res.sendStatus(403);
     res.locals.user = user;
     next();
   } catch (err: any) {
-    return next(err)
+    return next(createError(undefined, "protect", err.message));
   }
 };
 

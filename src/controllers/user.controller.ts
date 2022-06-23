@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import { omit } from "lodash";
 import {
   createUserInput,
@@ -14,18 +14,20 @@ import {
   findAndUpdateUser,
   findAndDeleteUser,
 } from "../services/user.service";
+import createError from "../utils/createError";
 import log from "../utils/logger";
 
 export const createUserController = async (
   req: Request<{}, {}, createUserInput["body"]>,
-  res: Response
+  res: Response,
+  next: NextFunction
 ) => {
   try {
     const user = await createUser(req.body);
     return res.status(201).send(omit(user.toJSON(), "password"));
   } catch (err: any) {
     log.error(err);
-    return res.status(409).json({ email: "email already exists" });
+    return next(createError(409, "email", "email already exists"));
   }
 };
 
@@ -42,7 +44,7 @@ export const getUserController = async (
     return res.status(200).json(omit(user.toJSON(), "password"));
   } catch (err: any) {
     log.error(err);
-    return next(err);
+    return next(createError(undefined, "getUserController", err.message));
   }
 };
 
@@ -66,7 +68,7 @@ export const getUsersController = async (
     return res.status(200).json(users); //TODO omit password
   } catch (err: any) {
     log.error(err);
-    return next(err);
+    return next(createError(undefined, "getUsersController", err.message));
   }
 };
 
@@ -90,7 +92,7 @@ export const updateUserController = async (
     return res.status(200).json(omit(user.toJSON(), "password"));
   } catch (err: any) {
     log.error(err);
-    return next(err);
+    return next(createError(undefined, "updateUserController", err.message));
   }
 };
 
@@ -113,6 +115,6 @@ export const deleteUserController = async (
     return res.sendStatus(200);
   } catch (err: any) {
     log.error(err);
-    return next(err);
+    return next(createError(undefined, "deleteUserController", err.message));
   }
 };

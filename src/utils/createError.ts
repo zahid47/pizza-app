@@ -1,10 +1,11 @@
-export interface errType extends Error {
-  status?: number;
-}
-
-const createError = (status: number, message: string) => {
-  const err: errType = new Error();
-  err.status = status;
+const createError = (
+  statusCode?: number,
+  context?: string,
+  message?: string
+) => {
+  const err: any = new Error();
+  err.statusCode = statusCode;
+  err.context = context;
   err.message = message;
 
   return err;

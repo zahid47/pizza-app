@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { loginType } from "../schema/auth.schema";
 import { generateAuthTokens, verifyEmailPass } from "../services/auth.service";
+import createError from "../utils/createError";
 import log from "../utils/logger";
 import refreshCookieOptions from "../utils/refreshCookieOptions";
 
@@ -15,9 +16,9 @@ export const loginController = async (
     const status = await verifyEmailPass(email, password);
 
     if (!status.valid) {
-      const errorField = status.errorField;
-      const errorMessage = status.errorMessage;
-      return res.status(status.statusCode).json({ errorField, errorMessage });
+      return next(
+        createError(status.statusCode, status.context, status.message)
+      );
     }
 
     // skipcq
@@ -29,6 +30,6 @@ export const loginController = async (
     res.status(200).json({ accessToken });
   } catch (err: any) {
     log.error(err);
-    return next(err);
+    return next(createError(undefined, "login", err.message))
   }
 };

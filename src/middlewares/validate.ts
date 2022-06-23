@@ -1,9 +1,10 @@
 import { Request, Response, NextFunction } from "express";
 import { AnyZodObject, ZodError } from "zod";
+import createError from "../utils/createError";
 
 const validate =
   (schema: AnyZodObject) =>
-  (req: Request, res: Response, next: NextFunction) => {
+  (req: Request, _res: Response, next: NextFunction) => {
     try {
       schema.parse({
         body: req.body,
@@ -11,9 +12,10 @@ const validate =
         params: req.params,
       });
       next();
-    } catch (err: any) { // skipcq
+    } catch (err: any) {
+      // skipcq
       if (err instanceof ZodError) {
-        return res.status(400).json(err);
+        return next(createError(400, "validate", err.message));
       } else {
         throw err;
       }
