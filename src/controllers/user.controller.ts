@@ -44,7 +44,7 @@ export const getUserController = async (
     return res.status(200).json(omit(user.toJSON(), "password"));
   } catch (err: any) {
     log.error(err);
-    return next(createError(undefined, "getUserController", err.message));
+    return next(createError(err.status, "getUserController", err.message));
   }
 };
 
@@ -68,7 +68,7 @@ export const getUsersController = async (
     return res.status(200).json(users); //TODO omit password
   } catch (err: any) {
     log.error(err);
-    return next(createError(undefined, "getUsersController", err.message));
+    return next(createError(err.status, "getUsersController", err.message));
   }
 };
 
@@ -92,7 +92,7 @@ export const updateUserController = async (
     return res.status(200).json(omit(user.toJSON(), "password"));
   } catch (err: any) {
     log.error(err);
-    return next(createError(undefined, "updateUserController", err.message));
+    return next(createError(err.status, "updateUserController", err.message));
   }
 };
 
@@ -115,6 +115,6 @@ export const deleteUserController = async (
     return res.sendStatus(200);
   } catch (err: any) {
     log.error(err);
-    return next(createError(undefined, "deleteUserController", err.message));
+    return next(createError(err.status, "deleteUserController", err.message));
   }
 };

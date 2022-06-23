@@ -25,7 +25,7 @@ const protect = async (req: Request, res: Response, next: NextFunction) => {
     res.locals.user = user;
     next();
   } catch (err: any) {
-    return next(createError(undefined, "protect", err.message));
+    return next(createError(err.status, "protect", err.message));
   }
 };
 

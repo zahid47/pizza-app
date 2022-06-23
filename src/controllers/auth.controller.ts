@@ -13,16 +13,16 @@ export const loginController = async (
   try {
     const { email, password } = req.body;
 
-    const status = await verifyEmailPass(email, password);
+    const verify = await verifyEmailPass(email, password);
 
-    if (!status.valid) {
+    if (!verify.valid) {
       return next(
-        createError(status.statusCode, status.context, status.message)
+        createError(verify.status, verify.context, verify.message)
       );
     }
 
     // skipcq
-    const user = status.user!; //at this point we are sure that we have a user
+    const user = verify.user!; //at this point we are sure that we have a user
     const { accessToken, refreshToken } = generateAuthTokens(user.id);
 
     //send tokens
@@ -30,6 +30,6 @@ export const loginController = async (
     res.status(200).json({ accessToken });
   } catch (err: any) {
     log.error(err);
-    return next(createError(undefined, "login", err.message))
+    return next(err)
   }
 };

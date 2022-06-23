@@ -1,10 +1,10 @@
 const createError = (
-  statusCode?: number,
+  status?: number,
   context?: string,
   message?: string
 ) => {
   const err: any = new Error();
-  err.statusCode = statusCode;
+  err.status = status;
   err.context = context;
   err.message = message;
 

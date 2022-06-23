@@ -34,7 +34,7 @@ export const createProductController = async (
     return res.status(201).json(product);
   } catch (err: any) {
     log.error(err);
-    return next(createError(undefined, "createProductController", err.message));
+    return next(createError(err.status, "createProductController", err.message));
   }
 };
 
@@ -51,7 +51,7 @@ export const getProductController = async (
     return res.status(200).json(product);
   } catch (err: any) {
     log.error(err);
-    return next(createError(undefined, "getProductController", err));
+    return next(createError(err.status, "getProductController", err));
   }
 };
 
@@ -75,7 +75,7 @@ export const getProductsController = async (
     return res.status(200).json(products);
   } catch (err: any) {
     log.error(err);
-    return next(createError(undefined, "getProductsController", err));
+    return next(createError(err.status, "getProductsController", err));
   }
 };
 
@@ -100,7 +100,7 @@ export const updateProductController = async (
     return res.status(200).json(product);
   } catch (err: any) {
     log.error(err);
-    return next(createError(undefined, "updateProductController", err));
+    return next(createError(err.status, "updateProductController", err));
   }
 };
 
@@ -119,6 +119,6 @@ export const deleteProductController = async (
     return res.sendStatus(200);
   } catch (err: any) {
     log.error(err);
-    return next(createError(undefined, "deleteProductController", err));
+    return next(createError(err.status, "deleteProductController", err));
   }
 };

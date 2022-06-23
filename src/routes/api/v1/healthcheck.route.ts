@@ -17,7 +17,7 @@ router.route("/").get((_req: Request, res: Response, next: NextFunction) => {
     });
     //skipcq
   } catch (err: any) {
-    return next(createError(undefined, "healthcheck", err.message));
+    return next(createError(err.status, "healthcheck", err.message));
   }
 });
 
