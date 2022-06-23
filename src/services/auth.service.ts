@@ -32,7 +32,7 @@ export const verifyEmailPass = async (
     //     status: 401,
     //     context: "email",
     //     message: "email not verified",
-  
+
     //   };
 
     //password correct?
@@ -58,15 +58,12 @@ export const verifyEmailPass = async (
   }
 };
 
-//provide secret only for tests
 export const generateAuthTokens = (userId: string) => {
   try {
-    //sign tokens
-    //FIXME "or" secret is only for testing, find a better way to pass a secret
-    const access_secret = process.env.ACCESS_SECRET || "secret";
-    const refresh_secret = process.env.REFRESH_SECRET || "secret";
-    const access_expiry = process.env.ACCESS_TTL || "1m";
-    const refresh_expiry = process.env.REFRESH_TTL || "1m";
+    const access_secret = process.env.ACCESS_SECRET;
+    const refresh_secret = process.env.REFRESH_SECRET;
+    const access_expiry = process.env.ACCESS_TTL;
+    const refresh_expiry = process.env.REFRESH_TTL;
 
     const accessToken = signToken(userId, access_secret, access_expiry);
     const refreshToken = signToken(userId, refresh_secret, refresh_expiry);
