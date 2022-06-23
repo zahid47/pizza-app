@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from "express";
-import User from "../models/user.model";
 import { loginType } from "../schema/auth.schema";
 import { generateAuthTokens, verifyEmailPass } from "../services/auth.service";
 import log from "../utils/logger";
@@ -21,6 +20,7 @@ export const loginController = async (
       return res.status(status.statusCode).json({ errorField, errorMessage });
     }
 
+    // skipcq
     const user = status.user!; //at this point we are sure that we have a user
     const { accessToken, refreshToken } = generateAuthTokens(user.id);
 
