@@ -14,10 +14,11 @@ import {
   updateProductSchema,
 } from "../../../schema/product.schema";
 import multer from "multer";
+import fileFilter from "../../../utils/fileFilter";
 
 const router = Router();
 const storage = multer.diskStorage({});
-const upload = multer({ storage });
+const upload = multer({ storage, fileFilter });
 
 router
   .route("/")
