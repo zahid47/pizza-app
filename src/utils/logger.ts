@@ -28,8 +28,8 @@ const logger = createLogger({
 if (process.env.NODE_ENV !== "production") {
   const customConsoleFormat = format.printf(
     ({ timestamp, level, message, stack }) => {
-      if (stack) return `[${level}] ${timestamp}: ${stack}`;
-      return `[${level}] ${timestamp}: ${message}`;
+      if (stack) return `[${level}]: ${stack}`;
+      return `[${level}]: ${message}`;
     }
   );
   logger.add(
