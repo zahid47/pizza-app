@@ -7,17 +7,18 @@ const router = Router();
 
 router.route("/").get((_req: Request, res: Response, next: NextFunction) => {
   try {
-    // throw new Error("bad")
+    // throw new Error()
     return res.status(200).json({
       name,
       description,
       version,
-      status: "OK",
+      success: true,
+      uptime: process.uptime(),
       time: dayjs(new Date()).toString(),
     });
     //skipcq
   } catch (err: any) {
-    return next(createError(err.status, "healthcheck", err.message));
+    return next(createError(503, "healthcheck", "Service Unavailable"));
   }
 });
 

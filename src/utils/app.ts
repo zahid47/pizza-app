@@ -15,6 +15,17 @@ dotenv.config({ path: path.resolve(__dirname, "../.env") });
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+app.post("/test", (_req, res) => {
+  console.log("Request received");
+  console.time();
+
+  setTimeout(() => {
+    res.send("Hello World");
+    console.log("Response sent");
+    console.timeEnd();
+  }, 5000);
+});
+
 //Routes
 app.use("/api/v1/healthcheck", healthcheck);
 app.use("/api/v1/user", user);
