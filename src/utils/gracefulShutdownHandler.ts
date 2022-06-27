@@ -4,15 +4,14 @@ import server from "../server";
 
 const gracefulShutdownHandler = (signal: "SIGINT" | "SIGTERM") => {
   log.info(`${signal} received. Exiting...`);
+
   server.close(() => {
     log.info("Server closed");
-    process.exit(0);
+    mongoose.connection.close(false, () => {
+      log.info("MongoDB disconnected");
+      process.exit(0);
+    });
   });
 };
 
 export default gracefulShutdownHandler;
-
-// mongoose.connection.close(false, () => {
-//   log.info("MongoDB disconnected");
-//   process.exit(0);
-// });
