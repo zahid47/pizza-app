@@ -16,23 +16,10 @@ export const generateRandomUser = () => {
 };
 
 export const generateRandomProduct = () => {
-  const name = faker.commerce.productName();
-
   return {
-    name,
-    slug: name.replaceAll(" ", "-"),
+    name: faker.commerce.productName(),
     description: faker.lorem.sentence(),
-    images: [
-      faker.image.imageUrl(24, 24, "food"),
-      faker.image.imageUrl(24, 24, "food"),
-    ],
-    ingredients: [
-      faker.lorem.words(2),
-      faker.lorem.words(2),
-      faker.lorem.words(2),
-      faker.lorem.words(2),
-      faker.lorem.words(2),
-    ],
+    ingredients: `${faker.lorem.words(2)},${faker.lorem.words(2)},${faker.lorem.words(2)},${faker.lorem.words(2)},${faker.lorem.words(2)}`,
     category: faker.commerce.department(),
     isVegan: sample([true, false]),
     prices: [
@@ -59,12 +46,6 @@ export const generateRandomProduct = () => {
         price: Math.floor(Math.random() * 500),
       },
     ],
-    tags: [
-      faker.commerce.productAdjective(),
-      faker.commerce.productAdjective(),
-      faker.commerce.productAdjective(),
-      faker.commerce.productAdjective(),
-      faker.commerce.productAdjective(),
-    ],
+    tags: `${faker.commerce.productAdjective()},${faker.commerce.productAdjective()},${faker.commerce.productAdjective()},${faker.commerce.productAdjective()},${faker.commerce.productAdjective()}`,
   };
 };
