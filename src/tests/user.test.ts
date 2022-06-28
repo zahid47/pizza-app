@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import User from "../models/user.model";
 import { createUser, findUser } from "../services/user.service";
-import generateRandomUser from "./testUtils/generateRandomUser";
+import { generateRandomUser } from "./testUtils/randomGenerators";
 import { generateAuthTokens } from "../services/auth.service";
 
 describe("user", () => {

@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker";
 
-const generateRandomUser = () => {
+export const generateRandomUser = () => {
   return {
     name: faker.name.findName(),
     email: faker.internet.email(),
@@ -14,4 +14,8 @@ const generateRandomUser = () => {
   };
 };
 
-export default generateRandomUser;
+export const generateRandomProduct = () => {
+  return {
+    //TODO generate a random product
+  };
+};
