@@ -2,6 +2,7 @@ import { Router, Request, Response, NextFunction } from "express";
 import { name, description, version } from "../../../../package.json";
 import dayjs from "dayjs";
 import createError from "../../../utils/createError";
+import { generateRandomProduct } from "../../../tests/testUtils/randomGenerators";
 
 const router = Router();
 
@@ -21,5 +22,12 @@ router.route("/").get((_req: Request, res: Response, next: NextFunction) => {
     return next(createError(503, "healthcheck", "Service Unavailable"));
   }
 });
+
+//use this route to test anything during develepment
+router
+  .route("/test")
+  .get((_req: Request, res: Response, _next: NextFunction) => {
+    return res.sendStatus(200);
+  });
 
 export default router;
