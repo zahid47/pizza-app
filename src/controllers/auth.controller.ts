@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from "express";
+import { omit } from "lodash";
 import { loginType } from "../schema/auth.schema";
 import { generateAuthTokens, verifyEmailPass } from "../services/auth.service";
 import createError from "../utils/createError";
@@ -16,9 +17,7 @@ export const loginController = async (
     const verify = await verifyEmailPass(email, password);
 
     if (!verify.valid) {
-      return next(
-        createError(verify.status, verify.context, verify.message)
-      );
+      return next(createError(verify.status, verify.context, verify.message));
     }
 
     // skipcq
@@ -30,6 +29,19 @@ export const loginController = async (
     res.status(200).json({ accessToken });
   } catch (err: any) {
     log.error(err);
-    return next(err)
+    return next(err);
+  }
+};
+
+export const getMeController = async (
+  _req: Request<{}, {}, loginType["body"]>,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    return res.status(200).json(omit(res.locals.user.toJSON(), "password"));
+  } catch (err: any) {
+    log.error(err);
+    return next(err);
   }
 };
