@@ -33,7 +33,7 @@ export const loginController = async (
   }
 };
 
-export const getMeController = async (
+export const getMeController = (
   _req: Request<{}, {}, loginType["body"]>,
   res: Response,
   next: NextFunction

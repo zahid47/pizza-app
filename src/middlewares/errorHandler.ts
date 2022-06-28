@@ -9,7 +9,7 @@ const errorHandler = (
 ) => {
   const status: number = err.status || 500;
   const context: string = err.context || "unknown-context";
-  let message: string = "";
+  let message = "";
   try {
     message = JSON.parse(err.msg);
   } catch (e) {
