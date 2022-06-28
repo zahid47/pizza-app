@@ -1,12 +1,17 @@
+interface customError extends Error {
+  status?: number;
+  context?: string;
+}
+
 const createError = (
   status?: number,
   context?: string,
   message?: string
-) => {
-  const err: any = new Error();
+): customError => {
+  const err: customError = new Error();
   err.status = status;
   err.context = context;
-  err.message = message;
+  err.message = message || "Something went wrong";
 
   return err;
 };
