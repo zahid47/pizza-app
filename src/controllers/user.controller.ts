@@ -24,7 +24,7 @@ export const createUserController = async (
 ) => {
   try {
     const user = await createUser(req.body);
-    return res.status(201).send(omit(user.toJSON(), "password"));
+    return res.status(201).json(omit(user.toJSON(), "password"));
   } catch (err: any) {
     log.error(err);
     return next(createError(409, "email", "email already exists"));
