@@ -1,4 +1,5 @@
 import { faker } from "@faker-js/faker";
+import { sample } from "lodash";
 
 export const generateRandomUser = () => {
   return {
@@ -15,7 +16,55 @@ export const generateRandomUser = () => {
 };
 
 export const generateRandomProduct = () => {
+  const name = faker.commerce.productName();
+
   return {
-    //TODO generate a random product
+    name,
+    slug: name.replaceAll(" ", "-"),
+    description: faker.lorem.sentence(),
+    images: [
+      faker.image.imageUrl(24, 24, "food"),
+      faker.image.imageUrl(24, 24, "food"),
+    ],
+    ingredients: [
+      faker.lorem.words(2),
+      faker.lorem.words(2),
+      faker.lorem.words(2),
+      faker.lorem.words(2),
+      faker.lorem.words(2),
+    ],
+    category: faker.commerce.department(),
+    isVegan: sample([true, false]),
+    prices: [
+      {
+        price: Math.floor(Math.random() * 2000),
+        option: "small",
+      },
+      {
+        price: Math.floor(Math.random() * 2000),
+        option: "medium",
+      },
+      {
+        price: Math.floor(Math.random() * 2000),
+        option: "large",
+      },
+    ],
+    extraIngredients: [
+      {
+        name: faker.commerce.productName(),
+        price: Math.floor(Math.random() * 500),
+      },
+      {
+        name: faker.commerce.productName(),
+        price: Math.floor(Math.random() * 500),
+      },
+    ],
+    tags: [
+      faker.commerce.productAdjective(),
+      faker.commerce.productAdjective(),
+      faker.commerce.productAdjective(),
+      faker.commerce.productAdjective(),
+      faker.commerce.productAdjective(),
+    ],
   };
 };
