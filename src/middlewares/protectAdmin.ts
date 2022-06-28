@@ -5,9 +5,21 @@ import { verifyToken } from "../utils/jwt";
 
 const protect = async (req: Request, res: Response, next: NextFunction) => {
   if (!req.headers.authorization)
-    return res.status(401).json({ error: "unauthorized, no token provided" });
+    return next(
+      createError(
+        401,
+        "jwt",
+        JSON.stringify({ details: "unauthorized, no token provided" })
+      )
+    );
   if (!req.headers.authorization.startsWith("Bearer"))
-    return res.status(401).json({ error: "unauthorized, not a Bearer token" });
+    return next(
+      createError(
+        401,
+        "jwt",
+        JSON.stringify({ details: "unauthorized, not a Bearer token" })
+      )
+    );
 
   const token = req.headers.authorization.split(" ")[1];
 
@@ -16,16 +28,33 @@ const protect = async (req: Request, res: Response, next: NextFunction) => {
     const { valid, expired, payload } = verifyToken(token, access_secret);
 
     if (!valid)
-      return res.status(401).json({ error: "unauthorized, bad token" });
-    if (expired) return res.status(401).json({ error: "expired token" });
+      return next(
+        createError(
+          401,
+          "jwt",
+          JSON.stringify({ details: "unauthorized, bad token" })
+        )
+      );
+
+    if (expired)
+      return next(
+        createError(401, "jwt", JSON.stringify({ details: "token expired" }))
+      );
 
     //@ts-ignore
     const user = await User.findById(payload.aud); //we know for a fact that payload.aud exists here
-    if (user?.role === "user") return res.sendStatus(403);
+    if (user?.role !== "admin")
+      return next(
+        createError(
+          403,
+          "jwt",
+          JSON.stringify({ details: "unauthorized, not an admin" })
+        )
+      );
     res.locals.user = user;
     next();
   } catch (err: any) {
-    return next(createError(err.status, "protect", err.message));
+    return next(createError(401, "jwt", err.message));
   }
 };
 

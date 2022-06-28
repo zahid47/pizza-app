@@ -34,7 +34,9 @@ export const createProductController = async (
     return res.status(201).json(product);
   } catch (err: any) {
     log.error(err);
-    return next(createError(err.status, "createProductController", err.message));
+    return next(
+      createError(err.status, "product", err.message)
+    );
   }
 };
 
@@ -47,11 +49,18 @@ export const getProductController = async (
     const { id } = req.params;
     const product = await findProduct(id);
 
-    if (!product) return res.sendStatus(404);
+    if (!product)
+      return next(
+        createError(
+          404,
+          "product",
+          JSON.stringify({ details: "product not found" })
+        )
+      );
     return res.status(200).json(product);
   } catch (err: any) {
     log.error(err);
-    return next(createError(err.status, "getProductController", err));
+    return next(createError(err.status, "product", err));
   }
 };
 
@@ -75,7 +84,7 @@ export const getProductsController = async (
     return res.status(200).json(products);
   } catch (err: any) {
     log.error(err);
-    return next(createError(err.status, "getProductsController", err));
+    return next(createError(err.status, "product", err));
   }
 };
 
@@ -95,12 +104,19 @@ export const updateProductController = async (
 
     const product = await findAndUpdateProduct(id, update);
 
-    if (!product) return res.sendStatus(404);
+    if (!product)
+      return next(
+        createError(
+          404,
+          "product",
+          JSON.stringify({ details: "product not found" })
+        )
+      );
 
     return res.status(200).json(product);
   } catch (err: any) {
     log.error(err);
-    return next(createError(err.status, "updateProductController", err));
+    return next(createError(err.status, "product", err));
   }
 };
 
@@ -114,11 +130,18 @@ export const deleteProductController = async (
 
     const product = await findAndDeleteProduct(id);
 
-    if (!product) return res.sendStatus(404);
+    if (!product)
+      return next(
+        createError(
+          404,
+          "product",
+          JSON.stringify({ details: "product not found" })
+        )
+      );
 
-    return res.sendStatus(200);
+    return res.status(200).json({ success: true, message: "product deleted" });
   } catch (err: any) {
     log.error(err);
-    return next(createError(err.status, "deleteProductController", err));
+    return next(createError(err.status, "product", err));
   }
 };

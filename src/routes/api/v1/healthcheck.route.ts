@@ -2,7 +2,6 @@ import { Router, Request, Response, NextFunction } from "express";
 import { name, description, version } from "../../../../package.json";
 import dayjs from "dayjs";
 import createError from "../../../utils/createError";
-import { generateRandomProduct } from "../../../tests/testUtils/randomGenerators";
 
 const router = Router();
 

@@ -40,11 +40,14 @@ export const getUserController = async (
     const { id } = req.params;
     const user = await findUser(id);
 
-    if (!user) return res.sendStatus(404);
+    if (!user)
+      return next(
+        createError(404, "user", JSON.stringify({ details: "user not found" }))
+      );
     return res.status(200).json(omit(user.toJSON(), "password"));
   } catch (err: any) {
     log.error(err);
-    return next(createError(err.status, "getUserController", err.message));
+    return next(createError(err.status, "user", err.message));
   }
 };
 
@@ -68,7 +71,7 @@ export const getUsersController = async (
     return res.status(200).json(users); //TODO omit password
   } catch (err: any) {
     log.error(err);
-    return next(createError(err.status, "getUsersController", err.message));
+    return next(createError(err.status, "user", err.message));
   }
 };
 
@@ -83,16 +86,21 @@ export const updateUserController = async (
 
     const currentUser = res.locals.user; //res.locals.user is set in the "protect" middleware
     if (currentUser.role !== "admin" && currentUser.id !== id)
-      return res.sendStatus(403);
+      return next(
+        createError(403, "user", JSON.stringify({ details: "forbidden" }))
+      );
 
     const user = await findAndUpdateUser(id, update);
 
-    if (!user) return res.sendStatus(404);
+    if (!user)
+      return next(
+        createError(404, "user", JSON.stringify({ details: "user not found" }))
+      );
 
     return res.status(200).json(omit(user.toJSON(), "password"));
   } catch (err: any) {
     log.error(err);
-    return next(createError(err.status, "updateUserController", err.message));
+    return next(createError(err.status, "user", err.message));
   }
 };
 
@@ -106,15 +114,20 @@ export const deleteUserController = async (
 
     const currentUser = res.locals.user; //res.locals.user is set in the "protect" middleware
     if (currentUser.role !== "admin" && currentUser.id !== id)
-      return res.sendStatus(403);
+      return next(
+        createError(403, "user", JSON.stringify({ details: "forbidden" }))
+      );
 
     const user = await findAndDeleteUser(id);
 
-    if (!user) return res.sendStatus(404);
+    if (!user)
+      return next(
+        createError(404, "user", JSON.stringify({ details: "user not found" }))
+      );
 
-    return res.sendStatus(200);
+    return res.status(200).json({ success: true, message: "User deleted" });
   } catch (err: any) {
     log.error(err);
-    return next(createError(err.status, "deleteUserController", err.message));
+    return next(createError(err.status, "user", err.message));
   }
 };

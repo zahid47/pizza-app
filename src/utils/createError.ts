@@ -1,6 +1,7 @@
 interface customError extends Error {
   status?: number;
   context?: string;
+  msg?: string;
 }
 
 const createError = (
@@ -9,9 +10,10 @@ const createError = (
   message?: string
 ): customError => {
   const err: customError = new Error();
+
   err.status = status;
   err.context = context;
-  err.message = message || "Something went wrong";
+  err.msg = message;
 
   return err;
 };

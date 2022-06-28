@@ -14,14 +14,14 @@ export const loginController = async (
   try {
     const { email, password } = req.body;
 
-    const verify = await verifyEmailPass(email, password);
+    const result = await verifyEmailPass(email, password);
 
-    if (!verify.valid) {
-      return next(createError(verify.status, verify.context, verify.message));
+    if (!result.valid) {
+      return next(createError(result.status, result.context, result.message));
     }
 
     // skipcq
-    const user = verify.user!; //at this point we are sure that we have a user
+    const user = result.user!; //at this point we are sure that we have a user
     const { accessToken, refreshToken } = generateAuthTokens(user.id);
 
     //send tokens

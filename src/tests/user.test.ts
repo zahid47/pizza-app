@@ -29,7 +29,7 @@ describe("user", () => {
     });
   });
 
-  describe("POST /api/v1/user/:id", () => {
+  describe("POST /api/v1/user/", () => {
     describe("given name, email, password is not provided", () => {
       it("should return a 400", async () => {
         const { statusCode } = await request(app).post(`/api/v1/user`).send(); //sending nothing
@@ -38,7 +38,7 @@ describe("user", () => {
     });
   });
 
-  describe("POST /api/v1/user/:id", () => {
+  describe("POST /api/v1/user/", () => {
     describe("given name, email, password is provided", () => {
       it("should return a 201 and create an user", async () => {
         const user = generateRandomUser();
@@ -51,7 +51,7 @@ describe("user", () => {
     });
   });
 
-  describe("POST /api/v1/user/:id", () => {
+  describe("POST /api/v1/user/", () => {
     describe("given extra fields are provided", () => {
       it("should return a 400", async () => {
         let user: any = generateRandomUser();

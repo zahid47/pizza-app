@@ -9,10 +9,14 @@ const errorHandler = (
 ) => {
   const status: number = err.status || 500;
   const context: string = err.context || "unknown-context";
-  const message: string = err.message || "Something went wrong";
+  let message: string = "";
+  try {
+    message = JSON.parse(err.msg);
+  } catch (e) {
+    message = err.msg || "Something went wrong";
+  }
 
   return res.status(status).json({
-    success: false,
     error: true,
     status,
     context,
