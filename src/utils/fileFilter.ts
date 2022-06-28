@@ -1,5 +1,6 @@
 import { Request } from "express";
 import { FileFilterCallback } from "multer";
+import createError from "./createError";
 
 const fileFilter = (
   _req: Request,
@@ -13,7 +14,13 @@ const fileFilter = (
   ) {
     callback(null, true);
   } else {
-    callback(null, false);
+    callback(
+      createError(
+        400,
+        "Invalid file type",
+        `'${file.originalname}' is not a valid file type. Only png, jpg and jpeg are allowed`
+      )
+    );
   }
 };
 
