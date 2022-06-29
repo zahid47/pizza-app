@@ -10,6 +10,6 @@ import { loginSchema } from "../../../schema/auth.schema";
 const router = Router();
 
 router.route("/login").post(validate(loginSchema), loginController);
-router.route("/me").get(protect, getMeController);
+router.route("/me").get(protect("user"), getMeController);
 
 export default router;

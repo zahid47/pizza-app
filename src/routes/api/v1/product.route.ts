@@ -7,7 +7,7 @@ import {
   updateProductController,
 } from "../../../controllers/product.controller";
 import validate from "../../../middlewares/validate";
-import protectAdmin from "../../../middlewares/protectAdmin";
+import protect from "../../../middlewares/protect";
 import {
   createProductSchema,
   deleteProductSchema,
@@ -24,7 +24,7 @@ router
   .route("/")
   .post(
     validate(createProductSchema),
-    protectAdmin,
+    protect("admin"),
     upload.array("photos"),
     createProductController
   )
@@ -35,10 +35,10 @@ router
   .get(getProductController)
   .put(
     validate(updateProductSchema),
-    protectAdmin,
+    protect("admin"),
     upload.array("photos"),
     updateProductController
   )
-  .delete(validate(deleteProductSchema), protectAdmin, deleteProductController);
+  .delete(validate(deleteProductSchema), protect("admin"), deleteProductController);
 
 export default router;

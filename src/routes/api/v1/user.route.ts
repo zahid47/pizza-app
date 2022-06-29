@@ -24,7 +24,7 @@ router
 router
   .route("/:id")
   .get(getUserController)
-  .put(validate(updateUserSchema), protect, updateUserController)
-  .delete(validate(deleteUserSchema), protect, deleteUserController);
+  .put(validate(updateUserSchema), protect("user"), updateUserController)
+  .delete(validate(deleteUserSchema), protect("user"), deleteUserController);
 
 export default router;
