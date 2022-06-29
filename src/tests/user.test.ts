@@ -32,9 +32,14 @@ describe("user", () => {
   describe("create user", () => {
     describe("POST /api/v1/user/", () => {
       describe("given name, email, password is not provided", () => {
-        it("should return a 400", async () => {
-          const { statusCode } = await request(app).post(`/api/v1/user`).send(); //sending nothing
+        it("should return a 400 and not create an user", async () => {
+          const { statusCode, body } = await request(app)
+            .post(`/api/v1/user`)
+            .send(); //sending nothing
+
           expect(statusCode).toBe(400);
+          expect(body).not.toHaveProperty("name");
+          expect(body.context).toEqual("validate");
         });
       });
     });
@@ -57,7 +62,7 @@ describe("user", () => {
 
   describe("create user", () => {
     describe("POST /api/v1/user/", () => {
-      describe("given extra fields are provided", () => {
+      describe("given extra unaccepted fields are provided", () => {
         it("should return a 400", async () => {
           let user: any = generateRandomUser();
           user = { ...user, verified: true };
@@ -102,7 +107,7 @@ describe("user", () => {
     });
   });
 
-  describe("get user", () => {
+  describe("get user with id", () => {
     describe("GET /api/v1/user/:id", () => {
       describe("given a user with a specific id don't exist", () => {
         it("should return a 404", async () => {
@@ -116,7 +121,7 @@ describe("user", () => {
     });
   });
 
-  describe("get user", () => {
+  describe("get user with id", () => {
     describe("GET /api/v1/user/:id", () => {
       describe("given a user with a specific id exist", () => {
         it("should return a 200 and the user", async () => {
@@ -125,7 +130,7 @@ describe("user", () => {
             `/api/v1/user/${user._id}`
           );
           expect(statusCode).toBe(200);
-          expect(body.name).toEqual(user.name);
+          expect(body._id).toEqual(user.id);
         });
       });
     });
@@ -164,7 +169,7 @@ describe("user", () => {
             .send(update);
 
           expect(statusCode).toBe(403);
-          expect(body.name).not.toEqual(update.name);
+          expect(body._id).not.toEqual(update.name);
         });
       });
     });
