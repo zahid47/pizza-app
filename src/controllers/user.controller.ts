@@ -67,8 +67,10 @@ export const getUsersController = async (
       skip = limit * (parseInt(req.query.page) - 1);
     }
 
-    const users = await findUsers(limit, skip);
-    return res.status(200).json(users); //TODO omit password
+    const _users = await findUsers(limit, skip);
+    const users = _users.map((user) => omit(user.toJSON(), "password"));
+    
+    return res.status(200).json(users);
   } catch (err: any) {
     log.error(err);
     return next(createError(err.status, "user", err.message));
