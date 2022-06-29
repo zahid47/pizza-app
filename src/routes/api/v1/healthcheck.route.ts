@@ -22,7 +22,7 @@ router.route("/").get((_req: Request, res: Response, next: NextFunction) => {
   }
 });
 
-//use this route to test anything during develepment
+// use this route to test anything during develepment
 router
   .route("/test")
   .get((_req: Request, res: Response) => {
