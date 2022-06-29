@@ -10,7 +10,12 @@ import auth from "../routes/api/v1/auth.route";
 import product from "../routes/api/v1/product.route";
 
 const app: Express = express();
-dotenv.config({ path: path.resolve(__dirname, "../.env") });
+
+if (process.env.NODE_ENV === "test") {
+  dotenv.config({ path: path.resolve(__dirname, "../.env.test") });
+} else {
+  dotenv.config({ path: path.resolve(__dirname, "../.env") });
+}
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
