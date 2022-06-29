@@ -1,12 +1,7 @@
-import { Request, Response, NextFunction } from "express";
+import { ErrorRequestHandler } from "express";
 
-const errorHandler = (
-  err: any, //FIXME whats the type of this err? IDK
-  _req: Request,
-  res: Response,
-  //skipcq
-  _next: NextFunction
-) => {
+//skipcq: no-unused-vars
+const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
   const status: number = err.status || 500;
   const context: string = err.context || "unknown-context";
   let message = "";
