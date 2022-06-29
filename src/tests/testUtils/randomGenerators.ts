@@ -52,3 +52,12 @@ export const generateRandomProduct = () => {
     tags: `${faker.commerce.productAdjective()},${faker.commerce.productAdjective()},${faker.commerce.productAdjective()},${faker.commerce.productAdjective()},${faker.commerce.productAdjective()}`,
   };
 };
+
+//generate 3 random img urls
+export const generateRandomImgURLs = () => {
+  return [
+    faker.image.imageUrl(),
+    faker.image.imageUrl(),
+    faker.image.imageUrl(),
+  ];
+};
