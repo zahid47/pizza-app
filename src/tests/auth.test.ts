@@ -41,9 +41,7 @@ describe("auth", () => {
         });
       });
     });
-  });
 
-  describe("login", () => {
     describe("POST /api/v1/auth/login", () => {
       describe("given incorrect email is provided", () => {
         it("should return a 404", async () => {
@@ -59,9 +57,7 @@ describe("auth", () => {
         });
       });
     });
-  });
 
-  describe("login", () => {
     describe("POST /api/v1/auth/login", () => {
       describe("given incorrect password is provided", () => {
         it("should return a 401", async () => {
@@ -77,9 +73,7 @@ describe("auth", () => {
         });
       });
     });
-  });
 
-  describe("login", () => {
     describe("POST /api/v1/auth/login", () => {
       describe("given correct email and password is provided", () => {
         it("should return a 200 and send an accessToken", async () => {
@@ -107,9 +101,7 @@ describe("auth", () => {
         });
       });
     });
-  });
 
-  describe("me", () => {
     describe("GET /api/v1/auth/me", () => {
       describe("given a user is logged in", () => {
         it("should return a 200 and the user", async () => {
