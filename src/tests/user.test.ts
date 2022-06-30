@@ -93,7 +93,7 @@ describe("user", () => {
       describe("given some users exist", () => {
         it("should return a 200 and less than or equal to 'limit' number of users", async () => {
           const adminUser = await createUser(generateRandomUser("admin"));
-          const { accessToken } = await generateAuthTokens(adminUser.id);
+          const { accessToken } = generateAuthTokens(adminUser.id);
 
           await createUser(generateRandomUser());
           await createUser(generateRandomUser());
@@ -116,7 +116,7 @@ describe("user", () => {
       describe("given a user with a specific id don't exist", () => {
         it("should return a 404", async () => {
           const adminUser = await createUser(generateRandomUser("admin"));
-          const { accessToken } = await generateAuthTokens(adminUser.id);
+          const { accessToken } = generateAuthTokens(adminUser.id);
           const fakeId = "62aca583712384e283ebae8c";
           const { statusCode } = await request(app)
             .get(`/api/v1/user/${fakeId}`)
@@ -131,7 +131,7 @@ describe("user", () => {
       describe("given a user with a specific id exist", () => {
         it("should return a 200 and the user", async () => {
           const adminUser = await createUser(generateRandomUser("admin"));
-          const { accessToken } = await generateAuthTokens(adminUser.id);
+          const { accessToken } = generateAuthTokens(adminUser.id);
           const user = await createUser(generateRandomUser());
           const { statusCode, body } = await request(app)
             .get(`/api/v1/user/${user._id}`)
