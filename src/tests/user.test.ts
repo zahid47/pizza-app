@@ -90,26 +90,20 @@ describe("user", () => {
 
   describe("get users", () => {
     describe("GET /api/v1/user", () => {
-      describe("given no user exist", () => {
-        it("should return a 200 and an empty array", async () => {
-          const { statusCode, body } = await request(app).get(`/api/v1/user`);
-          expect(statusCode).toBe(200);
-          expect(body.length).toEqual(0);
-        });
-      });
-    });
-
-    describe("GET /api/v1/user", () => {
       describe("given some users exist", () => {
         it("should return a 200 and less than or equal to 'limit' number of users", async () => {
+          const adminUser = await createUser(generateRandomUser("admin"));
+          const { accessToken } = await generateAuthTokens(adminUser.id);
+
           await createUser(generateRandomUser());
           await createUser(generateRandomUser());
           await createUser(generateRandomUser());
 
           const limit = 2;
-          const { statusCode, body } = await request(app).get(
-            `/api/v1/user?limit=${limit}`
-          );
+          const { statusCode, body } = await request(app)
+            .get(`/api/v1/user?limit=${limit}`)
+            .set("Authorization", `Bearer ${accessToken}`);
+
           expect(statusCode).toBe(200);
           expect(body.length).toBeLessThanOrEqual(limit);
         });
@@ -121,10 +115,13 @@ describe("user", () => {
     describe("GET /api/v1/user/:id", () => {
       describe("given a user with a specific id don't exist", () => {
         it("should return a 404", async () => {
+          const adminUser = await createUser(generateRandomUser("admin"));
+          const { accessToken } = await generateAuthTokens(adminUser.id);
           const fakeId = "62aca583712384e283ebae8c";
-          const { statusCode } = await request(app).get(
-            `/api/v1/user/${fakeId}`
-          );
+          const { statusCode } = await request(app)
+            .get(`/api/v1/user/${fakeId}`)
+            .set("Authorization", `Bearer ${accessToken}`);
+
           expect(statusCode).toBe(404);
         });
       });
@@ -133,10 +130,13 @@ describe("user", () => {
     describe("GET /api/v1/user/:id", () => {
       describe("given a user with a specific id exist", () => {
         it("should return a 200 and the user", async () => {
+          const adminUser = await createUser(generateRandomUser("admin"));
+          const { accessToken } = await generateAuthTokens(adminUser.id);
           const user = await createUser(generateRandomUser());
-          const { statusCode, body } = await request(app).get(
-            `/api/v1/user/${user._id}`
-          );
+          const { statusCode, body } = await request(app)
+            .get(`/api/v1/user/${user._id}`)
+            .set("Authorization", `Bearer ${accessToken}`);
+
           expect(statusCode).toBe(200);
           expect(body._id).toEqual(user.id);
         });
