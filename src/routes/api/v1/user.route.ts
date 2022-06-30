@@ -11,6 +11,8 @@ import validate from "../../../middlewares/validate";
 import {
   createUserSchema,
   deleteUserSchema,
+  getUserSchema,
+  getUsersSchema,
   updateUserSchema,
 } from "../../../schema/user.schema";
 
@@ -19,11 +21,11 @@ const router = Router();
 router
   .route("/")
   .post(validate(createUserSchema), createUserController)
-  .get(getUsersController);
+  .get(validate(getUsersSchema), protect("admin"), getUsersController);
 
 router
   .route("/:id")
-  .get(getUserController)
+  .get(validate(getUserSchema), protect("admin"), getUserController)
   .put(validate(updateUserSchema), protect("user"), updateUserController)
   .delete(validate(deleteUserSchema), protect("user"), deleteUserController);
 

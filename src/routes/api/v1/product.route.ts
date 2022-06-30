@@ -11,6 +11,8 @@ import protect from "../../../middlewares/protect";
 import {
   createProductSchema,
   deleteProductSchema,
+  getProductSchema,
+  getProductsSchema,
   updateProductSchema,
 } from "../../../schema/product.schema";
 import multer from "multer";
@@ -28,17 +30,21 @@ router
     upload.array("photos"),
     createProductController
   )
-  .get(getProductsController);
+  .get(validate(getProductsSchema), getProductsController);
 
 router
   .route("/:id")
-  .get(getProductController)
+  .get(validate(getProductSchema), getProductController)
   .put(
     validate(updateProductSchema),
     protect("admin"),
     upload.array("photos"),
     updateProductController
   )
-  .delete(validate(deleteProductSchema), protect("admin"), deleteProductController);
+  .delete(
+    validate(deleteProductSchema),
+    protect("admin"),
+    deleteProductController
+  );
 
 export default router;
