@@ -29,13 +29,5 @@ describe("user", () => {
     });
   });
 
-  describe("TODO", () => {
-    describe("POST /api/v1/order/", () => {
-      describe("TODO", () => {
-        it("TODO", async () => {
-          expect(true).toBe(true);
-        });
-      });
-    });
-  });
+  //TODO complete tests
 });

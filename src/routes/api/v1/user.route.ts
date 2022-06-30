@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getOrdersByUserController, getOrdersController } from "../../../controllers/order.controller";
+import { getOrdersByUserController } from "../../../controllers/order.controller";
 import {
   createUserController,
   updateUserController,
