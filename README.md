@@ -6,9 +6,12 @@
 
 [![DeepScan grade](https://deepscan.io/api/teams/18088/projects/21415/branches/614036/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=18088&pid=21415&bid=614036)
 
-### TO-DO
+### TODO
 
 - [ ] write tests for order
-- [ ] FIXME: Error: MongoServerError: E11000 duplicate key error
 - [ ] write tests for get users/ get user by id, when user is not authenticated/ not an admin
 - [ ] auth - verify email and phone, logout, refresh token rotation, sessions
+
+### FIXME
+
+- [ ] test - MongoServerError: E11000 duplicate key error
