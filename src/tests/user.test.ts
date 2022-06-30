@@ -43,9 +43,7 @@ describe("user", () => {
         });
       });
     });
-  });
 
-  describe("create user", () => {
     describe("POST /api/v1/user/", () => {
       describe("given name, email, password is provided", () => {
         it("should return a 201 and create an user", async () => {
@@ -58,9 +56,7 @@ describe("user", () => {
         });
       });
     });
-  });
 
-  describe("create user", () => {
     describe("POST /api/v1/user/", () => {
       describe("given extra unaccepted fields are provided", () => {
         it("should return a 400", async () => {
@@ -71,6 +67,22 @@ describe("user", () => {
             .post(`/api/v1/user`)
             .send(user);
           expect(statusCode).toBe(400);
+        });
+      });
+    });
+
+    describe("POST /api/v1/user/", () => {
+      describe("given duplicate email provided", () => {
+        it("should return a 409", async () => {
+          const user1 = await createUser(generateRandomUser());
+          let user2 = generateRandomUser();
+          user2 = { ...user2, email: user1.email };
+
+          const { statusCode } = await request(app)
+            .post(`/api/v1/user`)
+            .send(user2);
+
+          expect(statusCode).toBe(409);
         });
       });
     });
@@ -86,9 +98,7 @@ describe("user", () => {
         });
       });
     });
-  });
 
-  describe("get users", () => {
     describe("GET /api/v1/user", () => {
       describe("given some users exist", () => {
         it("should return a 200 and less than or equal to 'limit' number of users", async () => {
@@ -107,7 +117,7 @@ describe("user", () => {
     });
   });
 
-  describe("get user with id", () => {
+  describe("get user by id", () => {
     describe("GET /api/v1/user/:id", () => {
       describe("given a user with a specific id don't exist", () => {
         it("should return a 404", async () => {
@@ -119,9 +129,7 @@ describe("user", () => {
         });
       });
     });
-  });
 
-  describe("get user with id", () => {
     describe("GET /api/v1/user/:id", () => {
       describe("given a user with a specific id exist", () => {
         it("should return a 200 and the user", async () => {
@@ -136,7 +144,7 @@ describe("user", () => {
     });
   });
 
-  describe("update user", () => {
+  describe("update user by id", () => {
     describe("PUT /api/v1/user/:id", () => {
       describe("given the user is not authorized", () => {
         it("should return a 401 and not update the user", async () => {
@@ -152,9 +160,7 @@ describe("user", () => {
         });
       });
     });
-  });
 
-  describe("update user", () => {
     describe("PUT /api/v1/user/:id", () => {
       describe("given the user is trying to update someone else's profile", () => {
         it("should return a 403", async () => {
@@ -173,9 +179,26 @@ describe("user", () => {
         });
       });
     });
-  });
 
-  describe("update user", () => {
+    describe("PUT /api/v1/user/:id", () => {
+      describe("given the user is authorized as the correct user but trying to change to a duplicate email", () => {
+        it("should return a 500", async () => {
+          const existingUser = await createUser(generateRandomUser());
+          const userInfo = generateRandomUser();
+          const user = await createUser(userInfo);
+          const update = { email: existingUser.email };
+          const { accessToken } = generateAuthTokens(user.id);
+
+          const { statusCode } = await request(app)
+            .put(`/api/v1/user/${user._id}`)
+            .set("Authorization", `Bearer ${accessToken}`) //sending an access token with the request so that the user is authorized
+            .send(update);
+
+          expect(statusCode).toBe(500);
+        });
+      });
+    });
+
     describe("PUT /api/v1/user/:id", () => {
       describe("given the user is authorized as the correct user", () => {
         it("should return a 200 and update the user", async () => {
@@ -196,7 +219,7 @@ describe("user", () => {
     });
   });
 
-  describe("delete user", () => {
+  describe("delete user by id", () => {
     describe("DELETE /api/v1/user/:id", () => {
       describe("given the user is not authorized", () => {
         it("should return a 401 and not delete the user", async () => {
@@ -212,9 +235,7 @@ describe("user", () => {
         });
       });
     });
-  });
 
-  describe("delete user", () => {
     describe("DELETE /api/v1/user/:id", () => {
       describe("given the user is trying to delete someone else's profile", () => {
         it("should return a 403", async () => {
@@ -233,9 +254,7 @@ describe("user", () => {
         });
       });
     });
-  });
 
-  describe("delete user", () => {
     describe("DELETE /api/v1/user/:id", () => {
       describe("given the user is authorized as the correct user", () => {
         it("should return a 200 and delete the user", async () => {
