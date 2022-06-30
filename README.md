@@ -8,4 +8,5 @@
 
 ### TO-DO
 
+- [ ] write tests for order
 - [ ] auth - verify email and phone, logout, refresh token rotation, sessions
