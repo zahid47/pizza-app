@@ -9,4 +9,6 @@
 ### TO-DO
 
 - [ ] write tests for order
+- [ ] FIXME: Error: MongoServerError: E11000 duplicate key error
+- [ ] write tests for get users/ get user by id, when user is not authenticated/ not an admin
 - [ ] auth - verify email and phone, logout, refresh token rotation, sessions
