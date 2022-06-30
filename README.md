@@ -8,5 +8,4 @@
 
 ### TO-DO
 
-- [ ] next - write tests for product
 - [ ] auth - verify email and phone, logout, refresh token rotation, sessions
