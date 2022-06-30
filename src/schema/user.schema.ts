@@ -24,7 +24,7 @@ export const getUsersSchema = object({
     limit: string().optional(),
     page: string().optional(),
   }),
-}).strict();
+});
 
 export const getUserSchema = object({
   params: object({

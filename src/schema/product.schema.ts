@@ -35,7 +35,7 @@ export const getProductsSchema = object({
     isVegan: boolean().optional(),
     category: string().optional(),
   }),
-}).strict();
+});
 
 export const getProductSchema = object({
   params: object({
