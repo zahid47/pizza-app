@@ -1,4 +1,4 @@
-// WARNING: This test does not cover cloudinary image uploads.
+// This test does not cover cloudinary image uploads.
 
 import request from "supertest";
 import app from "../utils/app";
@@ -51,9 +51,7 @@ describe("product", () => {
         });
       });
     });
-  });
 
-  describe("create product", () => {
     describe("POST /api/v1/product/", () => {
       describe("given authorized user is not an admin", () => {
         it("should return a 403", async () => {
@@ -69,9 +67,7 @@ describe("product", () => {
         });
       });
     });
-  });
 
-  describe("create product", () => {
     describe("POST /api/v1/product/", () => {
       describe("given authorized user is an admin but didn't provide name and price info", () => {
         it("should return a 400 and not create a product", async () => {
@@ -88,9 +84,7 @@ describe("product", () => {
         });
       });
     });
-  });
 
-  describe("create product", () => {
     describe("POST /api/v1/product/", () => {
       describe("given authorized user is an admin and provided name and price info", () => {
         it("should return a 400 and not create a product", async () => {
@@ -109,9 +103,7 @@ describe("product", () => {
         });
       });
     });
-  });
 
-  describe("create product", () => {
     describe("POST /api/v1/product/", () => {
       describe("given authorized user is an admin and provided name and price info but provided extra unaccepted fields", () => {
         it("should return a 201 and create a product", async () => {
@@ -143,9 +135,7 @@ describe("product", () => {
         });
       });
     });
-  });
 
-  describe("get products", () => {
     describe("GET /api/v1/product/", () => {
       describe("given some products do exist", () => {
         it("should return a 200 and less than or equal to 'limit' number of products", async () => {
@@ -171,7 +161,7 @@ describe("product", () => {
     });
   });
 
-  describe("get product with id", () => {
+  describe("get product by id", () => {
     describe("GET /api/v1/product/:id", () => {
       describe("given no product with that id doesn't exist", () => {
         it("should return a 404", async () => {
@@ -188,9 +178,7 @@ describe("product", () => {
         });
       });
     });
-  });
 
-  describe("get product with id", () => {
     describe("GET /api/v1/product/:id", () => {
       describe("given a product with that id do exist", () => {
         it("should return a 200 and the product", async () => {
@@ -209,122 +197,129 @@ describe("product", () => {
     });
   });
 
-  // describe("update user", () => {
-  //   describe("PUT /api/v1/user/:id", () => {
-  //     describe("given the user is not authorized", () => {
-  //       it("should return a 401 and not update the user", async () => {
-  //         const user = await createUser(generateRandomUser());
-  //         const updated = { name: "updated" };
+  describe("update product by id", () => {
+    describe("PUT /api/v1/product/:id", () => {
+      describe("given user is unauthorized", () => {
+        it("should return a 401 and not update the product", async () => {
+          const product = await createProduct(
+            productSerializer(generateRandomProduct(), generateRandomImgURLs())
+          );
+          const updated = { name: "updated" };
 
-  //         const { statusCode, body } = await request(app)
-  //           .put(`/api/v1/user/${user._id}`)
-  //           .send(updated);
+          const { statusCode, body } = await request(app)
+            .put(`/api/v1/product/${product.id}`)
+            .send(updated);
 
-  //         expect(statusCode).toBe(401);
-  //         expect(body.name).not.toEqual(updated.name);
-  //       });
-  //     });
-  //   });
-  // });
+          expect(statusCode).toBe(401);
+          expect(body.name).not.toEqual(updated.name);
+        });
+      });
+    });
 
-  // describe("update user", () => {
-  //   describe("PUT /api/v1/user/:id", () => {
-  //     describe("given the user is trying to update someone else's profile", () => {
-  //       it("should return a 403", async () => {
-  //         const user1 = await createUser(generateRandomUser());
-  //         const user2 = await createUser(generateRandomUser());
-  //         const update = { name: "updated" };
-  //         const { accessToken } = generateAuthTokens(user2.id); //logging in as user2
+    describe("PUT /api/v1/product/:id", () => {
+      describe("given authorized user is not an admin", () => {
+        it("should return a 403 and not update the product", async () => {
+          const user = await createUser(generateRandomUser());
+          const product = await createProduct(
+            productSerializer(generateRandomProduct(), generateRandomImgURLs())
+          );
+          const updated = { name: "updated" };
+          const { accessToken } = generateAuthTokens(user.id);
 
-  //         const { statusCode, body } = await request(app)
-  //           .put(`/api/v1/user/${user1._id}`) //but trying to update user1's profile
-  //           .set("Authorization", `Bearer ${accessToken}`)
-  //           .send(update);
+          const { statusCode, body } = await request(app)
+            .put(`/api/v1/product/${product.id}`)
+            .set("Authorization", `Bearer ${accessToken}`)
+            .send(updated);
 
-  //         expect(statusCode).toBe(403);
-  //         expect(body.name).not.toEqual(update.name);
-  //       });
-  //     });
-  //   });
-  // });
+          expect(statusCode).toBe(403);
+          expect(body.name).not.toEqual(updated.name);
+        });
+      });
+    });
 
-  // describe("update user", () => {
-  //   describe("PUT /api/v1/user/:id", () => {
-  //     describe("given the user is authorized as the correct user", () => {
-  //       it("should return a 200 and update the user", async () => {
-  //         const userInfo = generateRandomUser();
-  //         const user = await createUser(userInfo);
-  //         const update = { name: "updated" };
-  //         const { accessToken } = generateAuthTokens(user.id);
+    describe("PUT /api/v1/product/:id", () => {
+      describe("given authorized user is an admin", () => {
+        it("should return a 200 and update the product", async () => {
+          const user = await createUser(generateRandomUser("admin"));
+          const product = await createProduct(
+            productSerializer(generateRandomProduct(), generateRandomImgURLs())
+          );
+          const updated = { name: "updated" };
+          const { accessToken } = generateAuthTokens(user.id);
 
-  //         const { statusCode, body } = await request(app)
-  //           .put(`/api/v1/user/${user._id}`)
-  //           .set("Authorization", `Bearer ${accessToken}`) //sending an access token with the request so that the user is authorized
-  //           .send(update);
+          const { statusCode, body } = await request(app)
+            .put(`/api/v1/product/${product.id}`)
+            .set("Authorization", `Bearer ${accessToken}`)
+            .send(updated);
 
-  //         expect(statusCode).toBe(200);
-  //         expect(body.name).toEqual(update.name);
-  //       });
-  //     });
-  //   });
-  // });
+          expect(statusCode).toBe(200);
+          expect(body.name).toEqual(updated.name);
+        });
+      });
+    });
+  });
 
-  // describe("delete user", () => {
-  //   describe("DELETE /api/v1/user/:id", () => {
-  //     describe("given the user is not authorized", () => {
-  //       it("should return a 401 and not delete the user", async () => {
-  //         const user = await createUser(generateRandomUser());
+  describe("delete product by id", () => {
+    describe("DELETE /api/v1/product/:id", () => {
+      describe("given user is unauthorized", () => {
+        it("should return a 401 and not delete the product", async () => {
+          const product = await createProduct(
+            productSerializer(generateRandomProduct(), generateRandomImgURLs())
+          );
 
-  //         const { statusCode } = await request(app).delete(
-  //           `/api/v1/user/${user._id}`
-  //         );
-  //         const notDeletedUser = await findUser(user.id);
+          const { statusCode } = await request(app).delete(
+            `/api/v1/product/${product.id}`
+          );
 
-  //         expect(statusCode).toBe(401);
-  //         expect(notDeletedUser).not.toBe(null);
-  //       });
-  //     });
-  //   });
-  // });
+          const notDeletedProduct = await findProduct(product.id);
 
-  // describe("delete user", () => {
-  //   describe("DELETE /api/v1/user/:id", () => {
-  //     describe("given the user is trying to delete someone else's profile", () => {
-  //       it("should return a 403", async () => {
-  //         const user1 = await createUser(generateRandomUser());
-  //         const user2 = await createUser(generateRandomUser());
-  //         const { accessToken } = generateAuthTokens(user2.id); //logging in as user2
+          expect(statusCode).toBe(401);
+          expect(notDeletedProduct).not.toBe(null);
+        });
+      });
+    });
 
-  //         const { statusCode } = await request(app)
-  //           .delete(`/api/v1/user/${user1._id}`) //but trying to delete user1's profile
-  //           .set("Authorization", `Bearer ${accessToken}`);
+    describe("DELETE /api/v1/product/:id", () => {
+      describe("given authorized user is not an admin", () => {
+        it("should return a 403 and not delete the product", async () => {
+          const user = await createUser(generateRandomUser());
+          const product = await createProduct(
+            productSerializer(generateRandomProduct(), generateRandomImgURLs())
+          );
+          const { accessToken } = generateAuthTokens(user.id);
 
-  //         const notDeletedUser = await findUser(user1.id);
+          const { statusCode } = await request(app)
+            .delete(`/api/v1/product/${product.id}`)
+            .set("Authorization", `Bearer ${accessToken}`);
 
-  //         expect(statusCode).toBe(403);
-  //         expect(notDeletedUser).not.toBe(null);
-  //       });
-  //     });
-  //   });
-  // });
+          const notDeletedProduct = await findProduct(product.id);
 
-  // describe("delete user", () => {
-  //   describe("DELETE /api/v1/user/:id", () => {
-  //     describe("given the user is authorized as the correct user", () => {
-  //       it("should return a 200 and delete the user", async () => {
-  //         const user = await createUser(generateRandomUser());
-  //         const { accessToken } = generateAuthTokens(user.id);
+          expect(statusCode).toBe(403);
+          expect(notDeletedProduct).not.toBe(null);
+        });
+      });
+    });
 
-  //         const { statusCode } = await request(app)
-  //           .delete(`/api/v1/user/${user._id}`)
-  //           .set("Authorization", `Bearer ${accessToken}`); //sending an access token with the request so that the user is authorized
+    describe("DELETE /api/v1/product/:id", () => {
+      describe("given authorized user is an admin", () => {
+        it("should return a 200 and delete the product", async () => {
+          const user = await createUser(generateRandomUser("admin"));
+          const product = await createProduct(
+            productSerializer(generateRandomProduct(), generateRandomImgURLs())
+          );
+          const { accessToken } = generateAuthTokens(user.id);
 
-  //         const deletedUser = await findUser(user.id);
+          const { statusCode } = await request(app)
+            .delete(`/api/v1/product/${product.id}`)
+            .set("Authorization", `Bearer ${accessToken}`);
 
-  //         expect(statusCode).toBe(200);
-  //         expect(deletedUser).toBe(null);
-  //       });
-  //     });
-  //   });
-  // });
+          const deletedProduct = await findProduct(product.id);
+
+          expect(statusCode).toBe(200);
+          expect(deletedProduct).toBe(null);
+        });
+      });
+    });
+    
+  });
 });
