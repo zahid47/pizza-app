@@ -15,18 +15,9 @@ const userSchema = new mongoose.Schema(
       state: String,
       zip: String,
       country: String,
-      comment: String, //user can add a commnet to find their place easily
+      comment: String, // user can add a comment to find their place easily
     },
-    orders: { type: [mongoose.Types.ObjectId], ref: "Order" },
     role: { type: String, default: "user" },
-    couponsUsed: [
-      {
-        couponId: { type: mongoose.Types.ObjectId, ref: "Coupon" },
-        couponCode: String,
-        dateUsed: Date,
-        orderId: { type: mongoose.Types.ObjectId, ref: "Order" },
-      },
-    ],
   },
   { timestamps: true }
 );
