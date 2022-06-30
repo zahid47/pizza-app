@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { getOrdersByUserController, getOrdersController } from "../../../controllers/order.controller";
 import {
   createUserController,
   updateUserController,
@@ -8,6 +9,7 @@ import {
 } from "../../../controllers/user.controller";
 import protect from "../../../middlewares/protect";
 import validate from "../../../middlewares/validate";
+import { getOrdersSchema } from "../../../schema/order.schema";
 import {
   createUserSchema,
   deleteUserSchema,
@@ -21,12 +23,16 @@ const router = Router();
 router
   .route("/")
   .post(validate(createUserSchema), createUserController)
-  .get(validate(getUsersSchema), protect("admin"), getUsersController);
+  .get(protect("admin"), validate(getUsersSchema), getUsersController);
+
+router
+  .route("/orders")
+  .get(protect("user"), validate(getOrdersSchema), getOrdersByUserController);
 
 router
   .route("/:id")
-  .get(validate(getUserSchema), protect("admin"), getUserController)
-  .put(validate(updateUserSchema), protect("user"), updateUserController)
-  .delete(validate(deleteUserSchema), protect("user"), deleteUserController);
+  .get(protect("admin"), validate(getUserSchema), getUserController)
+  .put(protect("user"), validate(updateUserSchema), updateUserController)
+  .delete(protect("user"), validate(deleteUserSchema), deleteUserController);
 
 export default router;

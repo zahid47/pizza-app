@@ -25,8 +25,8 @@ const upload = multer({ storage, fileFilter });
 router
   .route("/")
   .post(
-    validate(createProductSchema),
     protect("admin"),
+    validate(createProductSchema),
     upload.array("photos"),
     createProductController
   )
@@ -36,14 +36,14 @@ router
   .route("/:id")
   .get(validate(getProductSchema), getProductController)
   .put(
-    validate(updateProductSchema),
     protect("admin"),
+    validate(updateProductSchema),
     upload.array("photos"),
     updateProductController
   )
   .delete(
-    validate(deleteProductSchema),
     protect("admin"),
+    validate(deleteProductSchema),
     deleteProductController
   );
 
