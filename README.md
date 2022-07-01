@@ -13,4 +13,4 @@
 
 ### FIXME
 
-- [ ] test - MongoServerError: E11000 duplicate key error
+- [x] all done!
