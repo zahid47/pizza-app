@@ -5,9 +5,10 @@
   "main": "server.js",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+    "client": "cd ../frontend && yarn dev",
     "testDev": "jest --watchAll",
     "test": "jest",
-    "all": "concurrently \"npm run server\" \"npm run socket\" \"npm run client\""
+    "all": "concurrently \"yarn dev\" \"yarn client\""
   },
   "repository": {
     "type": "git",
