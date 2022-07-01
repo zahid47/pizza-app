@@ -11,9 +11,18 @@ export const createUser = async (input: userInputType) => {
   }
 };
 
-export const findUser = async (id: string) => {
+export const findUserById = async (id: string) => {
   try {
     return await User.findById(id);
+    // skipcq
+  } catch (err: any) {
+    throw new Error(err);
+  }
+};
+
+export const findUserByEmail = async (email: string) => {
+  try {
+    return await User.findOne({ email });
     // skipcq
   } catch (err: any) {
     throw new Error(err);
@@ -34,12 +43,6 @@ export const findAndUpdateUser = async (
   update: UpdateQuery<Partial<userInputType>>
 ) => {
   try {
-    const email = update.email || "";
-    if (email) {
-      const userWithDuplicateEmail = await User.findOne({ email });
-      if (userWithDuplicateEmail) throw new Error("email already exists");
-    }
-
     return await User.findByIdAndUpdate(id, update, { new: true });
     // skipcq
   } catch (err: any) {

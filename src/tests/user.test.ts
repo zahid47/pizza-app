@@ -3,7 +3,7 @@ import app from "../utils/app";
 import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import User from "../models/user.model";
-import { createUser, findUser } from "../services/user.service";
+import { createUser, findUserById } from "../services/user.service";
 import { generateRandomUser } from "./testUtils/randomGenerators";
 import { generateAuthTokens } from "../services/auth.service";
 import { reverseString } from "./testUtils/reverseString";
@@ -248,7 +248,7 @@ describe("user", () => {
 
     describe("PUT /api/v1/user/:id", () => {
       describe("given the user is authorized as the correct user but trying to change to a duplicate email", () => {
-        it("should return a 500", async () => {
+        it("should return a 409", async () => {
           const existingUser = await createUser(generateRandomUser());
           const userInfo = generateRandomUser();
           const user = await createUser(userInfo);
@@ -260,7 +260,7 @@ describe("user", () => {
             .set("Authorization", `Bearer ${accessToken}`) //sending an access token with the request so that the user is authorized
             .send(update);
 
-          expect(statusCode).toBe(500);
+          expect(statusCode).toBe(409);
         });
       });
     });
@@ -294,7 +294,7 @@ describe("user", () => {
           const { statusCode } = await request(app).delete(
             `/api/v1/user/${user._id}`
           );
-          const notDeletedUser = await findUser(user.id);
+          const notDeletedUser = await findUserById(user.id);
 
           expect(statusCode).toBe(401);
           expect(notDeletedUser).not.toBe(null);
@@ -313,7 +313,7 @@ describe("user", () => {
             .delete(`/api/v1/user/${user1._id}`) //but trying to delete user1's profile
             .set("Authorization", `Bearer ${accessToken}`);
 
-          const notDeletedUser = await findUser(user1.id);
+          const notDeletedUser = await findUserById(user1.id);
 
           expect(statusCode).toBe(403);
           expect(notDeletedUser).not.toBe(null);
@@ -331,7 +331,7 @@ describe("user", () => {
             .delete(`/api/v1/user/${user._id}`)
             .set("Authorization", `Bearer ${accessToken}`); //sending an access token with the request so that the user is authorized
 
-          const deletedUser = await findUser(user.id);
+          const deletedUser = await findUserById(user.id);
 
           expect(statusCode).toBe(200);
           expect(deletedUser).toBe(null);

@@ -2,7 +2,7 @@
 // import app from "../utils/app";
 import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
-// import { createUser, findUser } from "../services/user.service";
+// import { createUser, findUserById } from "../services/user.service";
 // import { generateRandomUser } from "./testUtils/randomGenerators";
 // import { generateAuthTokens } from "../services/auth.service";
 import Order from "../models/order.model";

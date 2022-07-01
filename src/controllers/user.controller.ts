@@ -9,7 +9,8 @@ import {
 } from "../schema/user.schema";
 import {
   createUser,
-  findUser,
+  findUserById,
+  findUserByEmail,
   findUsers,
   findAndUpdateUser,
   findAndDeleteUser,
@@ -23,11 +24,15 @@ export const createUserController = async (
   next: NextFunction
 ) => {
   try {
+    const isDuplicateEmail = await findUserByEmail(req.body.email);
+    if (isDuplicateEmail)
+      return next(createError(409, "email", "email already exists"));
+
     const user = await createUser(req.body);
     return res.status(201).json(omit(user.toJSON(), "password"));
   } catch (err: any) {
     log.error(err);
-    return next(createError(409, "email", "email already exists"));
+    return next(createError(err.status, "user", err.message));
   }
 };
 
@@ -38,7 +43,7 @@ export const getUserController = async (
 ) => {
   try {
     const { id } = req.params;
-    const user = await findUser(id);
+    const user = await findUserById(id);
 
     if (!user)
       return next(
@@ -69,7 +74,7 @@ export const getUsersController = async (
 
     const _users = await findUsers(limit, skip);
     const users = _users.map((user) => omit(user.toJSON(), "password"));
-    
+
     return res.status(200).json(users);
   } catch (err: any) {
     log.error(err);
@@ -86,11 +91,19 @@ export const updateUserController = async (
     const id = req.params.id;
     const update = req.body;
 
+    // only admins and the user themselves can update their own profile
     const currentUser = res.locals.user; //res.locals.user is set in the "protect" middleware
     if (currentUser.role !== "admin" && currentUser.id !== id)
       return next(
         createError(403, "user", JSON.stringify({ details: "forbidden" }))
       );
+
+    // can't update email to a duplicate email
+    if (update.email) {
+      const isDuplicateEmail = await findUserByEmail(update.email);
+      if (isDuplicateEmail)
+        return next(createError(409, "email", "email already exists"));
+    }
 
     const user = await findAndUpdateUser(id, update);
 
@@ -114,6 +127,7 @@ export const deleteUserController = async (
   try {
     const { id } = req.params;
 
+    // only admins and the user themselves can update their own profile
     const currentUser = res.locals.user; //res.locals.user is set in the "protect" middleware
     if (currentUser.role !== "admin" && currentUser.id !== id)
       return next(
