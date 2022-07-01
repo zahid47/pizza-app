@@ -40,7 +40,7 @@ describe("product", () => {
 
   describe("create product", () => {
     describe("POST /api/v1/product/", () => {
-      describe("given user is unauthorized", () => {
+      describe("given user is not authenticated", () => {
         it("should return a 401", async () => {
           const product = generateRandomProduct();
           const { statusCode } = await request(app)
@@ -261,7 +261,7 @@ describe("product", () => {
 
   describe("delete product by id", () => {
     describe("DELETE /api/v1/product/:id", () => {
-      describe("given user is unauthorized", () => {
+      describe("given user is not authenticated", () => {
         it("should return a 401 and not delete the product", async () => {
           const product = await createProduct(
             productSerializer(generateRandomProduct(), generateRandomImgURLs())
