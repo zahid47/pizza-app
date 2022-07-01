@@ -6,6 +6,7 @@ import User from "../models/user.model";
 import { createUser, findUser } from "../services/user.service";
 import { generateRandomUser } from "./testUtils/randomGenerators";
 import { generateAuthTokens } from "../services/auth.service";
+import { reverseString } from "./testUtils/reverseString";
 
 describe("user", () => {
   beforeAll(async () => {
@@ -90,7 +91,40 @@ describe("user", () => {
 
   describe("get users", () => {
     describe("GET /api/v1/user", () => {
-      describe("given some users exist", () => {
+      describe("given user is not authenticated", () => {
+        it("should return a 401", async () => {
+          await createUser(generateRandomUser());
+          await createUser(generateRandomUser());
+          await createUser(generateRandomUser());
+
+          const { statusCode } = await request(app).get(`/api/v1/user`);
+
+          expect(statusCode).toBe(401);
+        });
+      });
+    });
+
+    describe("GET /api/v1/user", () => {
+      describe("given the user is not an admin", () => {
+        it("should return a 403", async () => {
+          const normalUser = await createUser(generateRandomUser());
+          const { accessToken } = generateAuthTokens(normalUser.id);
+
+          await createUser(generateRandomUser());
+          await createUser(generateRandomUser());
+          await createUser(generateRandomUser());
+
+          const { statusCode } = await request(app)
+            .get(`/api/v1/user`)
+            .set("Authorization", `Bearer ${accessToken}`);
+
+          expect(statusCode).toBe(403);
+        });
+      });
+    });
+
+    describe("GET /api/v1/user", () => {
+      describe("given an admin us authenticated and some users exist", () => {
         it("should return a 200 and less than or equal to 'limit' number of users", async () => {
           const adminUser = await createUser(generateRandomUser("admin"));
           const { accessToken } = generateAuthTokens(adminUser.id);
@@ -113,11 +147,43 @@ describe("user", () => {
 
   describe("get user by id", () => {
     describe("GET /api/v1/user/:id", () => {
+      describe("given user is not authenticated", () => {
+        it("should return a 401", async () => {
+          const user = await createUser(generateRandomUser());
+
+          const { statusCode } = await request(app).get(
+            `/api/v1/user/${user._id}`
+          );
+
+          expect(statusCode).toBe(401);
+        });
+      });
+    });
+
+    describe("GET /api/v1/user/:id", () => {
+      describe("given the user is not an admin", () => {
+        it("should return a 403", async () => {
+          const normalUser = await createUser(generateRandomUser());
+          const anotherUser = await createUser(generateRandomUser());
+          const { accessToken } = generateAuthTokens(normalUser.id);
+
+          const { statusCode } = await request(app)
+            .get(`/api/v1/user/${anotherUser._id}`)
+            .set("Authorization", `Bearer ${accessToken}`);
+
+          expect(statusCode).toBe(403);
+        });
+      });
+    });
+
+    describe("GET /api/v1/user/:id", () => {
       describe("given a user with a specific id don't exist", () => {
         it("should return a 404", async () => {
           const adminUser = await createUser(generateRandomUser("admin"));
+          const anotherUser = await createUser(generateRandomUser());
           const { accessToken } = generateAuthTokens(adminUser.id);
-          const fakeId = "62aca583712384e283ebae8c";
+          const fakeId = reverseString(anotherUser.id);
+
           const { statusCode } = await request(app)
             .get(`/api/v1/user/${fakeId}`)
             .set("Authorization", `Bearer ${accessToken}`);
