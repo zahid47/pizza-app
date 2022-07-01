@@ -9,7 +9,6 @@
 ### TODO
 
 - [ ] write tests for order
-- [ ] write tests for get users/ get user by id, when user is not authenticated/ not an admin
 - [ ] auth - verify email and phone, logout, refresh token rotation, sessions
 
 ### FIXME
