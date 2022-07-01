@@ -1,6 +1,7 @@
 {
-  "name": "frontend",
-  "version": "0.1.0",
+  "name": "pizza-app-frontend",
+  "version": "0.0.1",
+  "description": "yet another pizza shop frontend",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -8,6 +9,17 @@
     "start": "next start",
     "lint": "next lint"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zahid47/pizza-app.git"
+  },
+  "keywords": [],
+  "author": "zahid <epiczahid@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zahid47/IceCreamApi/issues"
+  },
+  "homepage": "https://github.com/zahid47/pizza-app#readme",
   "dependencies": {
     "next": "12.2.0",
     "react": "18.2.0",

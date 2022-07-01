@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
-    "client": "cd ../frontend && yarn dev",
+    "client": "cd client && yarn dev",
     "testDev": "jest --watchAll",
     "test": "jest",
     "all": "concurrently \"yarn dev\" \"yarn client\""

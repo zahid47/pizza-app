@@ -25,7 +25,6 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-      - run: cd backend
       - run: npm i yarn
       - run: yarn
       - run: yarn test

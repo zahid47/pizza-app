@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import Image from "next/image";
+// import Image from "next/image";
 import styles from "../styles/Home.module.css";
 
 const Home: NextPage = () => {
@@ -10,8 +10,8 @@ const Home: NextPage = () => {
         <title>Pizza App</title>
         <meta name="description" content="yet another pizza shop" />
       </Head>
-
-      <h1>HELLO WORLD</h1>
+      
+      <h1>hello world</h1>
     </div>
   );
 };
