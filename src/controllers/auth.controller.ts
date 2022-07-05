@@ -26,7 +26,7 @@ export const loginController = async (
 
     //send tokens
     res.cookie("refreshToken", refreshToken, refreshCookieOptions);
-    res.status(200).json({ accessToken });
+    res.status(200).json({ accessToken, role: user.role });
   } catch (err: any) {
     log.error(err);
     return next(err);
