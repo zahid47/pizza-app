@@ -108,7 +108,10 @@ describe("user", () => {
       describe("given the user is not an admin", () => {
         it("should return a 403", async () => {
           const normalUser = await createUser(generateRandomUser());
-          const { accessToken } = generateAuthTokens(normalUser.id);
+          const { accessToken } = generateAuthTokens(
+            normalUser.id,
+            normalUser.role
+          );
 
           await createUser(generateRandomUser());
           await createUser(generateRandomUser());
@@ -127,7 +130,10 @@ describe("user", () => {
       describe("given an admin us authenticated and some users exist", () => {
         it("should return a 200 and less than or equal to 'limit' number of users", async () => {
           const adminUser = await createUser(generateRandomUser("admin"));
-          const { accessToken } = generateAuthTokens(adminUser.id);
+          const { accessToken } = generateAuthTokens(
+            adminUser.id,
+            adminUser.role
+          );
 
           await createUser(generateRandomUser());
           await createUser(generateRandomUser());
@@ -165,7 +171,10 @@ describe("user", () => {
         it("should return a 403", async () => {
           const normalUser = await createUser(generateRandomUser());
           const anotherUser = await createUser(generateRandomUser());
-          const { accessToken } = generateAuthTokens(normalUser.id);
+          const { accessToken } = generateAuthTokens(
+            normalUser.id,
+            normalUser.role
+          );
 
           const { statusCode } = await request(app)
             .get(`/api/v1/user/${anotherUser._id}`)
@@ -181,7 +190,10 @@ describe("user", () => {
         it("should return a 404", async () => {
           const adminUser = await createUser(generateRandomUser("admin"));
           const anotherUser = await createUser(generateRandomUser());
-          const { accessToken } = generateAuthTokens(adminUser.id);
+          const { accessToken } = generateAuthTokens(
+            adminUser.id,
+            adminUser.role
+          );
           const fakeId = reverseString(anotherUser.id);
 
           const { statusCode } = await request(app)
@@ -197,7 +209,10 @@ describe("user", () => {
       describe("given a user with a specific id exist", () => {
         it("should return a 200 and the user", async () => {
           const adminUser = await createUser(generateRandomUser("admin"));
-          const { accessToken } = generateAuthTokens(adminUser.id);
+          const { accessToken } = generateAuthTokens(
+            adminUser.id,
+            adminUser.role
+          );
           const user = await createUser(generateRandomUser());
           const { statusCode, body } = await request(app)
             .get(`/api/v1/user/${user._id}`)
@@ -233,7 +248,7 @@ describe("user", () => {
           const user1 = await createUser(generateRandomUser());
           const user2 = await createUser(generateRandomUser());
           const update = { name: "updated" };
-          const { accessToken } = generateAuthTokens(user2.id); //logging in as user2
+          const { accessToken } = generateAuthTokens(user2.id, user2.role); //logging in as user2
 
           const { statusCode, body } = await request(app)
             .put(`/api/v1/user/${user1._id}`) //but trying to update user1's profile
@@ -253,7 +268,7 @@ describe("user", () => {
           const userInfo = generateRandomUser();
           const user = await createUser(userInfo);
           const update = { email: existingUser.email };
-          const { accessToken } = generateAuthTokens(user.id);
+          const { accessToken } = generateAuthTokens(user.id, user.role);
 
           const { statusCode } = await request(app)
             .put(`/api/v1/user/${user._id}`)
@@ -271,7 +286,7 @@ describe("user", () => {
           const userInfo = generateRandomUser();
           const user = await createUser(userInfo);
           const update = { name: "updated" };
-          const { accessToken } = generateAuthTokens(user.id);
+          const { accessToken } = generateAuthTokens(user.id, user.role);
 
           const { statusCode, body } = await request(app)
             .put(`/api/v1/user/${user._id}`)
@@ -307,7 +322,7 @@ describe("user", () => {
         it("should return a 403", async () => {
           const user1 = await createUser(generateRandomUser());
           const user2 = await createUser(generateRandomUser());
-          const { accessToken } = generateAuthTokens(user2.id); //logging in as user2
+          const { accessToken } = generateAuthTokens(user2.id, user2.role); //logging in as user2
 
           const { statusCode } = await request(app)
             .delete(`/api/v1/user/${user1._id}`) //but trying to delete user1's profile
@@ -325,7 +340,7 @@ describe("user", () => {
       describe("given the user is authorized as the correct user", () => {
         it("should return a 200 and delete the user", async () => {
           const user = await createUser(generateRandomUser());
-          const { accessToken } = generateAuthTokens(user.id);
+          const { accessToken } = generateAuthTokens(user.id, user.role);
 
           const { statusCode } = await request(app)
             .delete(`/api/v1/user/${user._id}`)

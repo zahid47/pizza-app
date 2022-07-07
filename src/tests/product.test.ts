@@ -57,7 +57,7 @@ describe("product", () => {
         it("should return a 403", async () => {
           const user = await createUser(generateRandomUser());
           const product = generateRandomProduct();
-          const { accessToken } = generateAuthTokens(user.id);
+          const { accessToken } = generateAuthTokens(user.id, user.role);
           const { statusCode } = await request(app)
             .post(`/api/v1/product`)
             .set("Authorization", `Bearer ${accessToken}`)
@@ -72,7 +72,7 @@ describe("product", () => {
       describe("given authorized user is an admin but didn't provide name and price info", () => {
         it("should return a 400 and not create a product", async () => {
           const user = await createUser(generateRandomUser("admin"));
-          const { accessToken } = generateAuthTokens(user.id);
+          const { accessToken } = generateAuthTokens(user.id, user.role);
           const { statusCode, body } = await request(app)
             .post(`/api/v1/product`)
             .set("Authorization", `Bearer ${accessToken}`)
@@ -91,7 +91,7 @@ describe("product", () => {
           const user = await createUser(generateRandomUser("admin"));
           let product: any = generateRandomProduct();
           product = { ...product, isCheap: true }; // adding an unacceptable property
-          const { accessToken } = generateAuthTokens(user.id);
+          const { accessToken } = generateAuthTokens(user.id, user.role);
           const { statusCode, body } = await request(app)
             .post(`/api/v1/product`)
             .set("Authorization", `Bearer ${accessToken}`)
@@ -109,7 +109,7 @@ describe("product", () => {
         it("should return a 201 and create a product", async () => {
           const user = await createUser(generateRandomUser("admin"));
           const product = generateRandomProduct();
-          const { accessToken } = generateAuthTokens(user.id);
+          const { accessToken } = generateAuthTokens(user.id, user.role);
           const { statusCode, body } = await request(app)
             .post(`/api/v1/product`)
             .set("Authorization", `Bearer ${accessToken}`)
@@ -224,7 +224,7 @@ describe("product", () => {
             productSerializer(generateRandomProduct(), generateRandomImgURLs())
           );
           const updated = { name: "updated" };
-          const { accessToken } = generateAuthTokens(user.id);
+          const { accessToken } = generateAuthTokens(user.id, user.role);
 
           const { statusCode, body } = await request(app)
             .put(`/api/v1/product/${product.id}`)
@@ -245,7 +245,7 @@ describe("product", () => {
             productSerializer(generateRandomProduct(), generateRandomImgURLs())
           );
           const updated = { name: "updated" };
-          const { accessToken } = generateAuthTokens(user.id);
+          const { accessToken } = generateAuthTokens(user.id, user.role);
 
           const { statusCode, body } = await request(app)
             .put(`/api/v1/product/${product.id}`)
@@ -286,7 +286,7 @@ describe("product", () => {
           const product = await createProduct(
             productSerializer(generateRandomProduct(), generateRandomImgURLs())
           );
-          const { accessToken } = generateAuthTokens(user.id);
+          const { accessToken } = generateAuthTokens(user.id, user.role);
 
           const { statusCode } = await request(app)
             .delete(`/api/v1/product/${product.id}`)
@@ -307,7 +307,7 @@ describe("product", () => {
           const product = await createProduct(
             productSerializer(generateRandomProduct(), generateRandomImgURLs())
           );
-          const { accessToken } = generateAuthTokens(user.id);
+          const { accessToken } = generateAuthTokens(user.id, user.role);
 
           const { statusCode } = await request(app)
             .delete(`/api/v1/product/${product.id}`)

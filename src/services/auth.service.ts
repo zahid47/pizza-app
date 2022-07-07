@@ -58,15 +58,20 @@ export const verifyEmailPass = async (
   }
 };
 
-export const generateAuthTokens = (userId: string) => {
+export const generateAuthTokens = (userId: string, role: string) => {
   try {
     const access_secret = process.env.ACCESS_SECRET;
     const refresh_secret = process.env.REFRESH_SECRET;
     const access_expiry = process.env.ACCESS_TTL;
     const refresh_expiry = process.env.REFRESH_TTL;
 
-    const accessToken = signToken(userId, access_secret, access_expiry);
-    const refreshToken = signToken(userId, refresh_secret, refresh_expiry);
+    const accessToken = signToken(userId, role, access_secret, access_expiry);
+    const refreshToken = signToken(
+      userId,
+      role,
+      refresh_secret,
+      refresh_expiry
+    );
 
     return { accessToken, refreshToken };
 

@@ -106,7 +106,7 @@ describe("auth", () => {
       describe("given a user is logged in", () => {
         it("should return a 200 and the user", async () => {
           const user = await createUser(generateRandomUser());
-          const { accessToken } = generateAuthTokens(user.id);
+          const { accessToken } = generateAuthTokens(user.id, user.role);
 
           const { statusCode, body } = await request(app)
             .get(`/api/v1/auth/me`)

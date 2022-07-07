@@ -3,15 +3,19 @@ import logger from "./logger";
 
 export const signToken = (
   userId: string,
+  role: string,
   secret: string,
   expiry: string,
-  payload: object = {}
+  payload: any = {}
 ) => {
   const options = {
     expiresIn: expiry,
     issuer: "pizza-app",
     audience: userId,
   };
+
+  payload.userId = userId;
+  payload.role = role;
 
   return JWT.sign(payload, secret, options);
 };

@@ -22,7 +22,7 @@ export const loginController = async (
 
     // skipcq
     const user = result.user!; //at this point we are sure that we have a user
-    const { accessToken, refreshToken } = generateAuthTokens(user.id);
+    const { accessToken, refreshToken } = generateAuthTokens(user.id, user.role);
 
     //send tokens
     res.cookie("refreshToken", refreshToken, refreshCookieOptions);
