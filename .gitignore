@@ -1,0 +1,11 @@
+node_modules
+.env
+build
+images
+coverage
+yarn-error.log
+error.log
+combined.log
+tom.jpg
+_temp
+_client
