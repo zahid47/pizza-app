@@ -8,6 +8,7 @@
 
 ### TODO
 
+- [ ] client - private routes, bootstrap, work on admin side, multer
 - [ ] write tests for order
 - [ ] auth - verify email and phone, logout, refresh token rotation, sessions
 
