@@ -37,7 +37,7 @@ const orderSchema = new mongoose.Schema(
         "confirmed",
         "cooking",
         "on the way",
-        "delevered",
+        "delivered",
         "cancelled",
       ],
       default: "pending",
