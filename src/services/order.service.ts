@@ -25,7 +25,7 @@ export const findOrder = async (id: string) => {
 
 export const findOrders = async (limit: number, skip: number) => {
   try {
-    return await Order.find().limit(limit).skip(skip);
+    return await Order.find().limit(limit).skip(skip).populate("user", "name");
     // skipcq
   } catch (err: any) {
     throw new Error(err);
