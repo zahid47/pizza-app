@@ -9,6 +9,8 @@
 ### TODO
 
 - [ ] client - private routes, bootstrap, work on admin side, multer
+- [ ] fix order total (calculate in the server)
+- [ ] redis
 - [ ] write tests for order
 - [ ] auth - verify email and phone, logout, refresh token rotation, sessions
 
