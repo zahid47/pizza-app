@@ -22,7 +22,10 @@ export const loginController = async (
 
     // skipcq
     const user = result.user!; //at this point we are sure that we have a user
-    const { accessToken, refreshToken } = generateAuthTokens(user.id, user.role);
+    const { accessToken, refreshToken } = generateAuthTokens(
+      user.id,
+      user.role
+    );
 
     //send tokens
     res.cookie("refreshToken", refreshToken, refreshCookieOptions);
@@ -43,5 +46,44 @@ export const getMeController = (
   } catch (err: any) {
     log.error(err);
     return next(err);
+  }
+};
+
+export const refreshAccessTokenController = (
+  _req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    return res.sendStatus(501); //TODO implement this
+  } catch (err: any) {
+    log.error(err);
+    return next(createError(err.status, "refresh access token", err.message));
+  }
+};
+
+export const resetPassController = (
+  _req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    return res.sendStatus(501); //TODO implement this
+  } catch (err: any) {
+    log.error(err);
+    return next(createError(err.status, "reset password", err.message));
+  }
+};
+
+export const sendResetPassEmailController = (
+  _req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    return res.sendStatus(501); //TODO implement this
+  } catch (err: any) {
+    log.error(err);
+    return next(createError(err.status, "send reset pass email", err.message));
   }
 };

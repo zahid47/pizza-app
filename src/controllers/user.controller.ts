@@ -147,3 +147,55 @@ export const deleteUserController = async (
     return next(createError(err.status, "user", err.message));
   }
 };
+
+export const sendVerificationEmailController = async (
+  _req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    return res.sendStatus(501); //TODO implement this
+  } catch (err: any) {
+    log.error(err);
+    return next(createError(err.status, "email verification", err.message));
+  }
+};
+
+export const verifyEmailController = async (
+  _req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    return res.sendStatus(501); //TODO implement this
+  } catch (err: any) {
+    log.error(err);
+    return next(createError(err.status, "email verification", err.message));
+  }
+};
+
+export const verifyPhoneController = async (
+  _req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    return res.sendStatus(501); //TODO implement this
+  } catch (err: any) {
+    log.error(err);
+    return next(createError(err.status, "phone verification", err.message));
+  }
+};
+
+export const sendVerificationCodeController = async (
+  _req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    return res.sendStatus(501); //TODO implement this
+  } catch (err: any) {
+    log.error(err);
+    return next(createError(err.status, "phone verification", err.message));
+  }
+};
