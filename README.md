@@ -8,7 +8,8 @@
 
 ### TODO
 
-- [ ] client - private routes, bootstrap, work on admin side, multer
+- [ ] next - client -> admin -> products
+- [ ] client - private routes, bootstrap, multer forms
 - [ ] fix order total (calculate in the server)
 - [ ] redis
 - [ ] write tests for order
