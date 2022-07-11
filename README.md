@@ -17,4 +17,4 @@
 
 ### FIXME
 
-- [x] all done!
+- [ ] admin - product prices
