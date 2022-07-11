@@ -27,7 +27,7 @@ router
   .post(
     protect("admin"),
     validate(createProductSchema),
-    upload.array("photos"),
+    upload.array("images"),
     createProductController
   )
   .get(validate(getProductsSchema), getProductsController);
@@ -38,7 +38,7 @@ router
   .put(
     protect("admin"),
     validate(updateProductSchema),
-    upload.array("photos"),
+    upload.array("images"),
     updateProductController
   )
   .delete(

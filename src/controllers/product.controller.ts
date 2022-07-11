@@ -34,9 +34,7 @@ export const createProductController = async (
     return res.status(201).json(product);
   } catch (err: any) {
     log.error(err);
-    return next(
-      createError(err.status, "product", err.message)
-    );
+    return next(createError(err.status, "product", err.message));
   }
 };
 
