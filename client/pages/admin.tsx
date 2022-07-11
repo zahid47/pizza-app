@@ -1,7 +1,11 @@
 import { GetServerSideProps } from "next";
 import axios from "../utils/axios";
+import Orders from "../components/adminComponents/Orders";
+import Products from "../components/adminComponents/Products";
+import CreateNewProduct from "../components/adminComponents/CreateNewProduct";
+import Container from "react-bootstrap/Container";
 
-export default function admin({
+export default function Admin({
   orders,
   products,
 }: {
@@ -9,20 +13,13 @@ export default function admin({
   products: any;
 }) {
   return (
-    <div>
-      <h1>Orders</h1>
-      <ul>
-        {orders.map((order: any) => (
-          <li key={order._id}>{order._id} - {order.status}</li>
-        ))}
-      </ul>
-      <h1>Products</h1>
-      <ul>
-        {products.map((product: any) => (
-          <li key={product._id}>{product.name}</li>
-        ))}
-      </ul>
-    </div>
+    <Container>
+      {/* TODO: actually show the admin name here, idk why zustand store user is undefined in this page */}
+      <h1>Welcome Admin</h1>
+      <Orders orders={orders} />
+      <Products products={products} />
+      <CreateNewProduct />
+    </Container>
   );
 }
 

@@ -1,10 +1,10 @@
-import type { NextPage } from "next";
 import Menu from "../components/Menu";
 import NavBar from "../components/NavBar";
 import axios from "../utils/axios";
 import Cookies from "js-cookie";
 import { useUserStore } from "../zustand/userStore";
 import { useEffect } from "react";
+import Filters from "../components/Filters";
 
 const Home = ({ data }: { data: any }) => {
   const { setUser } = useUserStore((state) => state);
@@ -17,7 +17,14 @@ const Home = ({ data }: { data: any }) => {
         const response = await axios.get("/auth/me", {
           headers: { Authorization: `Bearer ${accessToken}` },
         });
-        const user = response.data;
+        const user = {
+          name: response.data.name,
+          email: response.data.email,
+          phone: response.data.phone,
+          address: response.data.address,
+          verified: response.data.verified,
+          role: response.data.role,
+        };
 
         setUser(user);
       } catch {
@@ -31,6 +38,7 @@ const Home = ({ data }: { data: any }) => {
   return (
     <>
       <NavBar />
+      <Filters />
       <Menu data={data} />
     </>
   );

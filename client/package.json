@@ -14,6 +14,7 @@
     "js-cookie": "^3.0.1",
     "next": "12.2.0",
     "react": "18.2.0",
+    "react-bootstrap": "^2.4.0",
     "react-dom": "18.2.0",
     "zustand": "^4.0.0-rc.1"
   },
@@ -21,6 +22,7 @@
     "@types/js-cookie": "^3.0.2",
     "@types/node": "18.0.3",
     "@types/react": "18.0.15",
+    "@types/react-bootstrap": "^0.32.30",
     "@types/react-dom": "18.0.6",
     "eslint": "8.19.0",
     "eslint-config-next": "12.2.0",
