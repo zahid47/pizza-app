@@ -12,6 +12,7 @@
 - [ ] client - private routes, bootstrap, multer forms
 - [ ] fix order total (calculate in the server)
 - [ ] redis
+- [ ] swagger docs
 - [ ] write tests for order
 - [ ] auth - verify email and phone, logout, refresh token rotation, sessions
 
