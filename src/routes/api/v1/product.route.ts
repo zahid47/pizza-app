@@ -26,8 +26,8 @@ router
   .route("/")
   .post(
     protect("admin"),
-    validate(createProductSchema),
     upload.array("images"),
+    validate(createProductSchema),
     createProductController
   )
   .get(validate(getProductsSchema), getProductsController);
@@ -37,8 +37,8 @@ router
   .get(validate(getProductSchema), getProductController)
   .put(
     protect("admin"),
-    validate(updateProductSchema),
     upload.array("images"),
+    validate(updateProductSchema),
     updateProductController
   )
   .delete(
