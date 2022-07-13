@@ -12,8 +12,8 @@ export const cloudinaryUpload = async (imagePath: string) => {
       imagePath,
       {
         public_id: `${Date.now()}`,
-        width: 24,
-        height: 24,
+        width: 500,
+        height: 500,
         crop: "fill",
       },
       (err, result) => {
