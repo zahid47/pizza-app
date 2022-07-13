@@ -38,7 +38,7 @@ const Home = ({ data }: { data: any }) => {
   return (
     <>
       <NavBar />
-      <Filters />
+      {/* <Filters /> */}
       <Menu data={data} />
     </>
   );

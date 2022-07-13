@@ -23,6 +23,9 @@ export default function NavBar() {
               <a href="#">Logout</a>
             </li>
             <li className={styles.navlinkRight}>
+              <a href="/cart">Cart</a>
+            </li>
+            <li className={styles.navlinkRight}>
               <a href="/orders">My Orders</a>
             </li>
             <li className={styles.navlinkRight}>
