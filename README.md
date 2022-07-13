@@ -8,8 +8,7 @@
 
 ### TODO
 
-- [ ] next - client -> admin -> products
-- [ ] client - private routes, bootstrap, multer forms
+- [ ] client - private routes
 - [ ] fix order total (calculate in the server)
 - [ ] redis
 - [ ] swagger docs
