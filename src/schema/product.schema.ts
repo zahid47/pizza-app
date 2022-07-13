@@ -4,11 +4,11 @@ export const createProductSchema = object({
   body: object({
     name: string({ required_error: "product name is required" }),
     description: string().optional(),
-    images: string().url("Image must be an URL").optional(),
+    // images: string().url("Image must be an URL").optional(),
     ingredients: string().optional(),
     category: string().optional(),
-    isVegan: boolean().optional(),
-    prices: string(),
+    isVegan: string().optional(),
+    prices: string(), // it is a JSON.stringify string of the prices object
     // prices: array(
     //   object(
     //     {
@@ -51,10 +51,10 @@ export const updateProductSchema = object({
   body: object({
     name: string().optional(),
     description: string().optional(),
-    images: string().url("Image must be an URL").optional(),
+    // images: string().url("Image must be an URL").optional(),
     ingredients: string().optional(),
     category: string().optional(),
-    isVegan: boolean().optional(),
+    isVegan: string().optional(),
     prices: string().optional(),
     // prices: array(
     //   object({

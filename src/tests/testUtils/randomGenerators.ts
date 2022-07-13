@@ -42,7 +42,7 @@ export const generateRandomProduct = () => {
     ${faker.lorem.words(2)},
     ${faker.lorem.words(2)}`,
     category: faker.commerce.department(),
-    isVegan: sample([true, false]),
+    isVegan: sample(["true", "false"]),
     prices: JSON.stringify(prices),
     extraIngredients: [
       {
