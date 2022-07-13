@@ -1,4 +1,5 @@
 import Cookies from "js-cookie";
+import { useRouter } from "next/router";
 import { MouseEvent, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
@@ -24,6 +25,8 @@ export default function CreateNewProduct() {
     isVegan: false,
   });
 
+  const router = useRouter();
+
   const handleAddNewProduct = async (
     e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>
   ) => {
@@ -37,13 +40,15 @@ export default function CreateNewProduct() {
     data.append("images", product.image);
 
     const accessToken = Cookies.get("accessToken");
-    const savedProduct = await axios.post("/product", data, {
+
+    await axios.post("/product", data, {
       headers: {
+        "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${accessToken}`,
       },
     });
-    console.log(savedProduct);
-    alert("Product created");
+    // FIXME: re render (because of state change) instead of refreshing the page
+    router.push("/admin");
   };
 
   return (
