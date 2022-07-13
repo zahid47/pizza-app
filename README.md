@@ -16,5 +16,4 @@
 
 ### FIXME
 
-- [ ] client - admin - product prices
-- [ ] server - fix order total (calculate in the server)
+- [ ] server - order total

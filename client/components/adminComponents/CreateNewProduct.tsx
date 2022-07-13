@@ -8,21 +8,12 @@ import axios from "../../utils/axios";
 
 export default function CreateNewProduct() {
   const [product, setProduct] = useState<any>({
-    prices: [
-      {
-        price: 300,
-        option: "small",
-      },
-      {
-        price: 500,
-        option: "medium",
-      },
-      {
-        price: 700,
-        option: "large",
-      },
-    ],
     isVegan: false,
+    prices: [
+      { price: 99999, option: "small" },
+      { price: 99999, option: "medium" },
+      { price: 99999, option: "large" },
+    ],
   });
 
   const router = useRouter();
@@ -92,7 +83,6 @@ export default function CreateNewProduct() {
           />
         </Form.Group>
 
-        {/* FIXME: prices */}
         <Form.Group className="mb-3">
           <Form.Label>Prices</Form.Label>
           <InputGroup className="mb-3">
@@ -104,8 +94,9 @@ export default function CreateNewProduct() {
                 setProduct({
                   ...product,
                   prices: [
-                    ...product.prices,
-                    { price: e.target.value, option: "medium" },
+                    { price: e.target.value, option: "small" },
+                    { price: product.prices[1].price, option: "medium" },
+                    { price: product.prices[2].price, option: "large" },
                   ],
                 });
               }}
@@ -118,8 +109,9 @@ export default function CreateNewProduct() {
                 setProduct({
                   ...product,
                   prices: [
-                    ...product.prices,
+                    { price: product.prices[0].price, option: "small" },
                     { price: e.target.value, option: "medium" },
+                    { price: product.prices[2].price, option: "large" },
                   ],
                 })
               }
@@ -132,7 +124,8 @@ export default function CreateNewProduct() {
                 setProduct({
                   ...product,
                   prices: [
-                    ...product.prices,
+                    { price: product.prices[0].price, option: "small" },
+                    { price: product.prices[1].price, option: "medium" },
                     { price: e.target.value, option: "large" },
                   ],
                 })
