@@ -9,7 +9,6 @@
 ### TODO
 
 - [ ] client - private routes
-- [ ] fix order total (calculate in the server)
 - [ ] redis
 - [ ] swagger docs
 - [ ] write tests for order
@@ -17,4 +16,5 @@
 
 ### FIXME
 
-- [ ] admin - product prices
+- [ ] client - admin - product prices
+- [ ] server - fix order total (calculate in the server)
