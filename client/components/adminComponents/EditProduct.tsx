@@ -34,6 +34,7 @@ export default function EditProduct({ _product }: { _product: any }) {
 
   return (
     <>
+      <h1 className="text-danger">BREAKING - DO NOT EDIT</h1>
       <h3>Edit Product</h3>
 
       <Form encType="multipart/form-data">

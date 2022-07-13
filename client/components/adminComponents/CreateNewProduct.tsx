@@ -34,9 +34,9 @@ export default function CreateNewProduct() {
 
     let data = new FormData();
     data.append("name", product.name);
+    data.append("prices", JSON.stringify(product.prices));
     data.append("description", product.description);
     data.append("isVegan", product.isVegan);
-    data.append("prices", JSON.stringify(product.prices));
     data.append("images", product.image);
 
     const accessToken = Cookies.get("accessToken");
