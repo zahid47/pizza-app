@@ -8,7 +8,8 @@
     "client": "cd client && yarn dev",
     "testDev": "jest --watchAll",
     "test": "jest",
-    "all": "concurrently \"yarn dev\" \"yarn client\""
+    "all": "concurrently \"yarn dev\" \"yarn client\"",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -55,6 +56,7 @@
     "supertest": "^6.2.3",
     "ts-jest": "^28.0.2",
     "ts-node-dev": "^1.1.8",
-    "typescript": "^4.6.4"
+    "typescript": "^4.6.4",
+    "husky": "^8.0.0"
   }
 }
