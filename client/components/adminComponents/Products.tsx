@@ -1,18 +1,31 @@
+import Cookies from "js-cookie";
+import { useRouter } from "next/router";
 import { MouseEvent } from "react";
+import axios from "../../utils/axios";
 
 export default function ProductsTable({ products }: { products: any }) {
+  const router = useRouter();
+
   const handleEdit = (
-    e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>
+    e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>,
+    id: string
   ) => {
     e.preventDefault();
-    console.log("handleEdit");
+    router.push(`/admin/products/edit/${id}`);
   };
 
   const handleDelete = (
-    e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>
+    e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>,
+    id: string
   ) => {
     e.preventDefault();
-    console.log("handleDelete");
+
+    const accessToken = Cookies.get("accessToken");
+    axios.delete(`product/${id}`, {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
+
+    router.push("/admin");
   };
 
   return (
@@ -38,7 +51,7 @@ export default function ProductsTable({ products }: { products: any }) {
               <td>{product.name}</td>
               <td>
                 <button
-                  onClick={handleEdit}
+                  onClick={(e) => handleEdit(e, product._id)}
                   type="button"
                   className="btn btn-dark btn-sm"
                 >
@@ -47,7 +60,7 @@ export default function ProductsTable({ products }: { products: any }) {
               </td>
               <td>
                 <button
-                  onClick={handleDelete}
+                  onClick={(e) => handleDelete(e, product._id)}
                   type="button"
                   className="btn btn-danger btn-sm"
                 >

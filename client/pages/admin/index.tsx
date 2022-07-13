@@ -1,8 +1,8 @@
 import { GetServerSideProps } from "next";
-import axios from "../utils/axios";
-import Orders from "../components/adminComponents/Orders";
-import Products from "../components/adminComponents/Products";
-import CreateNewProduct from "../components/adminComponents/CreateNewProduct";
+import axios from "../../utils/axios";
+import Orders from "../../components/adminComponents/Orders";
+import Products from "../../components/adminComponents/Products";
+import CreateNewProduct from "../../components/adminComponents/CreateNewProduct";
 import Container from "react-bootstrap/Container";
 
 export default function Admin({
