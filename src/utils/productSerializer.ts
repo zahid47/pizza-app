@@ -16,7 +16,7 @@ const productSerializer = (body: any, imgURLs: string[]) => {
     ingredients,
     category: body.category,
     isVegan: body.isVegan,
-    prices: JSON.parse(body.prices),
+    prices: body.prices ? JSON.parse(body.prices) : undefined,
     extraIngredients: body.extraIngredients,
     tags,
   };

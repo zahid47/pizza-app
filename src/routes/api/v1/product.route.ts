@@ -26,7 +26,7 @@ router
   .route("/")
   .post(
     protect("admin"),
-    // validate(createProductSchema),
+    validate(createProductSchema),
     upload.array("images"),
     createProductController
   )

@@ -8,15 +8,16 @@ export const createProductSchema = object({
     ingredients: string().optional(),
     category: string().optional(),
     isVegan: boolean().optional(),
-    prices: array(
-      object(
-        {
-          price: number({ required_error: "price value is required" }),
-          option: string({ required_error: "option text is required" }),
-        },
-        { required_error: "price information is required" }
-      )
-    ),
+    prices: string(),
+    // prices: array(
+    //   object(
+    //     {
+    //       price: number({ required_error: "price value is required" }),
+    //       option: string({ required_error: "option text is required" }),
+    //     },
+    //     { required_error: "price information is required" }
+    //   )
+    // ),
     extraIngredients: array(
       object({
         name: string({ required_error: "ingredient name is required" }),
@@ -24,7 +25,7 @@ export const createProductSchema = object({
       })
     ).optional(),
     tags: string().optional(),
-  }).strict(),
+  }),
 });
 
 export const getProductsSchema = object({
@@ -54,12 +55,13 @@ export const updateProductSchema = object({
     ingredients: string().optional(),
     category: string().optional(),
     isVegan: boolean().optional(),
-    prices: array(
-      object({
-        price: number({ required_error: "price value is required" }),
-        option: string({ required_error: "option text is required" }),
-      })
-    ).optional(),
+    prices: string().optional(),
+    // prices: array(
+    //   object({
+    //     price: number({ required_error: "price value is required" }),
+    //     option: string({ required_error: "option text is required" }),
+    //   })
+    // ).optional(),
     extraIngredients: array(
       object({
         name: string({ required_error: "ingredient name is required" }),
@@ -67,7 +69,7 @@ export const updateProductSchema = object({
       })
     ).optional(),
     tags: string().optional(),
-  }).strict(),
+  }),
 });
 
 export const deleteProductSchema = object({

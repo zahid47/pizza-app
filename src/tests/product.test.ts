@@ -87,25 +87,6 @@ describe("product", () => {
 
     describe("POST /api/v1/product/", () => {
       describe("given authorized user is an admin and provided name and price info", () => {
-        it("should return a 400 and not create a product", async () => {
-          const user = await createUser(generateRandomUser("admin"));
-          let product: any = generateRandomProduct();
-          product = { ...product, isCheap: true }; // adding an unacceptable property
-          const { accessToken } = generateAuthTokens(user.id, user.role);
-          const { statusCode, body } = await request(app)
-            .post(`/api/v1/product`)
-            .set("Authorization", `Bearer ${accessToken}`)
-            .send(product);
-
-          expect(statusCode).toBe(400);
-          expect(body).not.toHaveProperty("name");
-          expect(body.context).toEqual("validate");
-        });
-      });
-    });
-
-    describe("POST /api/v1/product/", () => {
-      describe("given authorized user is an admin and provided name and price info but provided extra unaccepted fields", () => {
         it("should return a 201 and create a product", async () => {
           const user = await createUser(generateRandomUser("admin"));
           const product = generateRandomProduct();
@@ -247,11 +228,11 @@ describe("product", () => {
           const updated = { name: "updated" };
           const { accessToken } = generateAuthTokens(user.id, user.role);
 
-          const { statusCode, body } = await request(app)
+          const { statusCode, body, error } = await request(app)
             .put(`/api/v1/product/${product.id}`)
             .set("Authorization", `Bearer ${accessToken}`)
             .send(updated);
-
+          console.log(error);
           expect(statusCode).toBe(200);
           expect(body.name).toEqual(updated.name);
         });
@@ -320,6 +301,5 @@ describe("product", () => {
         });
       });
     });
-    
   });
 });

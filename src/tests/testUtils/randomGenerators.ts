@@ -17,28 +17,33 @@ export const generateRandomUser = (role?: "admin") => {
 };
 
 export const generateRandomProduct = () => {
+  const prices = [
+    {
+      price: Math.floor(Math.random() * 2000),
+      option: "small",
+    },
+    {
+      price: Math.floor(Math.random() * 2000),
+      option: "medium",
+    },
+    {
+      price: Math.floor(Math.random() * 2000),
+      option: "large",
+    },
+  ];
+
   return {
     name: faker.commerce.productName(),
     description: faker.lorem.sentence(),
-    ingredients: `${faker.lorem.words(2)},${faker.lorem.words(
-      2
-    )},${faker.lorem.words(2)},${faker.lorem.words(2)},${faker.lorem.words(2)}`,
+    ingredients: `
+    ${faker.lorem.words(2)},
+    ${faker.lorem.words(2)},
+    ${faker.lorem.words(2)},
+    ${faker.lorem.words(2)},
+    ${faker.lorem.words(2)}`,
     category: faker.commerce.department(),
     isVegan: sample([true, false]),
-    prices: [
-      {
-        price: Math.floor(Math.random() * 2000),
-        option: "small",
-      },
-      {
-        price: Math.floor(Math.random() * 2000),
-        option: "medium",
-      },
-      {
-        price: Math.floor(Math.random() * 2000),
-        option: "large",
-      },
-    ],
+    prices: JSON.stringify(prices),
     extraIngredients: [
       {
         name: faker.commerce.productName(),
@@ -49,7 +54,12 @@ export const generateRandomProduct = () => {
         price: Math.floor(Math.random() * 500),
       },
     ],
-    tags: `${faker.commerce.productAdjective()},${faker.commerce.productAdjective()},${faker.commerce.productAdjective()},${faker.commerce.productAdjective()},${faker.commerce.productAdjective()}`,
+    tags: `
+    ${faker.commerce.productAdjective()},
+    ${faker.commerce.productAdjective()},
+    ${faker.commerce.productAdjective()},
+    ${faker.commerce.productAdjective()},
+    ${faker.commerce.productAdjective()}`,
   };
 };
 
