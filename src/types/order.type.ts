@@ -1,5 +1,11 @@
 import mongoose from "mongoose";
 
+export interface orderedProductsType {
+  product: string;
+  variant: string;
+  quantity: number;
+}
+
 export interface orderInputType {
   products: { product: string; variant: string; quantity: number }[];
   payment: {
@@ -14,4 +20,5 @@ export interface orderDocument extends orderInputType, mongoose.Document {
   status?: string;
   createdAt: Date;
   updatedAt: Date;
+  calculateTotal(products: orderedProductsType[]): Promise<number>;
 }

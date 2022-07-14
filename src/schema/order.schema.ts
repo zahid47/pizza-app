@@ -12,6 +12,7 @@ export const createOrderSchema = object({
     payment: object({
       method: string().optional(),
     }),
+    total: number({ required_error: "total is required" }),
   }).strict(),
 });
 

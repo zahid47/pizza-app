@@ -9,6 +9,7 @@ import {
   updateOrderInput,
 } from "../schema/order.schema";
 import {
+  calculateTotal,
   createOrder,
   findAndDeleteOrder,
   findAndUpdateOrder,
@@ -16,6 +17,7 @@ import {
   findOrders,
   findOrdersByUser,
 } from "../services/order.service";
+import { findProduct } from "../services/product.service";
 
 export const createOrderController = async (
   req: Request<{}, {}, createOrderInput["body"]>,
@@ -24,6 +26,12 @@ export const createOrderController = async (
 ) => {
   try {
     const orderDetails = { ...req.body, user: res.locals.user._id };
+
+    // security check for total price
+    const total = await calculateTotal(req.body.products);
+    if (total !== req.body.total)
+      return next(createError(400, "calculate total", "Total mismatch"));
+
     const order = await createOrder(orderDetails);
     return res.status(201).json(order);
   } catch (err: any) {

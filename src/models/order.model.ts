@@ -29,7 +29,7 @@ const orderSchema = new mongoose.Schema(
         default: "cash",
       },
     },
-    total: { type: Number, required: true, default: 0 }, //FIXME: calculate total using pre
+    total: { type: Number, required: true },
     status: {
       type: String,
       enum: [

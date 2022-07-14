@@ -1,10 +1,14 @@
 import Order from "../models/order.model";
-import { orderInputType } from "../types/order.type";
+import { orderedProductsType, orderInputType } from "../types/order.type";
 import { UpdateQuery } from "mongoose";
+import createError from "../utils/createError";
+import { findProduct } from "./product.service";
 
 export const createOrder = async (input: orderInputType) => {
   try {
-    return await Order.create(input);
+    return await (
+      await Order.create(input)
+    ).populate("products.product", "name prices");
 
     // skipcq
   } catch (err: any) {
@@ -60,6 +64,28 @@ export const findAndUpdateOrder = async (
 export const findAndDeleteOrder = async (id: string) => {
   try {
     return await Order.findByIdAndDelete(id);
+    // skipcq
+  } catch (err: any) {
+    throw new Error(err);
+  }
+};
+
+export const calculateTotal = async (orderedProducts: orderedProductsType[]) => {
+  try {
+    let total = 0;
+
+    for (const orderedProduct of orderedProducts) {
+      const product = await findProduct(orderedProduct.product);
+      if (!product)
+        throw createError(404, "calculate total", "Product not found");
+
+      for (const price of product.prices) {
+        if (price.option === orderedProduct.variant) {
+          total = total + price.price * orderedProduct.quantity;
+        }
+      }
+    }
+    return total;
     // skipcq
   } catch (err: any) {
     throw new Error(err);
