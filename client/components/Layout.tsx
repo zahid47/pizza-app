@@ -1,5 +1,6 @@
 import Head from "next/head";
 import Footer from "../components/Footer";
+import NavBar from "./NavBar";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -8,6 +9,7 @@ interface LayoutProps {
 export default function Layout({ children }: LayoutProps) {
   return (
     <>
+      <NavBar />
       <Head>
         <title>The Rolling Dough</title>
         <meta name="description" content="The Rolling Dough App" />

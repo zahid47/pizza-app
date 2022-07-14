@@ -1,6 +1,6 @@
 import styles from "../styles/NavBar.module.css";
 
-export default function NavBar() {
+export default function Filters() {
   return (
     <div className={styles.filters}>
       <ul className={styles.navlinks}>

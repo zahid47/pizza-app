@@ -8,7 +8,7 @@ export default function Orders({ orders }: { orders: any }) {
       {orders.length > 0 ? (
         <ul>
           {orders.map((order: any) => (
-            <li key={order._id}>{order._id}</li>
+            <li key={order._id}>{order._id} - {order.status}</li>
           ))}
         </ul>
       ) : (

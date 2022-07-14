@@ -1,9 +1,51 @@
 import { useUserStore } from "../zustand/userStore";
 import styles from "../styles/NavBar.module.css";
+import useCartStore from "../zustand/cartStore";
+import axios from "../utils/axios";
+import Cookies from "js-cookie";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 
 export default function NavBar() {
+  const { user, setUser } = useUserStore((state) => state);
+  const cartContent = useCartStore((state) => state.cartContent);
+  const router = useRouter();
 
-  const user = useUserStore((state) => state.user);
+  const cartTotalQty = cartContent.reduce((totalQty, product) => {
+    return totalQty + product.quantity;
+  }, 0);
+
+  useEffect(() => {
+    const accessToken = Cookies.get("accessToken");
+
+    const getMe = async (accessToken: string) => {
+      try {
+        const response = await axios.get("/auth/me", {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        });
+        const user = {
+          name: response.data.name,
+          email: response.data.email,
+          phone: response.data.phone,
+          address: response.data.address,
+          verified: response.data.verified,
+          role: response.data.role,
+        };
+
+        setUser(user);
+      } catch {
+        Cookies.remove("accessToken");
+      }
+    };
+
+    if (accessToken) getMe(accessToken);
+  }, [setUser]);
+
+  const logOut = () => {
+    Cookies.remove("accessToken");
+    setUser({});
+    router.push("/");
+  };
 
   return (
     <div>
@@ -20,10 +62,10 @@ export default function NavBar() {
         {user.name ? (
           <>
             <li className={styles.navlinkRight}>
-              <a href="#">Logout</a>
+              <button onClick={logOut}>Logout</button>
             </li>
             <li className={styles.navlinkRight}>
-              <a href="/cart">Cart</a>
+              <a href="/cart">Cart ({cartTotalQty})</a>
             </li>
             <li className={styles.navlinkRight}>
               <a href="/orders">My Orders</a>

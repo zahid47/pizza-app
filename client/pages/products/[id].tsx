@@ -2,13 +2,23 @@ import { GetServerSideProps } from "next";
 import axios from "../../utils/axios";
 import Image from "next/image";
 import { MouseEvent } from "react";
+import useCartStore from "../../zustand/cartStore";
 
 export default function SingleProduct({ product }: { product: any }) {
+  const { addToCart } = useCartStore((state) => state);
+
   const handleAddToCart = (
     e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>
   ) => {
     e.preventDefault();
-    console.log("add to cart: ", product.name); // TODO
+
+    const orderedProduct = {
+      id: product._id,
+      name: product.name,
+      price: product.prices[0].price,
+      quantity: 1,
+    };
+    addToCart(orderedProduct);
   };
 
   return (
