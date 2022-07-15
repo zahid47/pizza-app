@@ -4,7 +4,9 @@ import axios from "../utils/axios";
 import Cookies from "js-cookie";
 
 export default function Cart() {
-  const { cartContent, removeFromCart, clearCart } = useCartStore((state) => state);
+  const { cartContent, removeFromCart, clearCart } = useCartStore(
+    (state) => state
+  );
   const [cartContentState, setCartContentState] = useState<any>();
 
   useEffect(() => {
@@ -36,15 +38,13 @@ export default function Cart() {
     setTotal(calculateTotal());
   };
 
-  const handleOrder = async (
-    e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>
-  ) => {
+  const handleOrder = async () => {
     const products =
       cartContentState &&
       cartContentState.map((item: any) => {
         return {
           product: item.id,
-          variant: "TEMP VARIANT", // FIXME
+          variant: item.variant,
           quantity: item.quantity,
         };
       });
@@ -102,7 +102,7 @@ export default function Cart() {
             </tbody>
           </table>
           <h1>Total: {total} BDT</h1>
-          <button onClick={(e) => handleOrder(e)} className="btn btn-dark">
+          <button onClick={handleOrder} className="btn btn-dark">
             Confirm Order
           </button>
         </>

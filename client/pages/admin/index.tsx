@@ -4,6 +4,7 @@ import Orders from "../../components/adminComponents/Orders";
 import Products from "../../components/adminComponents/Products";
 import CreateNewProduct from "../../components/adminComponents/CreateNewProduct";
 import Container from "react-bootstrap/Container";
+import { useUserStore } from "../../zustand/userStore";
 
 export default function Admin({
   orders,
@@ -12,10 +13,11 @@ export default function Admin({
   orders: any;
   products: any;
 }) {
+  const user = useUserStore((state) => state.user);
+
   return (
     <Container>
-      {/* TODO: actually show the admin name here, idk why zustand store user is undefined in this page */}
-      <h1>Welcome Admin</h1>
+      <h1>Welcome {user.name}</h1>
       <Orders orders={orders} />
       <Products products={products} />
       <CreateNewProduct />
