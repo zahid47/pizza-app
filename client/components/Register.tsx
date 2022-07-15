@@ -1,5 +1,4 @@
 import axios from "../utils/axios";
-import Cookies from "js-cookie";
 import { useState } from "react";
 import Router from "next/router";
 
@@ -15,7 +14,7 @@ export default function Register() {
         Router.push("/login");
       })
       .catch((err: any) => {
-        console.log(err.response.data);
+        Router.push("/register");
       });
   };
 

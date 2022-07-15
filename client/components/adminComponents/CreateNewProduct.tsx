@@ -23,7 +23,7 @@ export default function CreateNewProduct() {
   ) => {
     e.preventDefault();
 
-    let data = new FormData();
+    const data = new FormData();
     data.append("name", product.name);
     data.append("prices", JSON.stringify(product.prices));
     data.append("description", product.description);

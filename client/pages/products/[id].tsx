@@ -44,7 +44,7 @@ export default function SingleProduct({ product }: { product: any }) {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const productId = context.params!.id; // we know params exists for sure no cap
+  const productId = context.params!.id; // skipcq // we know params exists for sure no cap
 
   const res = await axios.get(`/product/${productId}`);
   const product = res.data;

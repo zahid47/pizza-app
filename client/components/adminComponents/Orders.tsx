@@ -46,8 +46,8 @@ export default function OrdersTable({ orders }: { orders: any }) {
                 <select
                   className="form-select form-select-sm"
                   aria-label=".form-select-sm example"
-                  onChange={(e) => {
-                    handleStatus(e, order);
+                  onChange={async (e) => {
+                    await handleStatus(e, order);
                   }}
                   defaultValue={order.status}
                 >

@@ -32,7 +32,6 @@ export default function Cart() {
     _e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>,
     productId: string
   ) => {
-    console.log("remove");
     removeFromCart(productId);
     setCartContentState(cartContent);
     setTotal(calculateTotal());

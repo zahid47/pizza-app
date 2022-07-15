@@ -17,7 +17,6 @@ import {
   findOrders,
   findOrdersByUser,
 } from "../services/order.service";
-import { findProduct } from "../services/product.service";
 
 export const createOrderController = async (
   req: Request<{}, {}, createOrderInput["body"]>,

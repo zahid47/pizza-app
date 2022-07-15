@@ -228,11 +228,10 @@ describe("product", () => {
           const updated = { name: "updated" };
           const { accessToken } = generateAuthTokens(user.id, user.role);
 
-          const { statusCode, body, error } = await request(app)
+          const { statusCode, body } = await request(app)
             .put(`/api/v1/product/${product.id}`)
             .set("Authorization", `Bearer ${accessToken}`)
             .send(updated);
-          console.log(error);
           expect(statusCode).toBe(200);
           expect(body.name).toEqual(updated.name);
         });

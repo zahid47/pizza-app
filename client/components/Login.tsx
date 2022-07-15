@@ -25,7 +25,7 @@ export default function Login() {
         Router.push("/");
       })
       .catch((err: any) => {
-        console.log(err.response.data);
+        Router.push("/login");
       });
   };
 

@@ -38,6 +38,7 @@ export default function NavBar() {
       }
     };
 
+    // skipcq
     if (accessToken) getMe(accessToken);
   }, [setUser]);
 

@@ -15,7 +15,7 @@ export default function EditProduct({ _product }: { _product: any }) {
   ) => {
     e.preventDefault();
 
-    let data = new FormData();
+    const data = new FormData();
     data.append("name", product.name);
     data.append("description", product.description);
     data.append("isVegan", product.isVegan);
