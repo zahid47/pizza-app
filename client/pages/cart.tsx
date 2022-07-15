@@ -29,7 +29,7 @@ export default function Cart() {
   }, [calculateTotal]);
 
   const handleRemove = (
-    e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>,
+    _e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>,
     productId: string
   ) => {
     console.log("remove");
@@ -44,7 +44,7 @@ export default function Cart() {
       cartContentState.map((item: any) => {
         return {
           product: item.id,
-          variant: item.variant,
+          variant: "small", //FIXME: hardcoded
           quantity: item.quantity,
         };
       });
@@ -54,6 +54,7 @@ export default function Cart() {
       payment: {
         method: "cash",
       },
+      total,
     };
 
     const accessToken = Cookies.get("accessToken");
