@@ -5,17 +5,15 @@ import Router from "next/router";
 export default function Register() {
   const [creds, setCreds] = useState({});
 
-  const handleRegister = (e: any) => {
+  const handleRegister = async (e: any) => {
     e.preventDefault();
 
-    axios
-      .post("/user", creds)
-      .then(() => {
-        Router.push("/login");
-      })
-      .catch((err: any) => {
-        Router.push("/register");
-      });
+    try {
+      await axios.post("/user", creds);
+      Router.push("/login");
+    } catch {
+      Router.push("/register");
+    }
   };
 
   return (
@@ -53,7 +51,9 @@ export default function Register() {
           onChange={(e) => setCreds({ ...creds, password: e.target.value })}
         />
 
-        <button onClick={handleRegister}>Create Account</button>
+        <button onClick={async (e) => await handleRegister(e)}>
+          Create Account
+        </button>
       </form>
     </div>
   );

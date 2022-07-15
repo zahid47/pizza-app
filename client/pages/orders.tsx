@@ -1,14 +1,18 @@
 import axios from "../utils/axios";
 import { GetServerSideProps } from "next";
+import NavBar from "../components/NavBar";
 
 export default function Orders({ orders }: { orders: any }) {
   return (
     <div>
+      <NavBar />
       <h1>Your Orders</h1>
       {orders.length > 0 ? (
         <ul>
           {orders.map((order: any) => (
-            <li key={order._id}>{order._id} - {order.status}</li>
+            <li key={order._id}>
+              {order._id} - {order.status}
+            </li>
           ))}
         </ul>
       ) : (

@@ -9,7 +9,6 @@ interface LayoutProps {
 export default function Layout({ children }: LayoutProps) {
   return (
     <>
-      <NavBar />
       <Head>
         <title>The Rolling Dough</title>
         <meta name="description" content="The Rolling Dough App" />

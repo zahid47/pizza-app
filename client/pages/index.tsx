@@ -1,9 +1,11 @@
 import Menu from "../components/Menu";
+import NavBar from "../components/NavBar";
 import axios from "../utils/axios";
 
 const Home = ({ data }: { data: any }) => {
   return (
     <>
+      <NavBar />
       <Menu data={data} />
     </>
   );

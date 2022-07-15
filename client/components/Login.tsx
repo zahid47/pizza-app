@@ -1,32 +1,22 @@
 import axios from "../utils/axios";
 import Cookies from "js-cookie";
 import { useState } from "react";
-import Router from "next/router";
+import { useRouter } from "next/router";
 
 export default function Login() {
   const [creds, setCreds] = useState({});
+  const router = useRouter();
 
-  const handleLogin = (e: any) => {
+  const handleLogin = async (e: any) => {
     e.preventDefault();
 
-    axios
-      .post("/auth/login", creds)
-      .then((response: any) => {
-        Cookies.set("accessToken", response.data.accessToken, {
-          expires: 1,
-        });
-
-        const data = response.data;
-
-        if (data.role === "admin") {
-          Router.push("/admin");
-          return;
-        }
-        Router.push("/");
-      })
-      .catch((err: any) => {
-        Router.push("/login");
-      });
+    try {
+      const response = await axios.post("/auth/login", creds);
+      Cookies.set("accessToken", response.data.accessToken);
+      router.push("/");
+    } catch {
+      router.push("/login");
+    }
   };
 
   return (
@@ -44,7 +34,7 @@ export default function Login() {
           onChange={(e) => setCreds({ ...creds, password: e.target.value })}
         />
 
-        <button onClick={handleLogin}>Log In</button>
+        <button onClick={async (e) => await handleLogin(e)}>Log In</button>
       </form>
     </div>
   );

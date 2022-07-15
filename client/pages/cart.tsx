@@ -2,6 +2,7 @@ import useCartStore from "../zustand/cartStore";
 import { useState, useEffect, MouseEvent, useCallback } from "react";
 import axios from "../utils/axios";
 import Cookies from "js-cookie";
+import NavBar from "../components/NavBar";
 
 export default function Cart() {
   const { cartContent, removeFromCart, clearCart } = useCartStore(
@@ -66,6 +67,7 @@ export default function Cart() {
 
   return (
     <>
+      <NavBar />
       {cartContentState && cartContentState.length < 1 ? (
         <div>No items in cart</div>
       ) : (
