@@ -63,7 +63,7 @@ export default function NavBar() {
         {user.name ? (
           <>
             <li className={styles.navlinkRight}>
-              <button onClick={logOut}>Logout</button>
+              <button className="btn" onClick={logOut}>Logout</button>
             </li>
             <li className={styles.navlinkRight}>
               <a href="/cart">Cart ({cartTotalQty})</a>
