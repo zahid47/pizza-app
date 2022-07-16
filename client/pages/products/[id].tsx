@@ -3,6 +3,7 @@ import axios from "../../utils/axios";
 import Image from "next/image";
 import { MouseEvent } from "react";
 import useCartStore from "../../zustand/cartStore";
+import NavBar from "../../components/NavBar";
 
 export default function SingleProduct({ product }: { product: any }) {
   const { addToCart } = useCartStore((state) => state);
@@ -23,6 +24,7 @@ export default function SingleProduct({ product }: { product: any }) {
 
   return (
     <>
+      <NavBar />
       <h1>{product.name}</h1>
       <Image
         src={product.images[0]}

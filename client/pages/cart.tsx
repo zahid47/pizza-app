@@ -52,7 +52,7 @@ export default function Cart() {
     const orderDetails = {
       products,
       payment: {
-        method: "cash",
+        method: "card",
       },
       total,
     };
@@ -103,6 +103,11 @@ export default function Cart() {
                 ))}
             </tbody>
           </table>
+          <div className="text-danger">
+            THIS IS A TEST APPLICATION. DO NOT PUT YOUR REAL CREDIT CARD INFO IN
+            THE CHECKOUT PAGE TO PURCHASE ANYTHING, YOU WILL <b>NOT</b> RECEIVE
+            IT.
+          </div>
           <h1>Total: {total} BDT</h1>
           <button onClick={handleOrder} className="btn btn-dark">
             Confirm Order
