@@ -19,14 +19,14 @@ import {
 const router = Router();
 
 router
-  .route("/")
-  .post(protect("user"), validate(createOrderSchema), createOrderController)
-  .get(protect("admin"), validate(getOrdersSchema), getOrdersController);
-
-router
   .route("/:id")
   .get(protect("admin"), validate(getOrderSchema), getOrderController)
   .put(protect("admin"), validate(updateOrderSchema), updateOrderController)
   .delete(protect("admin"), validate(deleteOrderSchema), deleteOrderController);
+
+router
+  .route("/")
+  .post(protect("user"), validate(createOrderSchema), createOrderController)
+  .get(protect("admin"), validate(getOrdersSchema), getOrdersController);
 
 export default router;
