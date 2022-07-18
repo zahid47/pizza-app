@@ -17,6 +17,7 @@ import {
   findOrders,
   findOrdersByUser,
 } from "../services/order.service";
+import Stripe from "stripe";
 
 export const createOrderController = async (
   req: Request<{}, {}, createOrderInput["body"]>,
@@ -163,5 +164,55 @@ export const deleteOrderController = async (
   } catch (err: any) {
     log.error(err);
     return next(createError(err.status, "order", err));
+  }
+};
+
+export const createPaymentIntentController = async (
+  req: Request, //TODO add schema validation
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+      apiVersion: "2020-08-27",
+    });
+
+    const items = req.body.products;
+
+    // security check for total price
+    const total = await calculateTotal(items);
+    if (total !== req.body.total)
+      return next(createError(400, "calculate total", "Total mismatch"));
+
+    // Create a PaymentIntent with the order amount and currency
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: total,
+      currency: "usd",
+      automatic_payment_methods: {
+        enabled: true,
+      },
+    });
+
+    res.status(200).json({
+      clientSecret: paymentIntent.client_secret,
+    });
+  } catch (err: any) {
+    log.error(err);
+    return next(createError(err.status, "order - create payment intent", err));
+  }
+};
+
+export const confirmPaymentController = async (
+  req: Request, //TODO add schema validation
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const status = req.query.redirect_status;
+    //TODO: change payment status to "paid", but IDK how without orderID
+    return res.status(303).redirect("http://localhost:3000/orders");
+  } catch (err: any) {
+    log.error(err);
+    return next(createError(err.status, "order - create payment intent", err));
   }
 };

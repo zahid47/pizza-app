@@ -1,5 +1,7 @@
 import { Router } from "express";
 import {
+  createPaymentIntentController,
+  confirmPaymentController,
   createOrderController,
   deleteOrderController,
   getOrderController,
@@ -17,6 +19,9 @@ import {
 } from "../../../schema/order.schema";
 
 const router = Router();
+
+router.route("/create-payment-intent").post(createPaymentIntentController); //TODO: add validation schema and protect("user")
+router.route("/confirm-payment").get(confirmPaymentController); //TODO: add validation schema and protect("user")
 
 router
   .route("/:id")
