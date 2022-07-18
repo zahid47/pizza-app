@@ -3,6 +3,8 @@ import { devtools, persist } from "zustand/middleware";
 
 const cartStore = (set: any) => ({
   cartContent: [],
+  cartTotal: 0,
+  setCartTotal: (total: number) => set((state: any) => ({ ...state, total })),
   addToCart: (product: any) =>
     set((state: any) => {
       const isPresent: boolean = state.cartContent.find(

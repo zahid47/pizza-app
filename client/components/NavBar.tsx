@@ -72,7 +72,7 @@ export default function NavBar() {
               <a href="/orders">My Orders</a>
             </li>
             <li className={styles.navlinkRight}>
-              <a href="#">Logged in as: {user.name}</a>
+              <a href="#">Hello, {user.name}</a>
             </li>
           </>
         ) : (

@@ -11,7 +11,7 @@ export default function Orders({ orders }: { orders: any }) {
         <ul>
           {orders.map((order: any) => (
             <li key={order._id}>
-              {order._id} - {order.status}
+              {order._id} - {order.total} - {order.status}
             </li>
           ))}
         </ul>

@@ -3,9 +3,12 @@ import { useState, useEffect, MouseEvent, useCallback } from "react";
 import axios from "../utils/axios";
 import Cookies from "js-cookie";
 import NavBar from "../components/NavBar";
+import { useRouter } from "next/router";
 
 export default function Cart() {
-  const { cartContent, removeFromCart, clearCart } = useCartStore(
+  const router = useRouter();
+
+  const { cartContent, removeFromCart } = useCartStore(
     (state) => state
   );
   const [cartContentState, setCartContentState] = useState<any>();
@@ -61,8 +64,10 @@ export default function Cart() {
     await axios.post("/order", orderDetails, {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
-    clearCart();
-    alert("Order placed successfully");
+    // clearCart();
+    // alert("Order placed successfully");
+
+    router.push("/checkout");
   };
 
   return (
@@ -109,8 +114,12 @@ export default function Cart() {
             IT.
           </div>
           <h1>Total: {total} BDT</h1>
-          <button onClick={handleOrder} className="btn btn-dark">
-            Confirm Order
+          <button
+            className="btn btn-dark"
+            style={{ width: "20%" }}
+            onClick={handleOrder}
+          >
+            Go To Checkout
           </button>
         </>
       )}

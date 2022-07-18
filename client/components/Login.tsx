@@ -22,17 +22,23 @@ export default function Login() {
   return (
     <div>
       <form>
-        <label>Email: </label>
+        <label>Email:&nbsp;</label>
         <input
           type="email"
           onChange={(e) => setCreds({ ...creds, email: e.target.value })}
         />
 
-        <label>Password: </label>
+        <br />
+        <br />
+
+        <label>Password:&nbsp;</label>
         <input
           type="password"
           onChange={(e) => setCreds({ ...creds, password: e.target.value })}
         />
+
+        <br />
+        <br />
 
         <button onClick={async (e) => await handleLogin(e)}>Log In</button>
       </form>
