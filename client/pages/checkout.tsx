@@ -8,6 +8,7 @@ import useCartStore from "../zustand/cartStore";
 import axios from "../utils/axios";
 
 const stripePromise = loadStripe(
+  // skipcq
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
 );
 
@@ -57,6 +58,7 @@ export default function Checkout() {
       setClientSecret(data.clientSecret);
     };
 
+    // skipcq
     getClientSecret();
   }, [calculateTotal, cartContent]);
 

@@ -1,6 +1,5 @@
 import Head from "next/head";
 import Footer from "../components/Footer";
-import NavBar from "./NavBar";
 
 interface LayoutProps {
   children: React.ReactNode;
