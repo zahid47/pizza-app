@@ -12,6 +12,7 @@
 - [ ] redis
 - [ ] swagger docs
 - [ ] write tests for order
+- [ ] Docker
 - [ ] auth - verify email and phone, logout, refresh token rotation, sessions
 
 ### FIXME
