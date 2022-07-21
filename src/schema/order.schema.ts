@@ -1,4 +1,5 @@
 import { array, number, object, string, TypeOf } from "zod";
+import { orderedProductsType } from "../types/order.type";
 
 export const createOrderSchema = object({
   body: object({
@@ -54,8 +55,22 @@ export const deleteOrderSchema = object({
   }),
 });
 
+export const createPaymentIntentSchema = object({
+  body: object({
+    total: number({ required_error: "total price is required" }),
+    products: array(
+      object({
+        product: string(),
+        variant: string(),
+        quantity: number(),
+      })
+    ),
+  }),
+});
+
 export type createOrderInput = TypeOf<typeof createOrderSchema>;
 export type getOrdersInput = TypeOf<typeof getOrdersSchema>;
 export type getOrderInput = TypeOf<typeof getOrderSchema>;
 export type updateOrderInput = TypeOf<typeof updateOrderSchema>;
 export type deleteOrderInput = TypeOf<typeof deleteOrderSchema>;
+export type createPaymentIntentType = TypeOf<typeof createPaymentIntentSchema>;

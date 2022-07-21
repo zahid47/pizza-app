@@ -12,6 +12,7 @@ import protect from "../../../middlewares/protect";
 import validate from "../../../middlewares/validate";
 import {
   createOrderSchema,
+  createPaymentIntentSchema,
   deleteOrderSchema,
   getOrderSchema,
   getOrdersSchema,
@@ -20,8 +21,10 @@ import {
 
 const router = Router();
 
-router.route("/create-payment-intent").post(createPaymentIntentController); //TODO: add validation schema and protect("user")
-router.route("/confirm-payment").get(confirmPaymentController); //TODO: add validation schema and protect("user")
+router
+  .route("/create-payment-intent")
+  .post(validate(createPaymentIntentSchema), createPaymentIntentController);
+router.route("/confirm-payment").get(confirmPaymentController);
 
 router
   .route("/:id")

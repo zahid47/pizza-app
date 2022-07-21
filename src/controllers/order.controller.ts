@@ -3,6 +3,7 @@ import log from "../utils/logger";
 import createError from "../utils/createError";
 import {
   createOrderInput,
+  createPaymentIntentType,
   deleteOrderInput,
   getOrderInput,
   getOrdersInput,
@@ -168,7 +169,7 @@ export const deleteOrderController = async (
 };
 
 export const createPaymentIntentController = async (
-  req: Request, //TODO add schema validation
+  req: Request<{}, {}, createPaymentIntentType["body"]>,
   res: Response,
   next: NextFunction
 ) => {
@@ -203,7 +204,7 @@ export const createPaymentIntentController = async (
 };
 
 export const confirmPaymentController = async (
-  req: Request, //TODO add schema validation
+  req: Request,
   res: Response,
   next: NextFunction
 ) => {
