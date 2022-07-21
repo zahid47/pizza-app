@@ -77,9 +77,11 @@ export const refreshAccessTokenController = (
       if (expired) return next(createError(401, "jwt", "refreshToken expired"));
       if (!valid) return next(createError(401, "jwt", "refreshToken invalid"));
 
-      // ts-ignore
-      const { aud, role } = payload;
-      const { accessToken, refreshToken } = generateAuthTokens(aud, role);
+      //@ts-ignore
+      const userId = payload.aud;
+      //@ts-ignore
+      const role = payload.role;
+      const { accessToken, refreshToken } = generateAuthTokens(userId, role);
 
       //send tokens
       res.cookie("refreshToken", refreshToken, refreshCookieOptions);
@@ -108,6 +110,7 @@ export const resetPassController = async (
     if (!valid) return next(createError(401, "jwt", "token invalid"));
     if (expired) return next(createError(401, "jwt", "token expired"));
 
+    // @ts-ignore
     const userId = payload.aud;
     const user = await findUserById(userId);
 
