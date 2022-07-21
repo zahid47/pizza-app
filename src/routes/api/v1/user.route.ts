@@ -19,7 +19,11 @@ import {
   deleteUserSchema,
   getUserSchema,
   getUsersSchema,
+  sendVerificationCodeSchema,
+  sendVerificationEmailSchema,
   updateUserSchema,
+  verifyCodeSchema,
+  verifyEmailSchema,
 } from "../../../schema/user.schema";
 
 const router = Router();
@@ -33,11 +37,19 @@ router
   .route("/orders")
   .get(protect("user"), validate(getOrdersSchema), getOrdersByUserController);
 
-router.route("/verify/email/:code").get(verifyEmailController);
-router.route("/verify/email").get(sendVerificationEmailController);
+router
+  .route("/verify/email/:code")
+  .get(validate(verifyEmailSchema), verifyEmailController);
+router
+  .route("/verify/email")
+  .get(validate(sendVerificationEmailSchema), sendVerificationEmailController);
 
-router.route("/verify/phone/:code").get(verifyPhoneController); // TODO : add validation schema
-router.route("/verify/phone").get(sendVerificationCodeController); // TODO : add validation schema
+router
+  .route("/verify/phone/:code")
+  .get(validate(verifyCodeSchema), verifyPhoneController);
+router
+  .route("/verify/phone")
+  .get(validate(sendVerificationCodeSchema), sendVerificationCodeController);
 
 router
   .route("/:id")

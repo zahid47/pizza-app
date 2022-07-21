@@ -17,6 +17,7 @@ import {
 } from "../services/user.service";
 import createError from "../utils/createError";
 import log from "../utils/logger";
+import { sendEmail } from "../utils/sendEmail";
 
 export const createUserController = async (
   req: Request<{}, {}, createUserInput["body"]>,
@@ -29,6 +30,7 @@ export const createUserController = async (
       return next(createError(409, "email", "email already exists"));
 
     const user = await createUser(req.body);
+    // await sendEmail(user.id, user.email, "VERIFY");
     return res.status(201).json(omit(user.toJSON(), "password"));
   } catch (err: any) {
     log.error(err);

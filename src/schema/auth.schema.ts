@@ -9,4 +9,30 @@ export const loginSchema = object({
   }).strict(),
 });
 
+export const refreshAccessTokenSchema = object({
+  query: object({
+    refreshToken: string({ required_error: "refreshToken is required" }),
+  }),
+});
+
+export const resetPassSchema = object({
+  params: object({
+    token: string({ required_error: "token is required" }),
+  }),
+  body: object({
+    password: string({ required_error: "new password is required" }),
+  }),
+});
+
+export const sendResetPassEmailSchema = object({
+  body: object({
+    email: string({ required_error: "email is required" }).email(
+      "Invalid email"
+    ),
+  }),
+});
+
 export type loginType = TypeOf<typeof loginSchema>;
+export type refreshAccessTokenType = TypeOf<typeof refreshAccessTokenSchema>;
+export type resetPassType = TypeOf<typeof resetPassSchema>;
+export type sendResetPassEmailType = TypeOf<typeof sendResetPassEmailSchema>;

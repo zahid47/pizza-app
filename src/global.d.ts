@@ -14,6 +14,8 @@ declare global {
       CLOUDINARY_API_KEY: string;
       CLOUDINARY_API_SECRET: string;
       STRIPE_SECRET_KEY: string;
+      ETHEREAL_EMAIL: string;
+      ETHEREAL_PASSWORD: string;
     }
   }
 }

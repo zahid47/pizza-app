@@ -8,14 +8,25 @@ import {
 } from "../../../controllers/auth.controller";
 import protect from "../../../middlewares/protect";
 import validate from "../../../middlewares/validate";
-import { loginSchema } from "../../../schema/auth.schema";
+import {
+  loginSchema,
+  refreshAccessTokenSchema,
+  resetPassSchema,
+  sendResetPassEmailSchema,
+} from "../../../schema/auth.schema";
 
 const router = Router();
 
 router.route("/login").post(validate(loginSchema), loginController);
 router.route("/me").get(protect("user"), getMeController);
-router.route("/refresh").get(refreshAccessTokenController); // TODO : add validation schema
-router.route("/reset-pass/:token").post(resetPassController); // TODO : add validation schema
-router.route("/reset-pass").post(sendResetPassEmailController); // TODO : add validation schema
+router
+  .route("/refresh")
+  .get(validate(refreshAccessTokenSchema), refreshAccessTokenController);
+router
+  .route("/reset-pass/:token")
+  .post(validate(resetPassSchema), resetPassController);
+router
+  .route("/reset-pass")
+  .post(validate(sendResetPassEmailSchema), sendResetPassEmailController);
 
 export default router;
