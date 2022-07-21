@@ -1,12 +1,17 @@
-import JWT from "jsonwebtoken";
+import JWT, { JwtPayload } from "jsonwebtoken";
 import logger from "./logger";
+
+interface payloadType extends JwtPayload {
+  userId?: string;
+  role?: string;
+}
 
 export const signToken = (
   userId: string,
   role: string,
   secret: string,
   expiry: string,
-  payload: any = {}
+  payload: payloadType = {}
 ) => {
   const options = {
     expiresIn: expiry,
