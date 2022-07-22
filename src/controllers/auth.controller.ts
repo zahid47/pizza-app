@@ -43,6 +43,7 @@ export const loginController = async (
     //send tokens
     res.cookie("refreshToken", refreshToken, refreshCookieOptions);
     res.status(200).json({ accessToken, role: user.role });
+    // res.json({accessToken, refreshToken});
   } catch (err: any) {
     log.error(err);
     return next(err);
@@ -104,7 +105,7 @@ export const resetPassController = async (
 ) => {
   try {
     const secret = process.env.TOKEN_SECRET;
-    const token = req.params.token;
+    const token = req.params.code;
 
     const { valid, expired, payload } = verifyToken(token, secret);
     if (!valid) return next(createError(401, "jwt", "token invalid"));
@@ -116,7 +117,8 @@ export const resetPassController = async (
 
     if (!user) return next(createError(404, "user", "user not found"));
 
-    const newHashedPassword = await argon2.hash(user.password);
+    const newPassword = req.body.password;
+    const newHashedPassword = await argon2.hash(newPassword);
     await findAndUpdateUser(userId, { password: newHashedPassword });
 
     return res.sendStatus(200);
@@ -137,7 +139,7 @@ export const sendResetPassEmailController = async (
     if (!user) return next(createError(404, "user", "user not found"));
 
     //all good, lets send the forgot pass email now
-    // sendEmail(user.id, req.body.email, "RESET");
+    sendEmail(user.id, user.email, "RESET");
     return res.sendStatus(200);
   } catch (err: any) {
     log.error(err);

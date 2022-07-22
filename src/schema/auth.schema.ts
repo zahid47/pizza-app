@@ -17,7 +17,7 @@ export const refreshAccessTokenSchema = object({
 
 export const resetPassSchema = object({
   params: object({
-    token: string({ required_error: "token is required" }),
+    code: string({ required_error: "code is required" }),
   }),
   body: object({
     password: string({ required_error: "new password is required" }),

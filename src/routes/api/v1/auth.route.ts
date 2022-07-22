@@ -23,7 +23,7 @@ router
   .route("/refresh")
   .get(validate(refreshAccessTokenSchema), refreshAccessTokenController);
 router
-  .route("/reset-pass/:token")
+  .route("/reset-pass/:code")
   .post(validate(resetPassSchema), resetPassController);
 router
   .route("/reset-pass")

@@ -61,14 +61,14 @@ export const deleteUserSchema = object({
 export const sendVerificationEmailSchema = object({
   body: object({
     email: string({ required_error: "email is required" }).email(
-      "Invalid email"
+      "invalid email"
     ),
   }),
 });
 
 export const verifyEmailSchema = object({
   params: object({
-    token: string({ required_error: "token is required" }),
+    code: string({ required_error: "code is required" }),
   }),
 });
 
