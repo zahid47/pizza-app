@@ -5,7 +5,9 @@ import {
   deleteUserInput,
   getUserInput,
   getUsersInput,
+  sendVerificationEmailInput,
   updateUserInput,
+  verifyEmailInput,
 } from "../schema/user.schema";
 import {
   createUser,
@@ -16,6 +18,7 @@ import {
   findAndDeleteUser,
 } from "../services/user.service";
 import createError from "../utils/createError";
+import { verifyToken } from "../utils/jwt";
 import log from "../utils/logger";
 import { sendEmail } from "../utils/sendEmail";
 
@@ -30,7 +33,7 @@ export const createUserController = async (
       return next(createError(409, "email", "email already exists"));
 
     const user = await createUser(req.body);
-    // await sendEmail(user.id, user.email, "VERIFY");
+    sendEmail(user.id, user.email, "VERIFY");
     return res.status(201).json(omit(user.toJSON(), "password"));
   } catch (err: any) {
     log.error(err);
@@ -151,12 +154,16 @@ export const deleteUserController = async (
 };
 
 export const sendVerificationEmailController = async (
-  _req: Request,
+  req: Request<{}, {}, sendVerificationEmailInput["body"]>,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    return res.sendStatus(501); //TODO implement this
+    const email = req.body.email;
+    const user = await findUserByEmail(email);
+    if (!user) return next(createError(404, "user", "user not found"));
+    sendEmail(user.id, email, "VERIFY");
+    return res.sendStatus(200);
   } catch (err: any) {
     log.error(err);
     return next(createError(err.status, "email verification", err.message));
@@ -164,12 +171,27 @@ export const sendVerificationEmailController = async (
 };
 
 export const verifyEmailController = async (
-  _req: Request,
+  req: Request<verifyEmailInput["params"]>,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    return res.sendStatus(501); //TODO implement this
+    const code = req.params.code;
+    const { valid, expired, payload } = verifyToken(
+      code,
+      process.env.TOKEN_SECRET
+    );
+
+    if (!valid)
+      return next(createError(400, "email verification", "invalid token"));
+    if (expired)
+      return next(createError(400, "email verification", "token expired"));
+
+    // @ts-ignore
+    const userId = payload.aud;
+
+    await findAndUpdateUser(userId, { verified: true });
+    return res.sendStatus(200);
   } catch (err: any) {
     log.error(err);
     return next(createError(err.status, "email verification", err.message));
