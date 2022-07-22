@@ -8,13 +8,13 @@
 
 ### TODO
 
-- [ ] client - private routes
 - [ ] redis
 - [ ] swagger docs
 - [ ] write tests for order
 - [ ] Docker
-- [ ] auth - verify email and phone, logout, refresh token rotation, sessions
+- [ ] verify phone number (twilio), logout, refresh token rotation, sessions
+- [ ] client - private routes
 
 ### FIXME
 
-- [ ] all done!
+- [x] all done!
