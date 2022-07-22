@@ -36,15 +36,12 @@ export const sendEmail = (
   recipientEmail: string,
   type: "VERIFY" | "RESET"
 ) => {
-  const email = process.env.ETHEREAL_EMAIL;
-  const password = process.env.ETHEREAL_PASSWORD;
-
   const transporter = nodemailer.createTransport({
     host: "smtp.ethereal.email",
     port: 587,
     auth: {
-      user: email,
-      pass: password,
+      user: "eric.murray@ethereal.email",
+      pass: "EXKj4yPrZjNUeJnYJ6", // FIXME: move to a .env?
     },
   });
 
