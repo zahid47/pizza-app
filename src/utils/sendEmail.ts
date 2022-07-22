@@ -1,7 +1,6 @@
 import nodemailer from "nodemailer";
 import { signToken } from "./jwt";
 import log from "../utils/logger";
-import createError from "./createError";
 
 const constructMsg = (
   type: "VERIFY" | "RESET",

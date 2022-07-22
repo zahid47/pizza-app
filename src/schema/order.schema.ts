@@ -1,5 +1,4 @@
 import { array, number, object, string, TypeOf } from "zod";
-import { orderedProductsType } from "../types/order.type";
 
 export const createOrderSchema = object({
   body: object({
