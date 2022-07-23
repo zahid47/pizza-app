@@ -6,6 +6,7 @@ import User from "../models/user.model";
 import { createUser } from "../services/user.service";
 import { generateRandomUser } from "./testUtils/randomGenerators";
 import { generateAuthTokens } from "../services/auth.service";
+import { signToken } from "../utils/jwt";
 
 describe("auth", () => {
   beforeAll(async () => {
@@ -121,21 +122,6 @@ describe("auth", () => {
         });
       });
 
-      describe("given refresh token is invalid or expired", () => {
-        it("should return a 401", async () => {
-          const user = await createUser(generateRandomUser());
-          let { refreshToken } = generateAuthTokens(user.id, user.role);
-
-          refreshToken = refreshToken.split(".")[0]; //invalidating the refresh token
-
-          const { statusCode } = await request(app).get(
-            `/api/v1/auth/refresh?refreshToken=${refreshToken}`
-          );
-
-          expect(statusCode).toBe(401);
-        });
-      });
-
       describe("given refresh token is valid", () => {
         it("should return a 200 and a new accessToken", async () => {
           const user = await createUser(generateRandomUser());
@@ -147,6 +133,32 @@ describe("auth", () => {
 
           expect(statusCode).toBe(200);
           expect(body.accessToken).toBeDefined();
+        });
+      });
+    });
+  });
+
+  describe("reset-pass/:code", () => {
+    describe("GET /api/v1/auth/reset-pass/:code", () => {
+      describe("given no code is provided", () => {
+        it("should return a 400", async () => {
+          const { statusCode } = await request(app).post(
+            `/api/v1/auth/reset-pass/`
+          );
+
+          expect(statusCode).toBe(400);
+        });
+      });
+
+      describe("given no new password provided", () => {
+        it("should return a 400", async () => {
+          const user = await createUser(generateRandomUser());
+          const code = signToken(user.id, user.role, "secret", "20s");
+          const { statusCode } = await request(app).post(
+            `/api/v1/auth/reset-pass/${code}`
+          );
+
+          expect(statusCode).toBe(400);
         });
       });
     });
