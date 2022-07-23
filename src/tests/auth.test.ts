@@ -40,9 +40,7 @@ describe("auth", () => {
           expect(statusCode).toBe(400);
         });
       });
-    });
 
-    describe("POST /api/v1/auth/login", () => {
       describe("given incorrect email is provided", () => {
         it("should return a 404", async () => {
           const userInfo = generateRandomUser();
@@ -56,9 +54,7 @@ describe("auth", () => {
           expect(statusCode).toBe(404);
         });
       });
-    });
 
-    describe("POST /api/v1/auth/login", () => {
       describe("given incorrect password is provided", () => {
         it("should return a 401", async () => {
           const userInfo = generateRandomUser();
@@ -72,9 +68,7 @@ describe("auth", () => {
           expect(statusCode).toBe(401);
         });
       });
-    });
 
-    describe("POST /api/v1/auth/login", () => {
       describe("given correct email and password is provided", () => {
         it("should return a 200 and send an accessToken", async () => {
           const userInfo = generateRandomUser();
@@ -100,9 +94,7 @@ describe("auth", () => {
           expect(statusCode).toBe(401);
         });
       });
-    });
 
-    describe("GET /api/v1/auth/me", () => {
       describe("given a user is logged in", () => {
         it("should return a 200 and the user", async () => {
           const user = await createUser(generateRandomUser());
@@ -114,6 +106,47 @@ describe("auth", () => {
 
           expect(statusCode).toBe(200);
           expect(body._id).toEqual(user.id);
+        });
+      });
+    });
+  });
+
+  describe("refresh", () => {
+    describe("GET /api/v1/auth/refresh", () => {
+      describe("given no refresh token is provided", () => {
+        it("should return a 400", async () => {
+          const { statusCode } = await request(app).get(`/api/v1/auth/refresh`);
+
+          expect(statusCode).toBe(400);
+        });
+      });
+
+      describe("given refresh token is invalid or expired", () => {
+        it("should return a 401", async () => {
+          const user = await createUser(generateRandomUser());
+          let { refreshToken } = generateAuthTokens(user.id, user.role);
+
+          refreshToken = refreshToken.split(".")[0]; //invalidating the refresh token
+
+          const { statusCode } = await request(app).get(
+            `/api/v1/auth/refresh?refreshToken=${refreshToken}`
+          );
+
+          expect(statusCode).toBe(401);
+        });
+      });
+
+      describe("given refresh token is valid", () => {
+        it("should return a 200 and a new accessToken", async () => {
+          const user = await createUser(generateRandomUser());
+          let { refreshToken } = generateAuthTokens(user.id, user.role);
+
+          const { statusCode, body } = await request(app).get(
+            `/api/v1/auth/refresh?refreshToken=${refreshToken}`
+          );
+
+          expect(statusCode).toBe(200);
+          expect(body.accessToken).toBeDefined();
         });
       });
     });
