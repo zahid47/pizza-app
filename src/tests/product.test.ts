@@ -1,4 +1,4 @@
-// This test does not cover cloudinary image uploads.
+// WARNING This test does not cover cloudinary image uploads.
 
 import request from "supertest";
 import app from "../utils/app";
@@ -50,9 +50,7 @@ describe("product", () => {
           expect(statusCode).toBe(401);
         });
       });
-    });
 
-    describe("POST /api/v1/product/", () => {
       describe("given authorized user is not an admin", () => {
         it("should return a 403", async () => {
           const user = await createUser(generateRandomUser());
@@ -66,9 +64,7 @@ describe("product", () => {
           expect(statusCode).toBe(403);
         });
       });
-    });
 
-    describe("POST /api/v1/product/", () => {
       describe("given authorized user is an admin but didn't provide name and price info", () => {
         it("should return a 400 and not create a product", async () => {
           const user = await createUser(generateRandomUser("admin"));
@@ -83,9 +79,7 @@ describe("product", () => {
           expect(body.context).toEqual("validate");
         });
       });
-    });
 
-    describe("POST /api/v1/product/", () => {
       describe("given authorized user is an admin and provided name and price info", () => {
         it("should return a 201 and create a product", async () => {
           const user = await createUser(generateRandomUser("admin"));
@@ -115,9 +109,7 @@ describe("product", () => {
           expect(body.length).toEqual(0);
         });
       });
-    });
 
-    describe("GET /api/v1/product/", () => {
       describe("given some products do exist", () => {
         it("should return a 200 and less than or equal to 'limit' number of products", async () => {
           await createProduct(
@@ -158,9 +150,7 @@ describe("product", () => {
           expect(statusCode).toBe(404);
         });
       });
-    });
 
-    describe("GET /api/v1/product/:id", () => {
       describe("given a product with that id do exist", () => {
         it("should return a 200 and the product", async () => {
           const product = await createProduct(
@@ -195,9 +185,7 @@ describe("product", () => {
           expect(body.name).not.toEqual(updated.name);
         });
       });
-    });
 
-    describe("PUT /api/v1/product/:id", () => {
       describe("given authorized user is not an admin", () => {
         it("should return a 403 and not update the product", async () => {
           const user = await createUser(generateRandomUser());
@@ -216,9 +204,7 @@ describe("product", () => {
           expect(body.name).not.toEqual(updated.name);
         });
       });
-    });
 
-    describe("PUT /api/v1/product/:id", () => {
       describe("given authorized user is an admin", () => {
         it("should return a 200 and update the product", async () => {
           const user = await createUser(generateRandomUser("admin"));
@@ -257,9 +243,7 @@ describe("product", () => {
           expect(notDeletedProduct).not.toBe(null);
         });
       });
-    });
 
-    describe("DELETE /api/v1/product/:id", () => {
       describe("given authorized user is not an admin", () => {
         it("should return a 403 and not delete the product", async () => {
           const user = await createUser(generateRandomUser());
@@ -278,9 +262,7 @@ describe("product", () => {
           expect(notDeletedProduct).not.toBe(null);
         });
       });
-    });
 
-    describe("DELETE /api/v1/product/:id", () => {
       describe("given authorized user is an admin", () => {
         it("should return a 200 and delete the product", async () => {
           const user = await createUser(generateRandomUser("admin"));

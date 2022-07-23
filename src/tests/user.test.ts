@@ -43,9 +43,7 @@ describe("user", () => {
           expect(body.context).toEqual("validate");
         });
       });
-    });
 
-    describe("POST /api/v1/user/", () => {
       describe("given name, email, password is provided", () => {
         it("should return a 201 and create an user", async () => {
           const user = generateRandomUser();
@@ -56,9 +54,7 @@ describe("user", () => {
           expect(body.name).toEqual(user.name);
         });
       });
-    });
 
-    describe("POST /api/v1/user/", () => {
       describe("given extra unaccepted fields are provided", () => {
         it("should return a 400", async () => {
           let user: any = generateRandomUser();
@@ -70,9 +66,7 @@ describe("user", () => {
           expect(statusCode).toBe(400);
         });
       });
-    });
 
-    describe("POST /api/v1/user/", () => {
       describe("given duplicate email provided", () => {
         it("should return a 409", async () => {
           const user1 = await createUser(generateRandomUser());
@@ -102,9 +96,7 @@ describe("user", () => {
           expect(statusCode).toBe(401);
         });
       });
-    });
 
-    describe("GET /api/v1/user", () => {
       describe("given the user is not an admin", () => {
         it("should return a 403", async () => {
           const normalUser = await createUser(generateRandomUser());
@@ -124,9 +116,7 @@ describe("user", () => {
           expect(statusCode).toBe(403);
         });
       });
-    });
 
-    describe("GET /api/v1/user", () => {
       describe("given an admin us authenticated and some users exist", () => {
         it("should return a 200 and less than or equal to 'limit' number of users", async () => {
           const adminUser = await createUser(generateRandomUser("admin"));
@@ -164,9 +154,7 @@ describe("user", () => {
           expect(statusCode).toBe(401);
         });
       });
-    });
 
-    describe("GET /api/v1/user/:id", () => {
       describe("given the user is not an admin", () => {
         it("should return a 403", async () => {
           const normalUser = await createUser(generateRandomUser());
@@ -183,9 +171,7 @@ describe("user", () => {
           expect(statusCode).toBe(403);
         });
       });
-    });
 
-    describe("GET /api/v1/user/:id", () => {
       describe("given a user with a specific id don't exist", () => {
         it("should return a 404", async () => {
           const adminUser = await createUser(generateRandomUser("admin"));
@@ -203,9 +189,7 @@ describe("user", () => {
           expect(statusCode).toBe(404);
         });
       });
-    });
 
-    describe("GET /api/v1/user/:id", () => {
       describe("given a user with a specific id exist", () => {
         it("should return a 200 and the user", async () => {
           const adminUser = await createUser(generateRandomUser("admin"));
@@ -240,9 +224,7 @@ describe("user", () => {
           expect(body.name).not.toEqual(updated.name);
         });
       });
-    });
 
-    describe("PUT /api/v1/user/:id", () => {
       describe("given the user is trying to update someone else's profile", () => {
         it("should return a 403", async () => {
           const user1 = await createUser(generateRandomUser());
@@ -259,9 +241,7 @@ describe("user", () => {
           expect(body._id).not.toEqual(update.name);
         });
       });
-    });
 
-    describe("PUT /api/v1/user/:id", () => {
       describe("given the user is authorized as the correct user but trying to change to a duplicate email", () => {
         it("should return a 409", async () => {
           const existingUser = await createUser(generateRandomUser());
@@ -278,9 +258,7 @@ describe("user", () => {
           expect(statusCode).toBe(409);
         });
       });
-    });
 
-    describe("PUT /api/v1/user/:id", () => {
       describe("given the user is authorized as the correct user", () => {
         it("should return a 200 and update the user", async () => {
           const userInfo = generateRandomUser();
@@ -315,9 +293,7 @@ describe("user", () => {
           expect(notDeletedUser).not.toBe(null);
         });
       });
-    });
 
-    describe("DELETE /api/v1/user/:id", () => {
       describe("given the user is trying to delete someone else's profile", () => {
         it("should return a 403", async () => {
           const user1 = await createUser(generateRandomUser());
@@ -334,9 +310,7 @@ describe("user", () => {
           expect(notDeletedUser).not.toBe(null);
         });
       });
-    });
 
-    describe("DELETE /api/v1/user/:id", () => {
       describe("given the user is authorized as the correct user", () => {
         it("should return a 200 and delete the user", async () => {
           const user = await createUser(generateRandomUser());
