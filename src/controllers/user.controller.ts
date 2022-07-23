@@ -33,7 +33,9 @@ export const createUserController = async (
       return next(createError(409, "email", "email already exists"));
 
     const user = await createUser(req.body);
-    sendEmail(user.id, user.email, "VERIFY");
+    if (process.env.NODE_ENV !== "test") {
+      sendEmail(user.id, user.email, "VERIFY");
+    }
     return res.status(201).json(omit(user.toJSON(), "password"));
   } catch (err: any) {
     log.error(err);
@@ -162,7 +164,9 @@ export const sendVerificationEmailController = async (
     const email = req.body.email;
     const user = await findUserByEmail(email);
     if (!user) return next(createError(404, "user", "user not found"));
-    sendEmail(user.id, email, "VERIFY");
+    if (process.env.NODE_ENV !== "test") {
+      sendEmail(user.id, email, "VERIFY");
+    }
     return res.sendStatus(200);
   } catch (err: any) {
     log.error(err);

@@ -138,8 +138,10 @@ export const sendResetPassEmailController = async (
 
     if (!user) return next(createError(404, "user", "user not found"));
 
-    //all good, lets send the forgot pass email now
-    sendEmail(user.id, user.email, "RESET");
+    if (process.env.NODE_ENV !== "test") {
+      //all good, lets send the forgot pass email now
+      sendEmail(user.id, user.email, "RESET");
+    }
     return res.sendStatus(200);
   } catch (err: any) {
     log.error(err);
