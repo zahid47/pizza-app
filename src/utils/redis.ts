@@ -8,7 +8,7 @@ const redisClient = async () => {
 
     return client;
   } catch {
-    log.error("could not connect to redis");
+    log.warn("could not connect to redis");
     return;
   }
 };
