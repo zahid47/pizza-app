@@ -9,6 +9,7 @@
 ## TODO
 
 - [ ] swagger docs
+- [ ] write tests for the new auth and user and order endpoints
 - [ ] write tests for order
 - [ ] verify phone number (twilio), logout, refresh token rotation, sessions
 - [ ] client - private routes
