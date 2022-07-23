@@ -39,8 +39,8 @@ export const sendEmail = (
     host: "smtp.ethereal.email",
     port: 587,
     auth: {
-      user: "eric.murray@ethereal.email",
-      pass: "EXKj4yPrZjNUeJnYJ6", // FIXME: move to a .env?
+      user: process.env.ETHEREAL_EMAIL,
+      pass: process.env.ETHEREAL_PASSWORD,
     },
   });
 
