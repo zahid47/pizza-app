@@ -8,7 +8,6 @@
 
 ## TODO
 
-- [ ] redis
 - [ ] swagger docs
 - [ ] write tests for order
 - [ ] verify phone number (twilio), logout, refresh token rotation, sessions

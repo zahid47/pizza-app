@@ -18,6 +18,7 @@ import {
 import productSerializer from "../utils/productSerializer";
 import { getCloudinaryURLs } from "../utils/cloudinary";
 import createError from "../utils/createError";
+import { getRedis, setRedis } from "../utils/redis";
 
 export const createProductController = async (
   req: Request<{}, {}, createProductInput["body"]>,
@@ -45,7 +46,17 @@ export const getProductController = async (
 ) => {
   try {
     const { id } = req.params;
-    const product = await findProduct(id);
+
+    const cachedProduct = await getRedis(id);
+
+    let product = null;
+
+    if (cachedProduct) {
+      product = JSON.parse(cachedProduct);
+    } else {
+      product = await findProduct(id);
+      await setRedis(id, JSON.stringify(product));
+    }
 
     if (!product)
       return next(
