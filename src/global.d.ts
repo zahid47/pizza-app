@@ -16,6 +16,7 @@ declare global {
       STRIPE_SECRET_KEY: string;
       ETHEREAL_EMAIL: string;
       ETHEREAL_PASSWORD: string;
+      REDIS_PORT: number;
     }
   }
 }
