@@ -1,16 +1,23 @@
 import { createClient } from "redis";
+import log from "../utils/logger";
 
 const redisClient = async () => {
-  const client = createClient();
-  await client.connect();
+  try {
+    const client = createClient();
+    await client.connect();
 
-  return client;
+    return client;
+  } catch {
+    log.error("could not connect to redis");
+    return;
+  }
 };
 
 export const getRedis = async (key: string) => {
   const client = await redisClient();
-  const value = await client.get(key);
+  if (!client) return;
 
+  const value = await client.get(key);
   return value;
 };
 
@@ -20,6 +27,9 @@ export const setRedis = async (
   expire: number = 60 * 2 // expire in seconds, default 2 minutes
 ) => {
   const client = await redisClient();
+
+  if (!client) return;
+
   await client.set(key, value);
   await client.expire(key, expire);
 };
