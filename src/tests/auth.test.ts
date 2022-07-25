@@ -1,3 +1,5 @@
+// WARNING: this test does not cover sending emails
+
 import request from "supertest";
 import app from "../utils/app";
 import mongoose from "mongoose";
@@ -7,6 +9,7 @@ import { createUser } from "../services/user.service";
 import { generateRandomUser } from "./testUtils/randomGenerators";
 import { generateAuthTokens } from "../services/auth.service";
 import { signToken } from "../utils/jwt";
+import { generateToken } from "../services/auth.service";
 
 describe("auth", () => {
   beforeAll(async () => {
@@ -159,6 +162,19 @@ describe("auth", () => {
           );
 
           expect(statusCode).toBe(400);
+        });
+      });
+
+      describe("give code and new password is provided", () => {
+        it("should return a 200 and change the password", async () => {
+          const user = await createUser(generateRandomUser());
+          const code = generateToken(user.id, "RESET");
+
+          const { statusCode } = await request(app)
+            .post(`/api/v1/auth/reset-pass/${code}`)
+            .send({ password: "newPassword" });
+
+          expect(statusCode).toBe(200);
         });
       });
     });
