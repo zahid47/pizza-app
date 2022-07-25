@@ -3000,10 +3000,10 @@ mongodb-connection-string-url@^2.5.2:
     "@types/whatwg-url" "^8.2.1"
     whatwg-url "^11.0.0"
 
-mongodb-memory-server-core@8.7.1:
-  version "8.7.1"
-  resolved "https://registry.yarnpkg.com/mongodb-memory-server-core/-/mongodb-memory-server-core-8.7.1.tgz#6ee68b5ed3a0b7527258775e50377e936d1c811e"
-  integrity sha512-ysMg0G8EqvjkWjO1i7s7mLSJDgLUdq5rms9IhpHX9TkiuRz475j7EUPSvdJGBby7qvgEockZCyEBOil7GlvZSg==
+mongodb-memory-server-core@8.8.0:
+  version "8.8.0"
+  resolved "https://registry.yarnpkg.com/mongodb-memory-server-core/-/mongodb-memory-server-core-8.8.0.tgz#c45e3d60ed0299f3216407bce5a72d5121d1935c"
+  integrity sha512-pguLQes27cFhiqs/rRqINst1y2zCMGVNrVEREbvFtKaMTQUh40TU1XeOrVesqu1qYFGHYntYCOzlJueUtl62qQ==
   dependencies:
     "@types/tmp" "^0.2.3"
     async-mutex "^0.3.2"
@@ -3013,7 +3013,7 @@ mongodb-memory-server-core@8.7.1:
     get-port "^5.1.1"
     https-proxy-agent "^5.0.1"
     md5-file "^5.0.0"
-    mongodb "^4.7.0"
+    mongodb "~4.7.0"
     new-find-package-json "^2.0.0"
     semver "^7.3.7"
     tar-stream "^2.1.4"
@@ -3022,15 +3022,15 @@ mongodb-memory-server-core@8.7.1:
     uuid "^8.3.1"
     yauzl "^2.10.0"
 
-mongodb-memory-server@^8.6.0:
-  version "8.7.1"
-  resolved "https://registry.yarnpkg.com/mongodb-memory-server/-/mongodb-memory-server-8.7.1.tgz#55bcfb9eae72a816db7a44bf7f011f6880f7d57d"
-  integrity sha512-NIn5pL3Q/bK9H/KRSanpgFuZWrNiTn3y3XUyxE6qm1nFq46z7rmwU0IYZ3STy0O8Gg7r8DzC9xx4/UVFP5HnxA==
+mongodb-memory-server@^8.8.0:
+  version "8.8.0"
+  resolved "https://registry.yarnpkg.com/mongodb-memory-server/-/mongodb-memory-server-8.8.0.tgz#f44543160e3de307447ed306beb5d763667a217e"
+  integrity sha512-1cy/N4RC7mH/T8Go6J/vbbOWg5d2YR3DZCnhrRJkhQMUQmEIdU62jqLTepViW7A2LKKweopkfb4PiKAFJV/Z1A==
   dependencies:
-    mongodb-memory-server-core "8.7.1"
+    mongodb-memory-server-core "8.8.0"
     tslib "^2.4.0"
 
-mongodb@4.7.0, mongodb@^4.7.0:
+mongodb@4.7.0, mongodb@~4.7.0:
   version "4.7.0"
   resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-4.7.0.tgz#99f7323271d93659067695b60e7b4efee2de9bf0"
   integrity sha512-HhVar6hsUeMAVlIbwQwWtV36iyjKd9qdhY+s4wcU8K6TOj4Q331iiMy+FoPuxEntDIijTYWivwFJkLv8q/ZgvA==
