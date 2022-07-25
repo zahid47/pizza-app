@@ -165,7 +165,7 @@ describe("auth", () => {
         });
       });
 
-      describe("give code and new password is provided", () => {
+      describe("given code and new password is provided", () => {
         it("should return a 200 and change the password", async () => {
           const user = await createUser(generateRandomUser());
           const code = generateToken(user.id, "RESET");

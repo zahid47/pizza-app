@@ -202,7 +202,7 @@ export const verifyEmailController = async (
   }
 };
 
-export const verifyPhoneController = async (
+export const verifyPhoneController = (
   _req: Request,
   res: Response,
   next: NextFunction
@@ -215,7 +215,7 @@ export const verifyPhoneController = async (
   }
 };
 
-export const sendVerificationCodeController = async (
+export const sendVerificationCodeController = (
   _req: Request,
   res: Response,
   next: NextFunction
