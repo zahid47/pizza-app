@@ -8,7 +8,6 @@
 
 ## TODO
 
-- [ ] write tests for the new auth and user and order endpoints
 - [ ] swagger docs
 - [ ] write tests for order
 - [ ] real-time orders page (socket.io)
