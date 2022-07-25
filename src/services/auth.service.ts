@@ -1,6 +1,7 @@
 import { signToken } from "../utils/jwt";
 import User from "../models/user.model";
 import { userDocument } from "../types/user.type";
+import JWT from "jsonwebtoken";
 
 interface verifyEmailPassReturnType {
   valid: boolean;
@@ -74,6 +75,27 @@ export const generateAuthTokens = (userId: string, role: string) => {
     );
 
     return { accessToken, refreshToken };
+
+    // skipcq
+  } catch (err: any) {
+    throw new Error(err);
+  }
+};
+
+export const generateToken = (userId: string, task: "VERIFY" | "RESET") => {
+  try {
+    const secret = process.env.TOKEN_SECRET;
+    const ttl = process.env.TOKEN_TTL;
+
+    const options = {
+      expiresIn: ttl,
+      issuer: "pizza-app",
+      audience: userId,
+    };
+
+    const token = JWT.sign({ task }, secret, options);
+
+    return token;
 
     // skipcq
   } catch (err: any) {

@@ -1,6 +1,6 @@
 import nodemailer from "nodemailer";
-import { signToken } from "./jwt";
 import log from "../utils/logger";
+import { generateToken } from "../services/auth.service";
 
 const constructMsg = (
   type: "VERIFY" | "RESET",
@@ -44,12 +44,7 @@ export const sendEmail = (
     },
   });
 
-  const token = signToken(
-    recipientId,
-    "user",
-    process.env.TOKEN_SECRET,
-    process.env.TOKEN_TTL
-  );
+  const token = generateToken(recipientId, type);
   const message = constructMsg(type, recipientEmail, token);
 
   transporter.sendMail(message, (err, info) => {
