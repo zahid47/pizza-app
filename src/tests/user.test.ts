@@ -5,8 +5,9 @@ import { MongoMemoryServer } from "mongodb-memory-server";
 import User from "../models/user.model";
 import { createUser, findUserById } from "../services/user.service";
 import { generateRandomUser } from "./testUtils/randomGenerators";
-import { generateAuthTokens } from "../services/auth.service";
+import { generateAuthTokens, generateToken } from "../services/auth.service";
 import { reverseString } from "./testUtils/reverseString";
+import { createOrder } from "../services/order.service";
 
 describe("user", () => {
   beforeAll(async () => {
@@ -324,6 +325,45 @@ describe("user", () => {
 
           expect(statusCode).toBe(200);
           expect(deletedUser).toBe(null);
+        });
+      });
+    });
+  });
+
+  describe("get orders by user", () => {
+    describe("GET /api/v1/user/orders", () => {
+      describe("given the user is not authorized", () => {
+        it("should return a 401", async () => {
+          const { statusCode } = await request(app).get(`/api/v1/user/orders`);
+
+          expect(statusCode).toBe(401);
+        });
+      });
+
+      describe("given the user have placed 2 orders", () => {
+        it("should return a 200 and 2 orders", async () => {
+          // TODO
+          // const { statusCode } = await request(app).get(`/api/v1/user/orders`)
+          // expect(statusCode).toBe(200);
+        });
+      });
+    });
+  });
+
+  describe("verify email", () => {
+    describe("GET /api/v1/user/verify/email/:code", () => {
+      describe("given the code is valid", () => {
+        it("should return a 200 and verify the email of that user", async () => {
+          const user = await createUser(generateRandomUser());
+          const code = generateToken(user.id, "VERIFY");
+          const { statusCode } = await request(app).get(
+            `/api/v1/user/verify/email/${code}`
+          );
+
+          const verifiedUser = await findUserById(user.id);
+
+          expect(statusCode).toBe(200);
+          expect(verifiedUser?.verified).toBe(true);
         });
       });
     });
