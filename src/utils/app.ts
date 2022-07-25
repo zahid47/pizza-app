@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import path from "path";
 import errorHandler from "../middlewares/errorHandler";
 import cors from "cors";
+import limiter from "../middlewares/rateLimit";
 
 import healthcheck from "../routes/api/v1/healthcheck.route";
 import user from "../routes/api/v1/user.route";
@@ -21,8 +22,8 @@ if (process.env.NODE_ENV === "test") {
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
 app.use(cors({ origin: process.env.clientURL }));
+app.use(limiter);
 
 app.get("/", (_req: Request, res: Response) => {
   return res.sendStatus(200);
