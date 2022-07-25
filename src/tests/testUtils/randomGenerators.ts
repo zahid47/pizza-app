@@ -1,5 +1,9 @@
 import { faker } from "@faker-js/faker";
 import { sample } from "lodash";
+import { calculateTotal } from "../../services/order.service";
+import { createProduct } from "../../services/product.service";
+import { createUser } from "../../services/user.service";
+import productSerializer from "../../utils/productSerializer";
 
 export const generateRandomUser = (role?: "admin") => {
   return {
@@ -70,4 +74,37 @@ export const generateRandomImgURLs = () => {
     faker.image.imageUrl(),
     faker.image.imageUrl(),
   ];
+};
+
+export const generateRandomOrder = async (user?: any) => {
+  const userId = user._id || (await createUser(generateRandomUser()))._id;
+
+  const product1 = await createProduct(
+    productSerializer(generateRandomProduct(), generateRandomImgURLs())
+  );
+  const product2 = await createProduct(
+    productSerializer(generateRandomProduct(), generateRandomImgURLs())
+  );
+
+  const products = [
+    {
+      product: product1._id,
+      variant: "small",
+      quantity: 2,
+    },
+    {
+      product: product2._id,
+      variant: "large",
+      quantity: 1,
+    },
+  ];
+
+  return {
+    products,
+    payment: {
+      method: "card",
+    },
+    total: await calculateTotal(products),
+    user: userId,
+  };
 };
