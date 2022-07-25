@@ -1317,14 +1317,14 @@ cloudinary-core@^2.10.2:
   resolved "https://registry.yarnpkg.com/cloudinary-core/-/cloudinary-core-2.12.3.tgz#6482e472944214ff905c4852da0a4afce14dec2b"
   integrity sha512-Ll4eDzcrIVn4zCttMh3Mdi+KNz07p5EEjBT2PQSRx8Eok1lKPt3uBBenOk/w88RKK3B8SFIWcEe/mN4BHQ0p8A==
 
-cloudinary@^1.30.0:
-  version "1.30.0"
-  resolved "https://registry.yarnpkg.com/cloudinary/-/cloudinary-1.30.0.tgz#7d0205a97b305ff2425c9e453ed5d698817542f5"
-  integrity sha512-4f1YmUS+QxhTdpPd+kYpjgTYDxJAxpyZ8TXOnCa2NE2Iew2JwKQwvo4o5YkCM9HbcH+NzymlMocxSDafhLaBmQ==
+cloudinary@^1.30.1:
+  version "1.30.1"
+  resolved "https://registry.yarnpkg.com/cloudinary/-/cloudinary-1.30.1.tgz#eb63ae8460b93cdf8cd027573df11ea333fcb25a"
+  integrity sha512-Vri+R4VZXZUQWJ3vOoB5b0vjigxI/INRhzZF8E0A1O07bBNrwWAvodtDyumIk3RvEcgxzjvnqq83CPqoUyzEtA==
   dependencies:
     cloudinary-core "^2.10.2"
     core-js "3.6.5"
-    lodash "^4.17.11"
+    lodash "^4.17.21"
     q "^1.5.1"
   optionalDependencies:
     proxy-agent "^5.0.0"
@@ -2839,7 +2839,7 @@ lodash.once@^4.0.0:
   resolved "https://registry.yarnpkg.com/lodash.once/-/lodash.once-4.1.1.tgz#0dd3971213c7c56df880977d504c88fb471a97ac"
   integrity sha512-Sb487aTOCr9drQVL8pIxOzVhafOjZN9UU54hiN8PU3uAiSV7lx1yYNpbNmex2PK6dSJoNTSJUUswT651yww3Mg==
 
-lodash@^4.17.11, lodash@^4.17.21:
+lodash@^4.17.21:
   version "4.17.21"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
