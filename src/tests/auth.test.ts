@@ -156,7 +156,8 @@ describe("auth", () => {
       describe("given no new password provided", () => {
         it("should return a 400", async () => {
           const user = await createUser(generateRandomUser());
-          const code = signToken(user.id, user.role, "secret", "20s");
+          const code = generateToken(user.id, "RESET");
+
           const { statusCode } = await request(app).post(
             `/api/v1/auth/reset-pass/${code}`
           );
