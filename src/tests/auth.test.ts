@@ -128,7 +128,7 @@ describe("auth", () => {
       describe("given refresh token is valid", () => {
         it("should return a 200 and a new accessToken", async () => {
           const user = await createUser(generateRandomUser());
-          let { refreshToken } = generateAuthTokens(user.id, user.role);
+          const { refreshToken } = generateAuthTokens(user.id, user.role);
 
           const { statusCode, body } = await request(app).get(
             `/api/v1/auth/refresh?refreshToken=${refreshToken}`

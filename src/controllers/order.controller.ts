@@ -203,13 +203,13 @@ export const createPaymentIntentController = async (
   }
 };
 
-export const confirmPaymentController = async (
+export const confirmPaymentController = (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const status = req.query.redirect_status;
+    // const status = req.query.redirect_status;
     //TODO: change payment status to "paid", but IDK how without orderID
     return res.status(303).redirect("http://localhost:3000/orders");
   } catch (err: any) {
