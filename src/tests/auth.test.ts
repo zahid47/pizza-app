@@ -8,7 +8,6 @@ import User from "../models/user.model";
 import { createUser } from "../services/user.service";
 import { generateRandomUser } from "./testUtils/randomGenerators";
 import { generateAuthTokens } from "../services/auth.service";
-import { signToken } from "../utils/jwt";
 import { generateToken } from "../services/auth.service";
 
 describe("auth", () => {
