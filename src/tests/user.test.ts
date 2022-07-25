@@ -4,7 +4,10 @@ import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import User from "../models/user.model";
 import { createUser, findUserById } from "../services/user.service";
-import { generateRandomUser } from "./testUtils/randomGenerators";
+import {
+  generateRandomOrder,
+  generateRandomUser,
+} from "./testUtils/randomGenerators";
 import { generateAuthTokens, generateToken } from "../services/auth.service";
 import { reverseString } from "./testUtils/reverseString";
 import { createOrder } from "../services/order.service";
@@ -342,9 +345,19 @@ describe("user", () => {
 
       describe("given the user have placed 2 orders", () => {
         it("should return a 200 and 2 orders", async () => {
-          // TODO
-          // const { statusCode } = await request(app).get(`/api/v1/user/orders`)
-          // expect(statusCode).toBe(200);
+          const user = await createUser(generateRandomUser());
+
+          await createOrder(await generateRandomOrder(user));
+          await createOrder(await generateRandomOrder(user));
+
+          const { accessToken } = generateAuthTokens(user.id, user.role);
+
+          const { statusCode, body } = await request(app)
+            .get(`/api/v1/user/orders`)
+            .set("Authorization", `Bearer ${accessToken}`);
+
+          expect(statusCode).toBe(200);
+          expect(body.length).toBe(2);
         });
       });
     });
