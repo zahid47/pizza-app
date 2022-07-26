@@ -43,6 +43,6 @@ Run Tests
 
 ### API Docs
 
-- soon to be available at "/docs"
+- available at "/api/v1/docs"
 
 TODO: add instructions for docker
