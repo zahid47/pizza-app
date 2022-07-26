@@ -6,6 +6,7 @@ import errorHandler from "../middlewares/errorHandler";
 import cors from "cors";
 import limiter from "../middlewares/rateLimit";
 
+import docs from "../routes/api/v1/docs.route";
 import healthcheck from "../routes/api/v1/healthcheck.route";
 import user from "../routes/api/v1/user.route";
 import auth from "../routes/api/v1/auth.route";
@@ -30,6 +31,7 @@ app.get("/", (_req: Request, res: Response) => {
 });
 
 //Routes
+app.use("/api/v1/docs", docs);
 app.use("/api/v1/healthcheck", healthcheck);
 app.use("/api/v1/user", user);
 app.use("/api/v1/auth", auth);
