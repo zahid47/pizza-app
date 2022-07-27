@@ -2,8 +2,9 @@ import express, { Express, Request, Response } from "express";
 import bodyParser from "body-parser";
 import dotenv from "dotenv";
 import path from "path";
-import errorHandler from "../middlewares/errorHandler";
 import cors from "cors";
+import morgan from "morgan";
+import errorHandler from "../middlewares/errorHandler";
 import limiter from "../middlewares/rateLimit";
 
 import docs from "../routes/api/v1/docs.route";
@@ -25,6 +26,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors({ origin: process.env.clientURL }));
 app.use(limiter);
+if (process.env.NODE_ENV === "development") app.use(morgan("dev"));
 
 app.get("/", (_req: Request, res: Response) => {
   return res.sendStatus(200);
