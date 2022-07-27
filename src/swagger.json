@@ -1,43 +1,35 @@
 {
   "swagger": "2.0",
   "info": {
-    "description": "This is a sample server Petstore server.  You can find out more about     Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).      For this sample, you can use the api key `special-key` to test the authorization     filters.",
-    "version": "1.0.0",
-    "title": "Swagger Petstore",
-    "termsOfService": "http://swagger.io/terms/",
+    "description": "yet another pizza app backend",
+    "version": "0.0.1",
+    "title": "Pizza Shop API",
+    "termsOfService": "#",
     "contact": {
-      "email": "apiteam@swagger.io"
+      "email": "epiczahid@gmail.com"
     },
     "license": {
-      "name": "Apache 2.0",
-      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+      "name": "MIT",
+      "url": "https://github.com/zahid47/pizza-app/blob/master/LICENCE"
     }
   },
-  "host": "petstore.swagger.io",
-  "basePath": "/v2",
+  "host": "localhost:8000",
+  "basePath": "/api/v1",
   "tags": [
     {
-      "name": "pet",
-      "description": "Everything about your Pets",
-      "externalDocs": {
-        "description": "Find out more",
-        "url": "http://swagger.io"
-      }
-    },
-    {
-      "name": "store",
-      "description": "Access to Petstore orders"
-    },
-    {
       "name": "user",
-      "description": "Operations about user",
-      "externalDocs": {
-        "description": "Find out more about our store",
-        "url": "http://swagger.io"
-      }
+      "description": "Operations about user"
+    },
+    {
+      "name": "product",
+      "description": "Everything about the pizzas"
+    },
+    {
+      "name": "order",
+      "description": "Access to pizza shop orders"
     }
   ],
-  "schemes": ["https", "http"],
+  "schemes": ["http"],
   "paths": {
     "/pet": {
       "post": {
@@ -707,88 +699,27 @@
     }
   },
   "securityDefinitions": {
-    "petstore_auth": {
-      "type": "oauth2",
-      "authorizationUrl": "http://petstore.swagger.io/oauth/dialog",
-      "flow": "implicit",
-      "scopes": {
-        "write:pets": "modify pets in your account",
-        "read:pets": "read your pets"
-      }
-    },
-    "api_key": {
+    "JWT": {
       "type": "apiKey",
-      "name": "api_key",
+      "name": "Authorization",
       "in": "header"
     }
   },
   "definitions": {
-    "Order": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "petId": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "quantity": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "shipDate": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "status": {
-          "type": "string",
-          "description": "Order Status",
-          "enum": ["placed", "approved", "delivered"]
-        },
-        "complete": {
-          "type": "boolean",
-          "default": false
-        }
-      },
-      "xml": {
-        "name": "Order"
-      }
-    },
-    "Category": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "name": {
-          "type": "string"
-        }
-      },
-      "xml": {
-        "name": "Category"
-      }
-    },
     "User": {
       "type": "object",
       "properties": {
         "id": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "username": {
           "type": "string"
         },
-        "firstName": {
-          "type": "string"
-        },
-        "lastName": {
+        "name": {
           "type": "string"
         },
         "email": {
           "type": "string"
+        },
+        "verified": {
+          "type": "boolean"
         },
         "password": {
           "type": "string"
@@ -796,94 +727,161 @@
         "phone": {
           "type": "string"
         },
-        "userStatus": {
-          "type": "integer",
-          "format": "int32",
-          "description": "User Status"
+        "address": {
+          "type": "object",
+          "properties": {
+            "addressLine": {
+              "type": "string"
+            },
+            "city": {
+              "type": "string"
+            },
+            "state": {
+              "type": "string"
+            },
+            "zip": {
+              "type": "string"
+            },
+            "country": {
+              "type": "string"
+            },
+            "comment": {
+              "type": "string"
+            }
+          }
+        },
+        "role": {
+          "type": "string",
+          "enum": ["admin", "user"]
         }
       },
       "xml": {
         "name": "User"
       }
     },
-    "Tag": {
+    "Product": {
       "type": "object",
       "properties": {
         "id": {
-          "type": "integer",
-          "format": "int64"
+          "type": "string"
         },
         "name": {
           "type": "string"
-        }
-      },
-      "xml": {
-        "name": "Tag"
-      }
-    },
-    "Pet": {
-      "type": "object",
-      "required": ["name", "photoUrls"],
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64"
         },
-        "category": {
-          "$ref": "#/definitions/Category"
+        "slug": {
+          "type": "string"
         },
-        "name": {
-          "type": "string",
-          "example": "doggie"
+        "description": {
+          "type": "string"
         },
-        "photoUrls": {
+        "images": {
           "type": "array",
-          "xml": {
-            "name": "photoUrl",
-            "wrapped": true
-          },
           "items": {
             "type": "string"
           }
         },
+        "ingredients": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "category": {
+          "type": "string"
+        },
+        "isVegan": {
+          "type": "boolean"
+        },
+        "prices": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "price": {
+                "type": "number"
+              },
+              "option": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "extraIngredients": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "price": {
+              "type": "number"
+            }
+          }
+        },
         "tags": {
           "type": "array",
-          "xml": {
-            "name": "tag",
-            "wrapped": true
-          },
           "items": {
-            "$ref": "#/definitions/Tag"
+            "type": "string"
+          }
+        }
+      },
+      "xml": {
+        "name": "Product"
+      }
+    },
+    "Order": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "user": {
+          "type": "string"
+        },
+        "products": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "product": {
+                "type": "string"
+              },
+              "quantity": {
+                "type": "number"
+              },
+              "variant": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "payment": {
+          "type": "object",
+          "properties": {
+            "paymentStatus": {
+              "type": "string",
+              "enum": ["paid", "unpaid"]
+            },
+            "method": {
+              "type": "string",
+              "enum": ["cash", "card"]
+            }
           }
         },
         "status": {
           "type": "string",
-          "description": "pet status in the store",
-          "enum": ["available", "pending", "sold"]
+          "enum": [
+            "pending",
+            "confirmed",
+            "cooking",
+            "on the way",
+            "delivered",
+            "cancelled"
+          ]
         }
       },
       "xml": {
-        "name": "Pet"
-      }
-    },
-    "ApiResponse": {
-      "type": "object",
-      "properties": {
-        "code": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "type": {
-          "type": "string"
-        },
-        "message": {
-          "type": "string"
-        }
+        "name": "Order"
       }
     }
-  },
-  "externalDocs": {
-    "description": "Find out more about Swagger",
-    "url": "http://swagger.io"
   }
 }
