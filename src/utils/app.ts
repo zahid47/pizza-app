@@ -26,7 +26,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors({ origin: process.env.clientURL }));
 app.use(limiter);
-if (process.env.NODE_ENV === "development") app.use(morgan("dev"));
+app.use(morgan("dev"));
 
 app.get("/", (_req: Request, res: Response) => {
   return res.sendStatus(200);
