@@ -1,15 +1,59 @@
+//TODO: add individual page for each order
+
 import axios from "../utils/axios";
 import { GetServerSideProps } from "next";
 import NavBar from "../components/NavBar";
+import { io } from "socket.io-client";
+import { useEffect, useState } from "react";
+
+const socket = io("http://localhost:8000", { autoConnect: false });
 
 export default function Orders({ orders }: { orders: any }) {
+  const [isSocketConnected, setIsSocketConnected] = useState(socket.connected);
+  const [ordersState, setOrdersState] = useState<any>(orders);
+
+  useEffect(() => {
+    setOrdersState(orders);
+  }, [orders]);
+
+  useEffect(() => {
+    socket.connect();
+
+    socket.on("connect", () => {
+      setIsSocketConnected(true);
+    });
+
+    socket.on("disconnect", () => {
+      setIsSocketConnected(false);
+    });
+
+    socket.on("orderStatusChanged", (order: any) => {
+      console.log(order);
+      setOrdersState(
+        ordersState.map((ordr: any) => {
+          if (ordr._id === order._id) {
+            return order;
+          }
+          return ordr;
+        })
+      );
+    });
+
+    return () => {
+      socket.off("connect");
+      socket.off("disconnect");
+      socket.off("orderStatusChanged");
+      socket.disconnect();
+    };
+  }, [ordersState]);
   return (
     <div>
       <NavBar />
       <h1>Your Orders</h1>
-      {orders.length > 0 ? (
+      <p>{`socket connection: ${isSocketConnected}`}</p>
+      {ordersState.length > 0 ? (
         <ul>
-          {orders.map((order: any) => (
+          {ordersState.map((order: any) => (
             <li key={order._id}>
               {order._id} - {order.total} - {order.status}
             </li>

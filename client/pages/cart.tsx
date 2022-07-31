@@ -4,14 +4,34 @@ import axios from "../utils/axios";
 import Cookies from "js-cookie";
 import NavBar from "../components/NavBar";
 import { useRouter } from "next/router";
+import { io } from "socket.io-client";
+
+const socket = io("http://localhost:8000", { autoConnect: false });
 
 export default function Cart() {
   const router = useRouter();
 
-  const { cartContent, removeFromCart } = useCartStore(
-    (state) => state
-  );
+  const { cartContent, removeFromCart } = useCartStore((state) => state);
   const [cartContentState, setCartContentState] = useState<any>();
+  const [isSocketConnected, setIsSocketConnected] = useState(socket.connected);
+
+  useEffect(() => {
+    socket.connect();
+
+    socket.on("connect", () => {
+      setIsSocketConnected(true);
+    });
+
+    socket.on("disconnect", () => {
+      setIsSocketConnected(false);
+    });
+
+    return () => {
+      socket.off("connect");
+      socket.off("disconnect");
+      socket.disconnect();
+    };
+  }, []);
 
   useEffect(() => {
     setCartContentState(cartContent);
@@ -61,18 +81,18 @@ export default function Cart() {
     };
 
     const accessToken = Cookies.get("accessToken");
-    await axios.post("/order", orderDetails, {
+    const res = await axios.post("/order", orderDetails, {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
-    // clearCart();
-    // alert("Order placed successfully");
-
+    const order = res.data;
+    socket.emit("newOrder", order);
     router.push("/checkout");
   };
 
   return (
     <>
       <NavBar />
+      <p>{`socket connection: ${isSocketConnected}`}</p>
       {cartContentState && cartContentState.length < 1 ? (
         <div>No items in cart</div>
       ) : (
@@ -108,11 +128,6 @@ export default function Cart() {
                 ))}
             </tbody>
           </table>
-          <div className="text-danger">
-            THIS IS A TEST APPLICATION. DO NOT PUT YOUR REAL CREDIT CARD INFO IN
-            THE CHECKOUT PAGE TO PURCHASE ANYTHING, YOU WILL <b>NOT</b> RECEIVE
-            IT.
-          </div>
           <h1>Total: {total} BDT</h1>
           <button
             className="btn btn-dark"

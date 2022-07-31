@@ -8,7 +8,7 @@ export const createOrder = async (input: orderInputType) => {
   try {
     return await (
       await Order.create(input)
-    ).populate("products.product", "name prices");
+    ).populate("products.product", "name prices"); //popullate user name
 
     // skipcq
   } catch (err: any) {

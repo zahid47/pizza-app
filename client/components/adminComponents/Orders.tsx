@@ -1,8 +1,43 @@
 import Cookies from "js-cookie";
-import { ChangeEvent } from "react";
+import { ChangeEvent, useState, useEffect } from "react";
 import axios from "../../utils/axios";
+import { io } from "socket.io-client";
+
+//FIXME: customer name not showing up
+
+const socket = io("http://localhost:8000", { autoConnect: false });
 
 export default function OrdersTable({ orders }: { orders: any }) {
+  const [isSocketConnected, setIsSocketConnected] = useState(socket.connected);
+  const [ordersState, setOrdersState] = useState<any>(orders);
+
+  useEffect(() => {
+    setOrdersState(orders);
+  }, [orders]);
+
+  useEffect(() => {
+    socket.connect();
+
+    socket.on("connect", () => {
+      setIsSocketConnected(true);
+    });
+
+    socket.on("disconnect", () => {
+      setIsSocketConnected(false);
+    });
+
+    socket.on("newOrderPlaced", (data: any) => {
+      setOrdersState([...ordersState, data]);
+    });
+
+    return () => {
+      socket.off("connect");
+      socket.off("disconnect");
+      socket.off("newOrderPlaced");
+      socket.disconnect();
+    };
+  }, [ordersState]);
+
   const handleStatus = async (
     e: ChangeEvent<HTMLSelectElement>,
     order: any
@@ -10,17 +45,20 @@ export default function OrdersTable({ orders }: { orders: any }) {
     const status = e.target.value;
     const accessToken = Cookies.get("accessToken");
 
-    await axios.put(
+    const res = await axios.put(
       `/order/${order._id}`,
       { status },
       { headers: { Authorization: `Bearer ${accessToken}` } }
     );
+    const updatedOrder = res.data;
+    socket.emit("changeOrderStatus", updatedOrder);
   };
 
   return (
     <>
       <label>
         <h3>Orders</h3>
+        <p>{`socket connection: ${isSocketConnected}`}</p>
       </label>
       <table className="table">
         <thead>
@@ -35,7 +73,7 @@ export default function OrdersTable({ orders }: { orders: any }) {
         </thead>
 
         <tbody>
-          {orders.map((order: any) => (
+          {ordersState.map((order: any) => (
             <tr key={order._id}>
               <td>{order._id}</td>
               <td>{order.user.name}</td>
