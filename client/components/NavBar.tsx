@@ -70,13 +70,17 @@ export default function NavBar() {
               </button>
             </li>
             <li className={styles.navlinkRight}>
-              <Link href="/cart">Cart ({cartTotalQty})</Link>
+              <Link href="/cart">
+                <a>Cart ({cartTotalQty})</a>
+              </Link>
             </li>
             <li className={styles.navlinkRight}>
               <Link href="/orders">My Orders</Link>
             </li>
             <li className={styles.navlinkRight}>
-              <Link href="#">Hello, {user.name}</Link>
+              <Link href="#">
+                <a>Hello, {user.name}</a>
+              </Link>
             </li>
           </>
         ) : (
