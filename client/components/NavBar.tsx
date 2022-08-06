@@ -5,6 +5,7 @@ import axios from "../utils/axios";
 import Cookies from "js-cookie";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 export default function NavBar() {
   const { user, setUser } = useUserStore((state) => state);
@@ -12,6 +13,7 @@ export default function NavBar() {
   const router = useRouter();
 
   const cartTotalQty = cartContent.reduce((totalQty, product) => {
+    //@ts-ignore
     return totalQty + product.quantity;
   }, 0);
 
@@ -52,36 +54,38 @@ export default function NavBar() {
     <div>
       <ul className={styles.navlinks}>
         <li className={styles.navlink}>
-          <a href="/">THE ROLLING DOUGH</a>
+          <Link href="/">THE ROLLING DOUGH</Link>
         </li>
         <li className={styles.navlink}>
-          <a href="#">Menu</a>
+          <Link href="#">Menu</Link>
         </li>
         <li className={styles.navlink}>
-          <a href="#">Outlets</a>
+          <Link href="#">Outlets</Link>
         </li>
         {user.name ? (
           <>
             <li className={styles.navlinkRight}>
-              <button className="btn" onClick={logOut}>Logout</button>
+              <button className="btn" onClick={logOut}>
+                Logout
+              </button>
             </li>
             <li className={styles.navlinkRight}>
-              <a href="/cart">Cart ({cartTotalQty})</a>
+              <Link href="/cart">Cart ({cartTotalQty})</Link>
             </li>
             <li className={styles.navlinkRight}>
-              <a href="/orders">My Orders</a>
+              <Link href="/orders">My Orders</Link>
             </li>
             <li className={styles.navlinkRight}>
-              <a href="#">Hello, {user.name}</a>
+              <Link href="#">Hello, {user.name}</Link>
             </li>
           </>
         ) : (
           <>
             <li className={styles.navlinkRight}>
-              <a href="/login">Login</a>
+              <Link href="/login">Login</Link>
             </li>
             <li className={styles.navlinkRight}>
-              <a href="/register">Register</a>
+              <Link href="/register">Register</Link>
             </li>
           </>
         )}

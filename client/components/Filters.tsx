@@ -1,4 +1,5 @@
 import styles from "../styles/NavBar.module.css";
+import Link from "next/link";
 
 export default function Filters() {
   return (
@@ -8,13 +9,13 @@ export default function Filters() {
           <input type="text" placeholder="search" />
         </li>
         <li className={styles.navlink}>
-          <a href="/">All</a>
+          <Link href="/">All</Link>
         </li>
         <li className={styles.navlink}>
-          <a href="/">Vegan</a>
+          <Link href="/">Vegan</Link>
         </li>
         <li className={styles.navlink}>
-          <a href="/">Non Vegan</a>
+          <Link href="/">Non Vegan</Link>
         </li>
       </ul>
     </div>
