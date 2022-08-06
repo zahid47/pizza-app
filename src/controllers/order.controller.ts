@@ -208,7 +208,7 @@ export const confirmPaymentController = (
   try {
     // const status = req.query.redirect_status;
     //TODO: change payment status to "paid", but IDK how without orderID
-    return res.status(303).redirect("http://localhost:3000/orders");
+    return res.status(303).redirect(`${process.env.CLIENT_URL}/orders`);
   } catch (err: any) {
     log.error(err);
     return next(createError(err.status, "order - create payment intent", err));
