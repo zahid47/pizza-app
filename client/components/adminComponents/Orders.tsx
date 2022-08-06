@@ -5,7 +5,7 @@ import { io } from "socket.io-client";
 
 //FIXME: customer name not showing up
 
-const socket = io("http://localhost:8000", { autoConnect: false });
+const socket = io(process.env.NEXT_PUBLIC_SERVER_URL!, { autoConnect: false });
 
 export default function OrdersTable({ orders }: { orders: any }) {
   const [isSocketConnected, setIsSocketConnected] = useState(socket.connected);

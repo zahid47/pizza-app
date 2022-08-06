@@ -6,7 +6,7 @@ import NavBar from "../components/NavBar";
 import { io } from "socket.io-client";
 import { useEffect, useState } from "react";
 
-const socket = io("http://localhost:8000", { autoConnect: false });
+const socket = io(process.env.NEXT_PUBLIC_SERVER_URL!, { autoConnect: false });
 
 export default function Orders({ orders }: { orders: any }) {
   const [isSocketConnected, setIsSocketConnected] = useState(socket.connected);

@@ -58,7 +58,7 @@ export default function CheckoutForm() {
       elements,
       confirmParams: {
         // Make sure to change this to your payment completion page
-        return_url: "http://localhost:8000/api/v1/order/confirm-payment",
+        return_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/order/confirm-payment`,
       },
     });
 
