@@ -10,7 +10,7 @@
     "testDev": "jest --watchAll",
     "all": "concurrently \"yarn dev\" \"yarn client\"",
     "prepare": "husky install",
-    "postinstall": "tsc",
+    "build": "tsc",
     "start": "node build/src/server.js"
   },
   "repository": {
