@@ -5,6 +5,9 @@ import axios from "../utils/axios";
 const Home = ({ data }: { data: any }) => {
   return (
     <>
+      <p style={{ color: "red" }}>
+        The frontend is a bit janky right now, I&apos;m going to revamp it soon!
+      </p>
       <NavBar />
       <Menu data={data} />
     </>

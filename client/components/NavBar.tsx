@@ -57,11 +57,11 @@ export default function NavBar() {
           <Link href="/">THE ROLLING DOUGH</Link>
         </li>
         <li className={styles.navlink}>
-          <Link href="#">Menu</Link>
+          <Link href="/">Menu</Link>
         </li>
-        <li className={styles.navlink}>
+        {/* <li className={styles.navlink}>
           <Link href="#">Outlets</Link>
-        </li>
+        </li> */}
         {user.name ? (
           <>
             <li className={styles.navlinkRight}>

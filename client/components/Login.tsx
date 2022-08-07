@@ -41,6 +41,13 @@ export default function Login() {
         <br />
 
         <button onClick={async (e) => await handleLogin(e)}>Log In</button>
+        <p>admin creds for testing: </p>
+        <p>email: admin@test.com</p>
+        <p>password: admin</p>
+        <p>
+          go to &quot;/admin&quot; after logging in, pls don&apos;t mess with
+          the stuff lol
+        </p>
       </form>
     </div>
   );
