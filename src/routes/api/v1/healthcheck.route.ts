@@ -13,7 +13,6 @@ router.route("/").get((_req: Request, res: Response, next: NextFunction) => {
       description,
       version,
       success: true,
-      database_connected: "unknown", // FIXME
       uptime: process.uptime(),
       time: dayjs(new Date()).toString(),
     });
