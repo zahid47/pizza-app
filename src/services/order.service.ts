@@ -7,8 +7,10 @@ import { findProduct } from "./product.service";
 export const createOrder = async (input: orderInputType) => {
   try {
     return await (
-      await Order.create(input)
-    ).populate("products.product", "name prices"); //popullate user name
+      await (
+        await Order.create(input)
+      ).populate("products.product", "name prices")
+    ).populate("user", "name");
 
     // skipcq
   } catch (err: any) {
@@ -70,7 +72,9 @@ export const findAndDeleteOrder = async (id: string) => {
   }
 };
 
-export const calculateTotal = async (orderedProducts: orderedProductsType[]) => {
+export const calculateTotal = async (
+  orderedProducts: orderedProductsType[]
+) => {
   try {
     let total = 0;
 
