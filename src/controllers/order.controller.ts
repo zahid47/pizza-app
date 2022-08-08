@@ -30,9 +30,10 @@ export const createOrderController = async (
 
     // security check for total price
     const total = await calculateTotal(req.body.products);
-    if (total !== req.body.total)
+    if (req.body.total && total !== req.body.total)
       return next(createError(400, "calculate total", "Total mismatch"));
 
+    orderDetails.total = total;
     const order = await createOrder(orderDetails);
     return res.status(201).json(order);
   } catch (err: any) {
@@ -181,14 +182,14 @@ export const createPaymentIntentController = async (
     const items = req.body.products;
 
     // security check for total price
-    const total = await calculateTotal(items);
-    if (total !== req.body.total)
+    const total = await calculateTotal(req.body.products);
+    if (req.body.total && total !== req.body.total)
       return next(createError(400, "calculate total", "Total mismatch"));
 
     // Create a PaymentIntent with the order amount and currency
     const paymentIntent = await stripe.paymentIntents.create({
       amount: total,
-      currency: "usd"
+      currency: "usd",
     });
 
     res.status(200).json({

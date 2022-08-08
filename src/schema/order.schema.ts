@@ -12,7 +12,7 @@ export const createOrderSchema = object({
     payment: object({
       method: string().optional(),
     }),
-    total: number({ required_error: "total is required" }),
+    total: number().optional(),
   }).strict(),
 });
 
@@ -56,7 +56,7 @@ export const deleteOrderSchema = object({
 
 export const createPaymentIntentSchema = object({
   body: object({
-    total: number({ required_error: "total price is required" }),
+    total: number().optional(),
     products: array(
       object({
         product: string(),
