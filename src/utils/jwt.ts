@@ -18,8 +18,6 @@ export const signToken = (
     issuer: "pizza-app",
     audience: userId,
   };
-
-  payload.userId = userId;
   payload.role = role;
 
   return JWT.sign(payload, secret, options);
