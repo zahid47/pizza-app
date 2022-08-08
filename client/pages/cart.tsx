@@ -6,7 +6,7 @@ import NavBar from "../components/NavBar";
 import { useRouter } from "next/router";
 import { io } from "socket.io-client";
 
-const socket = io(process.env.NEXT_PUBLIC_SERVER_URL!, { autoConnect: false });
+const socket = io(process.env.NEXT_PUBLIC_SERVER_URL, { autoConnect: false });
 
 export default function Cart() {
   const router = useRouter();

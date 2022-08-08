@@ -179,8 +179,6 @@ export const createPaymentIntentController = async (
       apiVersion: "2022-08-01",
     });
 
-    const items = req.body.products;
-
     // security check for total price
     const total = await calculateTotal(req.body.products);
     if (req.body.total && total !== req.body.total)
