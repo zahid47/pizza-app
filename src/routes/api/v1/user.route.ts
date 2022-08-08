@@ -8,8 +8,6 @@ import {
   getUsersController,
   verifyEmailController,
   sendVerificationEmailController,
-  verifyPhoneController,
-  sendVerificationCodeController,
 } from "../../../controllers/user.controller";
 import protect from "../../../middlewares/protect";
 import validate from "../../../middlewares/validate";
@@ -19,10 +17,8 @@ import {
   deleteUserSchema,
   getUserSchema,
   getUsersSchema,
-  sendVerificationCodeSchema,
   sendVerificationEmailSchema,
   updateUserSchema,
-  verifyCodeSchema,
   verifyEmailSchema,
 } from "../../../schema/user.schema";
 
@@ -43,13 +39,6 @@ router
 router
   .route("/verify/email")
   .get(validate(sendVerificationEmailSchema), sendVerificationEmailController);
-
-router
-  .route("/verify/phone/:code")
-  .get(validate(verifyCodeSchema), verifyPhoneController);
-router
-  .route("/verify/phone")
-  .get(validate(sendVerificationCodeSchema), sendVerificationCodeController);
 
 router
   .route("/:id")

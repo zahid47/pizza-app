@@ -1,4 +1,4 @@
-import { number, object, string, TypeOf } from "zod";
+import { object, string, TypeOf } from "zod";
 
 export const createUserSchema = object({
   body: object({
@@ -72,18 +72,6 @@ export const verifyEmailSchema = object({
   }),
 });
 
-export const sendVerificationCodeSchema = object({
-  body: object({
-    phone: number(),
-  }),
-});
-
-export const verifyCodeSchema = object({
-  params: object({
-    code: string({ required_error: "code is required" }),
-  }),
-});
-
 export type createUserInput = TypeOf<typeof createUserSchema>;
 export type getUsersInput = TypeOf<typeof getUsersSchema>;
 export type getUserInput = TypeOf<typeof getUserSchema>;
@@ -93,7 +81,3 @@ export type sendVerificationEmailInput = TypeOf<
   typeof sendVerificationEmailSchema
 >;
 export type verifyEmailInput = TypeOf<typeof verifyEmailSchema>;
-export type sendVerificationPhoneInput = TypeOf<
-  typeof sendVerificationCodeSchema
->;
-export type verifyPhoneInput = TypeOf<typeof verifyCodeSchema>;

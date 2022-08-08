@@ -201,29 +201,3 @@ export const verifyEmailController = async (
     return next(createError(err.status, "email verification", err.message));
   }
 };
-
-export const verifyPhoneController = (
-  _req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    return res.sendStatus(501); //TODO implement this
-  } catch (err: any) {
-    log.error(err);
-    return next(createError(err.status, "phone verification", err.message));
-  }
-};
-
-export const sendVerificationCodeController = (
-  _req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    return res.sendStatus(501); //TODO implement this
-  } catch (err: any) {
-    log.error(err);
-    return next(createError(err.status, "phone verification", err.message));
-  }
-};
