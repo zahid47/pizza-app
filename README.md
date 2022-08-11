@@ -27,6 +27,12 @@ Install dependencies
 
 ```bash
   yarn
+
+  cd client
+
+  yarn
+
+  cd ../
 ```
 
 Start server and client
