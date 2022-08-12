@@ -84,7 +84,7 @@ export const calculateTotal = async (
         throw createError(404, "calculate total", "Product not found");
 
       for (const price of product.prices) {
-        if (price.option === orderedProduct.variant) {
+        if (price.option === orderedProduct.option) {
           total = total + price.price * orderedProduct.quantity;
         }
       }

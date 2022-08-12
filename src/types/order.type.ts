@@ -2,12 +2,12 @@ import mongoose from "mongoose";
 
 export interface orderedProductsType {
   product: string;
-  variant: string;
+  option: string;
   quantity: number;
 }
 
 export interface orderInputType {
-  products: { product: string; variant: string; quantity: number }[];
+  products: { product: string; option: string; quantity: number }[];
   payment: {
     paymentStatus?: string;
     method?: string;

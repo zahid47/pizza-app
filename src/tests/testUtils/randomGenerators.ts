@@ -89,12 +89,12 @@ export const generateRandomOrder = async (user?: any) => {
   const products = [
     {
       product: product1._id,
-      variant: "small",
+      option: "small",
       quantity: 2,
     },
     {
       product: product2._id,
-      variant: "large",
+      option: "large",
       quantity: 1,
     },
   ];

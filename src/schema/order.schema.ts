@@ -5,7 +5,7 @@ export const createOrderSchema = object({
     products: array(
       object({
         product: string({ required_error: "product id is required" }),
-        variant: string({ required_error: "product variant is required" }),
+        option: string({ required_error: "product option is required" }),
         quantity: number({ required_error: "quantity is required" }),
       })
     ),
@@ -37,7 +37,7 @@ export const updateOrderSchema = object({
     products: array(
       object({
         product: string().optional(),
-        variant: string().optional(),
+        option: string().optional(),
         quantity: string().optional(),
       })
     ).optional(),
@@ -60,7 +60,7 @@ export const createPaymentIntentSchema = object({
     products: array(
       object({
         product: string(),
-        variant: string(),
+        option: string(),
         quantity: number(),
       })
     ),

@@ -451,7 +451,7 @@
                         "quantity": {
                           "type": "number"
                         },
-                        "variant": {
+                        "option": {
                           "type": "string"
                         }
                       }
@@ -459,12 +459,12 @@
                     "example": [
                       {
                         "product": "62ce641161744def3b40725a",
-                        "variant": "small",
+                        "option": "small",
                         "quantity": 1
                       },
                       {
                         "product": "62ce643161744def3b407264",
-                        "variant": "small",
+                        "option": "small",
                         "quantity": 2
                       }
                     ]
@@ -1170,7 +1170,7 @@
                 "quantity": {
                   "type": "number"
                 },
-                "variant": {
+                "option": {
                   "type": "string"
                 }
               }
