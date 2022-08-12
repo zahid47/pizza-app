@@ -34,14 +34,15 @@ export default function SingleProduct({ product }: any) {
       <div className={styles.info}>
         <h1 className={styles.title}>{product.name}</h1>
         <p className={styles.desc}>{product.description}</p>
-        <form onChange={(e: any) => setOption(e.target.value)}>
+        {/* FIXME: dont hardcode the options */}
+        <div onChange={(e: any) => setOption(e.target.value)}>
           <input type="radio" name="option" value="small" defaultChecked />{" "}
           <span className={styles.options}>Small</span>
           <input type="radio" name="option" value="medium" />{" "}
           <span className={styles.options}>Medium</span>
           <input type="radio" name="option" value="large" />{" "}
           <span className={styles.options}>Large</span>
-        </form>
+        </div>
         <p className={styles.price}>
           ${product.prices.filter((p: any) => p.option === option)[0].price}
         </p>

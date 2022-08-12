@@ -23,7 +23,7 @@ export default function Register() {
 
   return (
     <div className={styles.container}>
-      <form>
+      <div>
         <label className={styles.label}>Name</label>
         <input
           className={styles.input}
@@ -75,7 +75,7 @@ export default function Register() {
             <a className={styles.createlink}>Log In</a>
           </Link>
         </p>
-      </form>
+      </div>
     </div>
   );
 }

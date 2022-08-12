@@ -25,7 +25,7 @@ export default function Login() {
 
   return (
     <div className={styles.container}>
-      <form>
+      <div>
         <label className={styles.label}>Email</label>
         <input
           className={styles.input}
@@ -66,7 +66,7 @@ export default function Login() {
             <a className={styles.createlink}>Create One!</a>
           </Link>
         </p>
-      </form>
+      </div>
     </div>
   );
 }
