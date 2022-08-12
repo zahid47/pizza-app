@@ -1,20 +1,23 @@
-import Head from "next/head";
-import Footer from "../components/Footer";
+import Footer from "./Footer";
+import NavBar from "./NavBar";
 
-interface LayoutProps {
-  children: React.ReactNode;
-}
-
-export default function Layout({ children }: LayoutProps) {
+export default function Layout({ children }: { children: any }) {
   return (
     <>
       <Head>
-        <title>The Rolling Dough</title>
-        <meta name="description" content="The Rolling Dough App" />
+        <title>Cheesarella</title>
+        <meta
+          name="viewport"
+          content="minimum-scale=1, initial-scale=1, width=device-width"
+        />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {children}
+      <NavBar />
+      <main>{children}</main>
       <Footer />
     </>
   );
 }
+
+import React from "react";
+import Head from "next/head";

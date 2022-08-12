@@ -1,25 +1,19 @@
-import { GetServerSideProps } from "next";
-import Container from "react-bootstrap/Container";
-import EditProduct from "../../../../components/adminComponents/EditProduct";
 import axios from "../../../../utils/axios";
+import { GetServerSideProps } from "next";
 
-export default function Edit({ product }: { product: any }) {
-  return (
-    <Container>
-      <EditProduct _product={product} />
-    </Container>
-  );
+export default function Edit({ productId }: any) {
+  return <div>{`Editing ${productId}`}</div>;
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const productId = context.params!.id; // skipcq // we know params exists for sure no cap
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+  const productId = params?.id;
 
-  const res = await axios.get(`/product/${productId}`);
-  const product = res.data;
+  //   const res = await axios.get(`/product/${productId}`);
+  //   const product = res.data;
 
   return {
     props: {
-      product,
+      productId,
     },
   };
 };

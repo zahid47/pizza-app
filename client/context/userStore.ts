@@ -10,9 +10,11 @@ interface userStateType {
   setUser: (user: userType) => void;
 }
 
-export const useUserStore = create<userStateType>()(
+const useUserStore = create<userStateType>()(
   devtools((set) => ({
     user: {},
     setUser: (user) => set(() => ({ user })),
   }))
 );
+
+export default useUserStore;

@@ -1,27 +1,15 @@
 import { GetServerSideProps } from "next";
 import axios from "../../utils/axios";
-import Orders from "../../components/adminComponents/Orders";
-import Products from "../../components/adminComponents/Products";
-import CreateNewProduct from "../../components/adminComponents/CreateNewProduct";
-import Container from "react-bootstrap/Container";
-import { useUserStore } from "../../zustand/userStore";
+import Orders from "../../components/Admin/Orders";
+import Products from "../../components/Admin/Products";
+import styles from "../../styles/Admin.module.css";
 
-export default function Admin({
-  orders,
-  products,
-}: {
-  orders: any;
-  products: any;
-}) {
-  const user = useUserStore((state) => state.user);
-
+export default function Admin({ orders, products }: any) {
   return (
-    <Container>
-      <h1>Welcome {user.name}</h1>
+    <div className={styles.container}>
       <Orders orders={orders} />
       <Products products={products} />
-      <CreateNewProduct />
-    </Container>
+    </div>
   );
 }
 

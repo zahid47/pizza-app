@@ -1,52 +1,65 @@
 import { GetServerSideProps } from "next";
 import axios from "../../utils/axios";
 import Image from "next/image";
-import { MouseEvent } from "react";
-import useCartStore from "../../zustand/cartStore";
-import NavBar from "../../components/NavBar";
+import { MouseEvent, useState } from "react";
+import useCartStore from "../../context/cartStore";
+import styles from "../../styles/Singleitem.module.css";
 
-export default function SingleProduct({ product }: { product: any }) {
+export default function SingleProduct({ product }: any) {
+  const [option, setOption] = useState<"small" | "medium" | "large">("small");
   const { addToCart } = useCartStore((state) => state);
 
   const handleAddToCart = (
     e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>
   ) => {
-    e.preventDefault();
-
     const orderedProduct = {
       id: product._id,
       name: product.name,
-      price: product.prices[0].price,
+      price: product.prices.filter((p: any) => p.option === option)[0].price,
+      option: option,
       quantity: 1,
     };
     addToCart(orderedProduct);
+    alert("Added to cart");
   };
 
   return (
-    <>
-      <NavBar />
-      <h1>{product.name}</h1>
+    <div className={styles.container}>
       <Image
         src={product.images[0]}
         alt={product.name}
         width={500}
         height={500}
       />
-      <p>{product.description}</p>
-      <p>${product.prices[0].price}</p>
-      <button
-        onClick={(e) => {
-          handleAddToCart(e);
-        }}
-      >
-        Add to Cart
-      </button>
-    </>
+      <div className={styles.info}>
+        <h1 className={styles.title}>{product.name}</h1>
+        <p className={styles.desc}>{product.description}</p>
+        <form onChange={(e: any) => setOption(e.target.value)}>
+          <input type="radio" name="option" value="small" defaultChecked />{" "}
+          <span className={styles.options}>Small</span>
+          <input type="radio" name="option" value="medium" />{" "}
+          <span className={styles.options}>Medium</span>
+          <input type="radio" name="option" value="large" />{" "}
+          <span className={styles.options}>Large</span>
+        </form>
+        <p className={styles.price}>
+          ${product.prices.filter((p: any) => p.option === option)[0].price}
+        </p>
+        <button
+          className={styles.addToCartBtn}
+          onClick={(e) => {
+            handleAddToCart(e);
+          }}
+        >
+          Add to Cart
+        </button>
+      </div>
+    </div>
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const productId = context.params!.id; // skipcq // we know params exists for sure no cap
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+  const productId = params?.id;
 
   const res = await axios.get(`/product/${productId}`);
   const product = res.data;

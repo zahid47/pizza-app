@@ -1,0 +1,55 @@
+.container {
+  margin-top: 10rem;
+  display: flex;
+  justify-content: center;
+  gap: 15rem;
+  align-items: center;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+}
+
+.addToCartBtn {
+  display: block;
+  padding: 1rem;
+  background-color: var(--cheesarella_red);
+  color: #fff;
+  font-weight: bold;
+  border: none;
+  border-radius: 0.25rem;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  max-width: 10rem;
+  font-size: 1rem;
+}
+
+.addToCartBtn:hover,
+.addToCartBtn:focus {
+  background-color: var(--cheesarella_red_dark);
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.desc {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  color: rgb(100, 100, 100);
+}
+
+.options {
+  margin-right: 1rem;
+  font-size: 1.2rem;
+}
+
+.price {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}

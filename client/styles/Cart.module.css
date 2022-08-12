@@ -1,0 +1,97 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 70vh;
+  max-width: 50%;
+  margin: 0 auto;
+}
+
+.noitems {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.caption {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #999;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.th,
+.td {
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.th,
+.td {
+  padding: 1rem;
+  text-align: left;
+}
+
+.qtyBtn {
+  color: #999;
+  cursor: pointer;
+  padding: 0.5rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+}
+
+.qtyText {
+  padding: 0.5rem;
+  display: inline;
+}
+
+.btnWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.total {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #999;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.checkoutBtn {
+  display: block;
+  padding: 1rem;
+  background-color: var(--cheesarella_red);
+  color: #fff;
+  font-weight: bold;
+  border: none;
+  border-radius: 0.25rem;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  max-width: 10rem;
+  font-size: 1rem;
+}
+
+.checkoutBtn:hover,
+.checkoutBtn:focus {
+  background-color: var(--cheesarella_red_dark);
+}
+
+.removeBtn {
+  padding: 0.5rem;
+  color: var(--cheesarella_red);
+  background-color: var(--cheesarella_white);
+  font-weight: bold;
+  border: 1px solid var(--cheesarella_red);
+  border-radius: 0.25rem;
+  cursor: pointer;
+}
+
+.removeBtn:hover,
+.removeBtn:focus {
+  background-color: var(--cheesarella_red);
+  color: var(--cheesarella_white);
+}
