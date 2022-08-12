@@ -66,6 +66,13 @@ export default function Login() {
             <a className={styles.createlink}>Create One!</a>
           </Link>
         </p>
+        <p className={styles.forgotpass}>FOR TESTING</p>
+        <p className={styles.forgotpass}>email: admin@test.com</p>
+        <p className={styles.forgotpass}>password: admin</p>
+        <p className={styles.forgotpass}>
+          (go to &apos;/admin&apos; after logging in, pls let me know if you
+          break anyting lol)
+        </p>
       </div>
     </div>
   );
