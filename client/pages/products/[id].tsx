@@ -10,7 +10,7 @@ export default function SingleProduct({ product }: any) {
   const { addToCart } = useCartStore((state) => state);
 
   const handleAddToCart = (
-    e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>
+    _e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>
   ) => {
     const orderedProduct = {
       id: product._id,

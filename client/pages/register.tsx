@@ -10,7 +10,7 @@ export default function Register() {
   const router = useRouter();
 
   const handleRegister = async (
-    e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>
+    _e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>
   ) => {
     try {
       await axios.post("/user", creds);

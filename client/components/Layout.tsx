@@ -1,5 +1,6 @@
 import Footer from "./Footer";
 import NavBar from "./NavBar";
+import Head from "next/head";
 
 export default function Layout({ children }: { children: any }) {
   return (
@@ -18,6 +19,3 @@ export default function Layout({ children }: { children: any }) {
     </>
   );
 }
-
-import React from "react";
-import Head from "next/head";
