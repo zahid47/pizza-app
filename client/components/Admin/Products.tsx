@@ -57,28 +57,29 @@ export default function ProductsTable({ products }: { products: any }) {
           </thead>
 
           <tbody className={styles.tbody}>
-            {productsState.reverse().map((product: any) => (
-              <tr key={product._id}>
-                <td className={styles.td}>{product._id}</td>
-                <td className={styles.td}>{product.name}</td>
-                <td className={styles.td}>
-                  <button
-                    className={styles.editBtn}
-                    onClick={(e) => handleEdit(e, product._id)}
-                  >
-                    Edit
-                  </button>
-                </td>
-                <td className={styles.td}>
-                  <button
-                    className={styles.deleteBtn}
-                    onClick={(e) => handleDelete(e, product._id)}
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
+            {productsState &&
+              productsState.reverse().map((product: any) => (
+                <tr key={product._id}>
+                  <td className={styles.td}>{product._id}</td>
+                  <td className={styles.td}>{product.name}</td>
+                  <td className={styles.td}>
+                    <button
+                      className={styles.editBtn}
+                      onClick={(e) => handleEdit(e, product._id)}
+                    >
+                      Edit
+                    </button>
+                  </td>
+                  <td className={styles.td}>
+                    <button
+                      className={styles.deleteBtn}
+                      onClick={(e) => handleDelete(e, product._id)}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
       )}

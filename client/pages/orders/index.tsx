@@ -59,20 +59,21 @@ export default function Orders({ orders }: any) {
               </tr>
             </thead>
             <tbody className={styles.tbody}>
-              {ordersState.reverse().map((order: any) => {
-                return (
-                  <tr key={order._id}>
-                    <td className={styles.td}>{order._id}</td>
-                    {/* FIXME */}
-                    <td className={styles.td}>{JSON.stringify({})}</td>
-                    <td className={styles.td}>{order.total}</td>
-                    <td className={styles.td}>
-                      {dayjs(order.createdAt).fromNow()}
-                    </td>
-                    <td className={styles.td}>{order.status}</td>
-                  </tr>
-                );
-              })}
+              {ordersState &&
+                ordersState.reverse().map((order: any) => {
+                  return (
+                    <tr key={order._id}>
+                      <td className={styles.td}>{order._id}</td>
+                      {/* FIXME */}
+                      <td className={styles.td}>{JSON.stringify({})}</td>
+                      <td className={styles.td}>{order.total}</td>
+                      <td className={styles.td}>
+                        {dayjs(order.createdAt).fromNow()}
+                      </td>
+                      <td className={styles.td}>{order.status}</td>
+                    </tr>
+                  );
+                })}
             </tbody>
           </table>
         </>

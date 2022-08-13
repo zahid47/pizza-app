@@ -87,43 +87,44 @@ export default function OrdersTable({ orders }: { orders: any }) {
           </thead>
 
           <tbody className={styles.tbody}>
-            {ordersState.reverse().map((order: any) => (
-              <tr key={order._id}>
-                <td className={styles.td}>{order._id}</td>
-                <td className={styles.td}>{order.user.name}</td>
-                {/* FIXME */}
-                <td className={styles.td}>{JSON.stringify({})}</td>
-                <td className={styles.td}>{order.total}</td>
-                <td className={styles.td}>{order.payment.method}</td>
-                <td className={styles.td}>{order.payment.paymentStatus}</td>
-                <td className={styles.td}>
-                  <select
-                    className={styles.dropdown}
-                    onChange={async (e) => {
-                      await handleStatus(e, order);
-                    }}
-                    defaultValue={order.status}
-                  >
-                    <option value="pending">pending</option>
-                    <option value="confirmed">confirmed</option>
-                    <option value="cooking">cooking</option>
-                    <option value="on the way">on the way</option>
-                    <option value="delivered">delivered</option>
-                    <option value="cancelled">cancelled</option>
-                  </select>
-                </td>
-                <td className={styles.td}>
-                  <button
-                    className={styles.deleteBtn}
-                    onClick={(e) => {
-                      deleteOrder(e, order._id);
-                    }}
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
+            {ordersState &&
+              ordersState.reverse().map((order: any) => (
+                <tr key={order._id}>
+                  <td className={styles.td}>{order._id}</td>
+                  <td className={styles.td}>{order.user.name}</td>
+                  {/* FIXME */}
+                  <td className={styles.td}>{JSON.stringify({})}</td>
+                  <td className={styles.td}>{order.total}</td>
+                  <td className={styles.td}>{order.payment.method}</td>
+                  <td className={styles.td}>{order.payment.paymentStatus}</td>
+                  <td className={styles.td}>
+                    <select
+                      className={styles.dropdown}
+                      onChange={async (e) => {
+                        await handleStatus(e, order);
+                      }}
+                      defaultValue={order.status}
+                    >
+                      <option value="pending">pending</option>
+                      <option value="confirmed">confirmed</option>
+                      <option value="cooking">cooking</option>
+                      <option value="on the way">on the way</option>
+                      <option value="delivered">delivered</option>
+                      <option value="cancelled">cancelled</option>
+                    </select>
+                  </td>
+                  <td className={styles.td}>
+                    <button
+                      className={styles.deleteBtn}
+                      onClick={(e) => {
+                        deleteOrder(e, order._id);
+                      }}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
       )}

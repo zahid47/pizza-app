@@ -38,7 +38,7 @@ export default function Cart() {
       socket.off("disconnect");
       socket.disconnect();
     };
-  }, []);
+  }, [socket]);
 
   useEffect(() => {
     setCartTotal(calculateTotal());
@@ -116,40 +116,41 @@ export default function Cart() {
               </tr>
             </thead>
             <tbody className={styles.tbody}>
-              {cartContent.map((item: any) => (
-                <tr key={`${item.option}-${item.id}`}>
-                  <td className={styles.td}>{item.name}</td>
-                  <td className={styles.td}>{item.option}</td>
-                  <td className={styles.td}>
-                    <button
-                      className={styles.qtyBtn}
-                      disabled={item.quantity < 2}
-                      onClick={(e) => {
-                        decrementQty(e, item);
-                      }}
-                    >
-                      -
-                    </button>
+              {cartContent &&
+                cartContent.map((item: any) => (
+                  <tr key={`${item.option}-${item.id}`}>
+                    <td className={styles.td}>{item.name}</td>
+                    <td className={styles.td}>{item.option}</td>
+                    <td className={styles.td}>
+                      <button
+                        className={styles.qtyBtn}
+                        disabled={item.quantity < 2}
+                        onClick={(e) => {
+                          decrementQty(e, item);
+                        }}
+                      >
+                        -
+                      </button>
 
-                    <div className={styles.qtyText}>{item.quantity}</div>
-                    <button
-                      className={styles.qtyBtn}
-                      onClick={(e) => incrementQty(e, item)}
-                    >
-                      +
-                    </button>
-                  </td>
-                  <td className={styles.td}>${item.price * item.quantity}</td>
-                  <td className={styles.td}>
-                    <button
-                      className={styles.removeBtn}
-                      onClick={(e) => handleDelete(e, item)}
-                    >
-                      Remove
-                    </button>
-                  </td>
-                </tr>
-              ))}
+                      <div className={styles.qtyText}>{item.quantity}</div>
+                      <button
+                        className={styles.qtyBtn}
+                        onClick={(e) => incrementQty(e, item)}
+                      >
+                        +
+                      </button>
+                    </td>
+                    <td className={styles.td}>${item.price * item.quantity}</td>
+                    <td className={styles.td}>
+                      <button
+                        className={styles.removeBtn}
+                        onClick={(e) => handleDelete(e, item)}
+                      >
+                        Remove
+                      </button>
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </table>
           <div className={styles.btnWrapper}>
