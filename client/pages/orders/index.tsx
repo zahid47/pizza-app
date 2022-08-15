@@ -9,7 +9,7 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
 export default function Orders({ orders }: any) {
-  const socket = io(process.env.NEXT_PUBLIC_SERVER_URL!);
+  const socket = io(process.env.NEXT_PUBLIC_SERVER_URL);
   const [ordersState, setOrdersState] = useState<any>(orders);
   dayjs.extend(relativeTime);
 

@@ -7,7 +7,7 @@ import { io } from "socket.io-client";
 import styles from "../styles/Cart.module.css";
 
 export default function Cart() {
-  const socket = io(process.env.NEXT_PUBLIC_SERVER_URL!);
+  const socket = io(process.env.NEXT_PUBLIC_SERVER_URL);
   const [placingOrder, setPlacingOrder] = useState(false);
   const router = useRouter();
   const {

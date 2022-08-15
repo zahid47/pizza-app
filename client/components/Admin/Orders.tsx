@@ -5,7 +5,7 @@ import { io } from "socket.io-client";
 import styles from "../../styles/Admin.Orders.module.css";
 
 export default function OrdersTable({ orders }: { orders: any }) {
-  const socket = io(process.env.NEXT_PUBLIC_SERVER_URL!);
+  const socket = io(process.env.NEXT_PUBLIC_SERVER_URL);
   const [ordersState, setOrdersState] = useState<any>(orders);
   const [deleting, setDeleting] = useState<boolean>(false);
 
