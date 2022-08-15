@@ -26,4 +26,5 @@ a {
 button:disabled {
   cursor: not-allowed;
   color: #9d9d9d;
+  color: var(--cheesarella_white);
 }

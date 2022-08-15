@@ -31,14 +31,10 @@ export default function Cart() {
 
   useEffect(() => {
     socket.connect();
-    socket.on("connect", () => {});
-    socket.on("disconnect", () => {});
 
-    return () => {
-      socket.off("connect");
-      socket.off("disconnect");
-      socket.disconnect();
-    };
+    // return () => {
+    //   socket.disconnect();
+    // };
   }, [socket]);
 
   useEffect(() => {
@@ -99,6 +95,7 @@ export default function Cart() {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
       const order = res.data;
+
       socket.emit("newOrder", order);
       clearCart();
       setPlacingOrder(false);

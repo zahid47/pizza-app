@@ -15,16 +15,12 @@ export default function OrdersTable({ orders }: { orders: any }) {
 
   useEffect(() => {
     socket.connect();
-    socket.on("connect", () => {});
-    socket.on("disconnect", () => {});
 
     socket.on("newOrderPlaced", (data: any) => {
       setOrdersState([data, ...ordersState]);
     });
 
     return () => {
-      socket.off("connect");
-      socket.off("disconnect");
       socket.off("newOrderPlaced");
       socket.disconnect();
     };

@@ -18,7 +18,8 @@ export default function Login() {
     try {
       const response = await axios.post("/auth/login", creds);
       Cookies.set("accessToken", response.data.accessToken);
-      router.push("/");
+      await router.replace("/");
+      router.reload(); //FIXME: idk if this is the right way to do this
     } catch (err: any) {
       console.log(err.response.data.message);
       // setErrors(err.response.data.message);

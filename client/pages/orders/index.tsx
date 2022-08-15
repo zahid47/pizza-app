@@ -19,8 +19,6 @@ export default function Orders({ orders }: any) {
 
   useEffect(() => {
     socket.connect();
-    socket.on("connect", () => {});
-    socket.on("disconnect", () => {});
 
     socket.on("orderStatusChanged", (order: any) => {
       setOrdersState(
@@ -34,8 +32,6 @@ export default function Orders({ orders }: any) {
     });
 
     return () => {
-      socket.off("connect");
-      socket.off("disconnect");
       socket.off("orderStatusChanged");
       socket.disconnect();
     };
