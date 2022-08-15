@@ -6,6 +6,7 @@ import { MouseEvent, useState } from "react";
 import styles from "../../../../styles/Admin.edit.module.css";
 
 export default function Edit({ existingProduct }: any) {
+  const [loading, setLoading] = useState(false);
   const [product, setProduct] = useState<any>({
     name: existingProduct.name,
     description: existingProduct.description,
@@ -22,6 +23,9 @@ export default function Edit({ existingProduct }: any) {
   const handleEditProduct = async (
     e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>
   ) => {
+
+    setLoading(true);
+
     e.preventDefault();
 
     const data = new FormData();
@@ -41,6 +45,8 @@ export default function Edit({ existingProduct }: any) {
         Authorization: `Bearer ${accessToken}`,
       },
     });
+
+    setLoading(false);
     router.push("/admin");
   };
 
@@ -166,8 +172,8 @@ export default function Edit({ existingProduct }: any) {
           />
         </div>
 
-        <button className={styles.editBtn} onClick={handleEditProduct}>
-          Done
+        <button disabled={loading} className={styles.editBtn} onClick={handleEditProduct}>
+          {loading ? "Loading..." : "Edit"}
         </button>
       </form>
     </div>

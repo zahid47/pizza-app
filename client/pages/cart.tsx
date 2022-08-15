@@ -1,5 +1,5 @@
 import useCartStore from "../context/cartStore";
-import { useEffect, MouseEvent, useCallback } from "react";
+import { useEffect, MouseEvent, useCallback, useState } from "react";
 import axios from "../utils/axios";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
@@ -8,6 +8,7 @@ import styles from "../styles/Cart.module.css";
 
 export default function Cart() {
   const socket = io(process.env.NEXT_PUBLIC_SERVER_URL!);
+  const [placingOrder, setPlacingOrder] = useState(false);
   const router = useRouter();
   const {
     cartContent,
@@ -69,33 +70,41 @@ export default function Cart() {
   };
 
   const handleOrder = async () => {
-    const products =
-      cartContent &&
-      cartContent.map((item: any) => {
-        return {
-          product: item.id,
-          option: item.option,
-          quantity: item.quantity,
-        };
-      });
-
-    const orderDetails = {
-      products,
-      payment: {
-        method: "card",
-      },
-      total: cartTotal,
-    };
+    setPlacingOrder(true);
 
     const accessToken = Cookies.get("accessToken");
-    const res = await axios.post("/order", orderDetails, {
-      headers: { Authorization: `Bearer ${accessToken}` },
-    });
-    const order = res.data;
-    socket.emit("newOrder", order);
-    clearCart();
-    alert("Order placed successfully");
-    router.push("/orders");
+
+    if (!accessToken) {
+      router.push("/login");
+    } else {
+      const products =
+        cartContent &&
+        cartContent.map((item: any) => {
+          return {
+            product: item.id,
+            option: item.option,
+            quantity: item.quantity,
+          };
+        });
+
+      const orderDetails = {
+        products,
+        payment: {
+          method: "card",
+        },
+        total: cartTotal,
+      };
+
+      const res = await axios.post("/order", orderDetails, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      });
+      const order = res.data;
+      socket.emit("newOrder", order);
+      clearCart();
+      setPlacingOrder(false);
+      alert("Order placed successfully");
+      router.push("/orders");
+    }
   };
 
   return (
@@ -155,8 +164,12 @@ export default function Cart() {
           </table>
           <div className={styles.btnWrapper}>
             <h1 className={styles.total}>Total: ${cartTotal}</h1>
-            <button className={styles.checkoutBtn} onClick={handleOrder}>
-              Go to Checkout
+            <button
+              disabled={placingOrder}
+              className={styles.checkoutBtn}
+              onClick={handleOrder}
+            >
+              {placingOrder ? "Placing order..." : "Checkout"}
             </button>
           </div>
         </>

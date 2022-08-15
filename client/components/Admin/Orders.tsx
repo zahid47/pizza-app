@@ -7,6 +7,7 @@ import styles from "../../styles/Admin.Orders.module.css";
 export default function OrdersTable({ orders }: { orders: any }) {
   const socket = io(process.env.NEXT_PUBLIC_SERVER_URL!);
   const [ordersState, setOrdersState] = useState<any>(orders);
+  const [deleting, setDeleting] = useState<boolean>(false);
 
   useEffect(() => {
     setOrdersState(orders);
@@ -53,6 +54,8 @@ export default function OrdersTable({ orders }: { orders: any }) {
     _e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>,
     orderId: string
   ) => {
+    setDeleting(true);
+
     const accessToken = Cookies.get("accessToken");
 
     try {
@@ -64,6 +67,8 @@ export default function OrdersTable({ orders }: { orders: any }) {
     } catch {
       alert("Could not delete order");
     }
+
+    setDeleting(false);
   };
 
   return (
@@ -119,8 +124,9 @@ export default function OrdersTable({ orders }: { orders: any }) {
                       onClick={(e) => {
                         deleteOrder(e, order._id);
                       }}
+                      disabled={deleting}
                     >
-                      Delete
+                      {deleting ? "Deleting..." : "Delete"}
                     </button>
                   </td>
                 </tr>

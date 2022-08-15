@@ -7,12 +7,14 @@ import Link from "next/link";
 
 export default function Login() {
   const [creds, setCreds] = useState({});
+  const [loggingIn, setLoggingIn] = useState(false);
   // const [errors, setErrors] = useState<any>([]);
   const router = useRouter();
 
   const handleLogin = async (
     _e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>
   ) => {
+    setLoggingIn(true);
     try {
       const response = await axios.post("/auth/login", creds);
       Cookies.set("accessToken", response.data.accessToken);
@@ -21,6 +23,7 @@ export default function Login() {
       console.log(err.response.data.message);
       // setErrors(err.response.data.message);
     }
+    setLoggingIn(false);
   };
 
   return (
@@ -57,8 +60,9 @@ export default function Login() {
         <button
           className={styles.loginbtn}
           onClick={async (e) => await handleLogin(e)}
+          disabled={loggingIn}
         >
-          Log In
+          {loggingIn ? "Logging in..." : "Log In"}
         </button>
         <p>
           Don&apos;t have an account?{" "}

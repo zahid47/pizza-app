@@ -13,11 +13,14 @@ export default function Add() {
       { price: 999999, option: "large" },
     ],
   });
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const handleAddNewProduct = async (
     e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>
   ) => {
+    setLoading(true);
+
     e.preventDefault();
 
     const data = new FormData();
@@ -35,6 +38,7 @@ export default function Add() {
         Authorization: `Bearer ${accessToken}`,
       },
     });
+    setLoading(false);
     router.push("/admin");
   };
 
@@ -144,8 +148,12 @@ export default function Add() {
           />
         </div>
 
-        <button className={styles.addBtn} onClick={handleAddNewProduct}>
-          Create new Product
+        <button
+          disabled={loading}
+          className={styles.addBtn}
+          onClick={handleAddNewProduct}
+        >
+          {loading ? "Loading..." : "Create New Product"}
         </button>
       </form>
     </div>

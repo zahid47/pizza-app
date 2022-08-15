@@ -6,6 +6,7 @@ import styles from "../../styles/Admin.Products.module.css";
 
 export default function ProductsTable({ products }: { products: any }) {
   const [productsState, setProductsState] = useState<any>(products);
+  const [deleting, setDeleting] = useState(false);
   const router = useRouter();
 
   //FIXME does this do anything? find out later! (also fix on other files)
@@ -30,6 +31,7 @@ export default function ProductsTable({ products }: { products: any }) {
     _e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>,
     productId: string
   ) => {
+    setDeleting(true);
     const accessToken = Cookies.get("accessToken");
     axios.delete(`product/${productId}`, {
       headers: { Authorization: `Bearer ${accessToken}` },
@@ -38,6 +40,7 @@ export default function ProductsTable({ products }: { products: any }) {
     setProductsState(
       productsState.filter((product: any) => product._id !== productId)
     );
+    setDeleting(false);
   };
 
   return (
@@ -72,10 +75,11 @@ export default function ProductsTable({ products }: { products: any }) {
                   </td>
                   <td className={styles.td}>
                     <button
+                      disabled={deleting}
                       className={styles.deleteBtn}
                       onClick={(e) => handleDelete(e, product._id)}
                     >
-                      Delete
+                      {deleting ? "deleting..." : "Delete"}
                     </button>
                   </td>
                 </tr>

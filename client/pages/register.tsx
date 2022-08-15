@@ -6,19 +6,22 @@ import Link from "next/link";
 
 export default function Register() {
   const [creds, setCreds] = useState({});
-  const [errors, setErrors] = useState({ email: "", password: "" });
+  // const [errors, setErrors] = useState({ email: "", password: "" });
+  const [registering, setRegistering] = useState(false);
   const router = useRouter();
 
   const handleRegister = async (
     _e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>
   ) => {
+    setRegistering(true);
     try {
       await axios.post("/user", creds);
       alert("Registered successfully");
       router.push("/login");
     } catch (err: any) {
-      setErrors(err.response.data);
+      console.log(err.response.data);
     }
+    setRegistering(false);
   };
 
   return (
@@ -37,7 +40,7 @@ export default function Register() {
           type="email"
           onChange={(e) => setCreds({ ...creds, email: e.target.value })}
         />
-        <p className={styles.error}>{errors.email}</p>
+        {/* <p className={styles.error}>{errors.email}</p> */}
 
         <label className={styles.label}>Password</label>
         <input
@@ -45,7 +48,7 @@ export default function Register() {
           type="password"
           onChange={(e) => setCreds({ ...creds, password: e.target.value })}
         />
-        <p className={styles.error}>{errors.password}</p>
+        {/* <p className={styles.error}>{errors.password}</p> */}
 
         <label className={styles.label}>Phone</label>
         <input
@@ -64,10 +67,11 @@ export default function Register() {
         />
 
         <button
+          disabled={registering}
           className={styles.registerbtn}
           onClick={async (e) => await handleRegister(e)}
         >
-          Register
+          {registering ? "Registering..." : "Register"}
         </button>
         <p>
           Already have an account?{" "}
