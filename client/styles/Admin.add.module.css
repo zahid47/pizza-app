@@ -19,6 +19,7 @@
   padding: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 0.25rem;
+  min-width: 30rem;
 }
 
 .error {
@@ -53,4 +54,50 @@
   color: var(--cheesarella_red);
   cursor: pointer;
   font-weight: bold;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.checkboxLabel {
+  color: rgb(84, 84, 84);
+  margin-left: 0.5rem;
+}
+
+.checkboxInput {
+  cursor: pointer;
+  height: 1.3rem;
+  width: 1.3rem;
+}
+
+.fileInput::-webkit-file-upload-button {
+  color: var(--cheesarella_red);
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  border: 1px solid var(--cheesarella_red);
+  background-color: var(--cheesarella_white);
+}
+
+.fileInput::-webkit-file-upload-button:hover,
+.fileInput::-webkit-file-upload-button:focus {
+  color: var(--cheesarella_white);
+  background-color: var(--cheesarella_red);
+}
+
+.prices {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.price {
+  display: inline;
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
 }

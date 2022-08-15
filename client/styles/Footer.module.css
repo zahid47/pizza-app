@@ -1,9 +1,10 @@
 .footer {
   padding: 1rem;
   background-color: var(--cheesarella_gray);
-  position: fixed;
+  position: absolute;
   bottom: 0;
   text-align: center;
   width: 100%;
   color: white;
+  margin-top: auto;
 }

@@ -23,7 +23,6 @@ export default function Edit({ existingProduct }: any) {
   const handleEditProduct = async (
     e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>
   ) => {
-
     setLoading(true);
 
     e.preventDefault();
@@ -76,24 +75,25 @@ export default function Edit({ existingProduct }: any) {
           }
         />
 
-        <label htmlFor="vegan" className={styles.label}>
-          Vegan?
-        </label>
-        <input
-          className={styles.input}
-          type="checkbox"
-          id="vegan"
-          checked={product.isVegan}
-          onChange={(e) =>
-            setProduct({ ...product, isVegan: e.target.checked })
-          }
-        />
+        <div className={styles.checkbox}>
+          <input
+            type="checkbox"
+            className={styles.checkboxInput}
+            id="vegan"
+            onChange={(e) =>
+              setProduct({ ...product, isVegan: e.target.checked })
+            }
+          />
+          <label className={styles.checkboxLabel} htmlFor="vegan">
+            Vegan?
+          </label>
+        </div>
 
         <label htmlFor="images" className={styles.label}>
           Image
         </label>
         <input
-          className={styles.input}
+          className={styles.fileInput}
           type="file"
           id="images"
           accept="jpeg, jpg, png"
@@ -108,9 +108,9 @@ export default function Edit({ existingProduct }: any) {
         <label htmlFor="prices" className={styles.label}>
           Prices
         </label>
-        <div id="prices">
+        <div id="prices" className={styles.prices}>
           <input
-            className={styles.input}
+            className={styles.price}
             type="number"
             id="small"
             placeholder="small"
@@ -130,7 +130,7 @@ export default function Edit({ existingProduct }: any) {
             }}
           />
           <input
-            className={styles.input}
+            className={styles.price}
             type="number"
             id="medium"
             placeholder="medium"
@@ -151,7 +151,7 @@ export default function Edit({ existingProduct }: any) {
             }}
           />
           <input
-            className={styles.input}
+            className={styles.price}
             type="number"
             id="large"
             placeholder="large"
@@ -172,7 +172,11 @@ export default function Edit({ existingProduct }: any) {
           />
         </div>
 
-        <button disabled={loading} className={styles.editBtn} onClick={handleEditProduct}>
+        <button
+          disabled={loading}
+          className={styles.editBtn}
+          onClick={handleEditProduct}
+        >
           {loading ? "Loading..." : "Edit"}
         </button>
       </form>

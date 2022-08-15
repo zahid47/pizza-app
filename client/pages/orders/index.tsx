@@ -7,11 +7,21 @@ import { useEffect, useState } from "react";
 import styles from "../../styles/Orders.module.css";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import useCartStore from "../../context/cartStore";
+import { useRouter } from "next/router";
 
 export default function Orders({ orders }: any) {
   const socket = io(process.env.NEXT_PUBLIC_SERVER_URL);
   const [ordersState, setOrdersState] = useState<any>(orders);
+  const { clearCart } = useCartStore((state) => state);
+  const router = useRouter();
   dayjs.extend(relativeTime);
+
+  useEffect(() => {
+    if (router.query.success === "true") {
+      clearCart();
+    }
+  }, []);
 
   useEffect(() => {
     setOrdersState(orders);
@@ -51,6 +61,7 @@ export default function Orders({ orders }: any) {
                 <th className={styles.th}>Products</th>
                 <th className={styles.th}>Total</th>
                 <th className={styles.th}>Time</th>
+                <th className={styles.th}>Payment</th>
                 <th className={styles.th}>Status</th>
               </tr>
             </thead>
@@ -60,11 +71,21 @@ export default function Orders({ orders }: any) {
                   return (
                     <tr key={order._id}>
                       <td className={styles.td}>{order._id}</td>
-                      {/* FIXME */}
-                      <td className={styles.td}>{JSON.stringify({})}</td>
+                      <td className={styles.td}>
+                        {order.products.map((product: any) => {
+                          return (
+                            <p
+                              key={product._id}
+                            >{`${product.product.name} - ${product.option}`}</p>
+                          );
+                        })}
+                      </td>
                       <td className={styles.td}>{order.total}</td>
                       <td className={styles.td}>
                         {dayjs(order.createdAt).fromNow()}
+                      </td>
+                      <td className={styles.td}>
+                        {order.payment.paymentStatus}
                       </td>
                       <td className={styles.td}>{order.status}</td>
                     </tr>
