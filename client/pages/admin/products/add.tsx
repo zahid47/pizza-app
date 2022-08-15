@@ -144,7 +144,7 @@ export default function Add() {
           />
         </div>
 
-        <button className={styles.loginbtn} onClick={handleAddNewProduct}>
+        <button className={styles.addBtn} onClick={handleAddNewProduct}>
           Create new Product
         </button>
       </form>

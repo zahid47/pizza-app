@@ -34,6 +34,13 @@
   cursor: pointer;
 }
 
+.infotext {
+  display: block;
+  margin-top: 1rem;
+  color: rgb(84, 84, 84);
+  margin-bottom: 1rem;
+}
+
 .loginbtn {
   display: block;
   width: 100%;
@@ -45,6 +52,7 @@
   border-radius: 0.25rem;
   margin-bottom: 1rem;
   cursor: pointer;
+  margin-top: 1rem;
 }
 
 .createlink {
