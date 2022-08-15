@@ -1,30 +1,31 @@
 import { Router } from "express";
 import {
-  createPaymentIntentController,
-  confirmPaymentController,
   createOrderController,
   deleteOrderController,
   getOrderController,
   getOrdersController,
   updateOrderController,
+  createCheckoutSessionController,
+  managePaymentStatusController,
 } from "../../../controllers/order.controller";
 import protect from "../../../middlewares/protect";
 import validate from "../../../middlewares/validate";
 import {
   createOrderSchema,
-  createPaymentIntentSchema,
   deleteOrderSchema,
   getOrderSchema,
   getOrdersSchema,
   updateOrderSchema,
+  validateManagePaymentStatusSchema,
 } from "../../../schema/order.schema";
 
 const router = Router();
 
 router
-  .route("/create-payment-intent")
-  .post(validate(createPaymentIntentSchema), createPaymentIntentController);
-router.route("/confirm-payment").get(confirmPaymentController);
+  .route("/create-checkout-session")
+  .post(protect("user"), createCheckoutSessionController);
+
+router.route("/payment").get(validateManagePaymentStatusSchema, managePaymentStatusController);
 
 router
   .route("/:id")

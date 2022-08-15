@@ -54,17 +54,12 @@ export const deleteOrderSchema = object({
   }),
 });
 
-export const createPaymentIntentSchema = object({
-  body: object({
-    total: number().optional(),
-    products: array(
-      object({
-        product: string(),
-        option: string(),
-        quantity: number(),
-      })
-    ),
-  }),
+export const validateManagePaymentStatusSchema = object({
+  query: object({
+    status: string({ required_error: "payment status is required" }),
+    orderId: string({ required_error: "order id is required" }),
+    accessToken: string({ required_error: "access token is required" }),
+  }).strict(),
 });
 
 export type createOrderInput = TypeOf<typeof createOrderSchema>;
@@ -72,4 +67,6 @@ export type getOrdersInput = TypeOf<typeof getOrdersSchema>;
 export type getOrderInput = TypeOf<typeof getOrderSchema>;
 export type updateOrderInput = TypeOf<typeof updateOrderSchema>;
 export type deleteOrderInput = TypeOf<typeof deleteOrderSchema>;
-export type createPaymentIntentType = TypeOf<typeof createPaymentIntentSchema>;
+export type validateManagePaymentStatusInput = TypeOf<
+  typeof validateManagePaymentStatusSchema
+>;

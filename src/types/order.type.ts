@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 export interface orderedProductsType {
-  product: string;
+  product: string; //_id
   option: string;
   quantity: number;
 }

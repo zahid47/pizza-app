@@ -3,11 +3,11 @@ import log from "../utils/logger";
 import createError from "../utils/createError";
 import {
   createOrderInput,
-  createPaymentIntentType,
   deleteOrderInput,
   getOrderInput,
   getOrdersInput,
   updateOrderInput,
+  validateManagePaymentStatusInput,
 } from "../schema/order.schema";
 import {
   calculateTotal,
@@ -19,6 +19,7 @@ import {
   findOrdersByUser,
 } from "../services/order.service";
 import Stripe from "stripe";
+import { verifyToken } from "../utils/jwt";
 
 export const createOrderController = async (
   req: Request<{}, {}, createOrderInput["body"]>,
@@ -169,8 +170,8 @@ export const deleteOrderController = async (
   }
 };
 
-export const createPaymentIntentController = async (
-  req: Request<{}, {}, createPaymentIntentType["body"]>,
+export const createCheckoutSessionController = async (
+  req: Request,
   res: Response,
   next: NextFunction
 ) => {
@@ -179,37 +180,95 @@ export const createPaymentIntentController = async (
       apiVersion: "2022-08-01",
     });
 
-    // security check for total price
-    const total = await calculateTotal(req.body.products);
-    if (req.body.total && total !== req.body.total)
-      return next(createError(400, "calculate total", "Total mismatch"));
+    const { products, order, accessToken } = req.body;
 
-    // Create a PaymentIntent with the order amount and currency
-    const paymentIntent = await stripe.paymentIntents.create({
-      amount: total,
-      currency: "usd",
+    const session = await stripe.checkout.sessions.create({
+      customer_email: res.locals.user.email,
+      line_items: [
+        {
+          price_data: {
+            currency: "usd",
+            product_data: {
+              name: "Pizza",
+            },
+            unit_amount: (await calculateTotal(products)) * 100, //converting to cents
+          },
+          quantity: 1,
+        },
+      ],
+      mode: "payment",
+      success_url: `${process.env.SERVER_URL}/api/v1/order/payment?status=success&orderId=${order._id}&accessToken=${accessToken}`,
+      cancel_url: `${process.env.SERVER_URL}/api/v1/order/payment?status=cancel&orderId=${order._id}&accessToken=${accessToken}`,
     });
 
-    res.status(200).json({
-      clientSecret: paymentIntent.client_secret,
-    });
+    //@ts-ignore
+    return res.status(200).json({ url: session.url });
   } catch (err: any) {
     log.error(err);
-    return next(createError(err.status, "order - create payment intent", err));
+    return next(createError(err.status, "stripe", err));
   }
 };
 
-export const confirmPaymentController = (
-  req: Request,
+export const managePaymentStatusController = async (
+  req: Request<{}, {}, validateManagePaymentStatusInput["query"]>,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    // const status = req.query.redirect_status;
-    //TODO: change payment status to "paid", but IDK how without orderID
+    const status = req.query.status as string;
+    const orderId = req.query.orderId as string;
+    const accessToken = req.query.accessToken as string;
+
+    try {
+      const access_secret: string = process.env.ACCESS_SECRET;
+      const { valid, expired, payload } = verifyToken(
+        accessToken,
+        access_secret
+      );
+
+      if (!valid)
+        return next(
+          createError(
+            401,
+            "jwt",
+            JSON.stringify({ details: "unauthorized, bad token" })
+          )
+        );
+
+      if (expired)
+        return next(
+          createError(401, "jwt", JSON.stringify({ details: "token expired" }))
+        );
+
+      //@ts-ignore
+      if (payload.role !== "admin")
+        return next(
+          createError(
+            403,
+            "jwt",
+            JSON.stringify({ details: "unauthorized, not an admin" })
+          )
+        );
+
+      if (status === "cancel") {
+        await findAndUpdateOrder(orderId, { status: "cancelled" });
+      } else if (status === "success") {
+        const updates = {
+          payment: {
+            paymentStatus: "paid",
+            method: "card",
+          },
+          status: "confirmed",
+        };
+        await findAndUpdateOrder(orderId, updates);
+      }
+    } catch (err: any) {
+      return next(createError(401, "jwt", err.message));
+    }
+
     return res.status(303).redirect(`${process.env.CLIENT_URL}/orders`);
   } catch (err: any) {
     log.error(err);
-    return next(createError(err.status, "order - create payment intent", err));
+    return next(createError(err.status, "stripe", err));
   }
 };
