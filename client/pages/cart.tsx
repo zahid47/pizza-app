@@ -15,7 +15,6 @@ export default function Cart() {
     addToCart,
     removeFromCart,
     deleteFromCart,
-    clearCart,
     cartTotal,
     setCartTotal,
   } = useCartStore((state) => state);
