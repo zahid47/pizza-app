@@ -1,7 +1,5 @@
 # TODO
 
-- [ ] implement stripe
-
 ## Later/ Maybe?
 
 - [ ] client - add proper type annotations
