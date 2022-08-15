@@ -104,7 +104,6 @@ export default function Cart() {
           headers: { Authorization: `Bearer ${accessToken}` },
         }
       );
-      clearCart();
       setPlacingOrder(false);
       router.push(res2.data.url);
     }

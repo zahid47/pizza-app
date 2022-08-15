@@ -93,8 +93,15 @@ export default function OrdersTable({ orders }: { orders: any }) {
                 <tr key={order._id}>
                   <td className={styles.td}>{order._id}</td>
                   <td className={styles.td}>{order.user.name}</td>
-                  {/* FIXME */}
-                  <td className={styles.td}>{JSON.stringify({})}</td>
+                  <td className={styles.td}>
+                    {order.products.map((product: any) => {
+                      return (
+                        <p
+                          key={product._id}
+                        >{`${product.product.name} - ${product.option}`}</p>
+                      );
+                    })}
+                  </td>
                   <td className={styles.td}>{order.total}</td>
                   <td className={styles.td}>{order.payment.method}</td>
                   <td className={styles.td}>{order.payment.paymentStatus}</td>
