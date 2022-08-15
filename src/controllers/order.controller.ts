@@ -253,20 +253,20 @@ export const managePaymentStatusController = async (
       if (status === "cancel") {
         await findAndUpdateOrder(orderId, { status: "cancelled" });
       } else if (status === "success") {
-        const updates = {
+        await findAndUpdateOrder(orderId, {
           payment: {
             paymentStatus: "paid",
             method: "card",
           },
-          status: "confirmed",
-        };
-        await findAndUpdateOrder(orderId, updates);
+        });
       }
     } catch (err: any) {
       return next(createError(401, "jwt", err.message));
     }
 
-    return res.status(303).redirect(`${process.env.CLIENT_URL}/orders`);
+    return res
+      .status(303)
+      .redirect(`${process.env.CLIENT_URL}/orders?sucess=true`);
   } catch (err: any) {
     log.error(err);
     return next(createError(err.status, "stripe", err));

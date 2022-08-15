@@ -31,7 +31,11 @@ export const findOrder = async (id: string) => {
 
 export const findOrders = async (limit: number, skip: number) => {
   try {
-    return await Order.find().limit(limit).skip(skip).populate("user", "name");
+    return await Order.find()
+      .limit(limit)
+      .skip(skip)
+      .populate("user", "name email phone address")
+      .populate("products.product", "name");
     // skipcq
   } catch (err: any) {
     throw new Error(err);
@@ -44,7 +48,11 @@ export const findOrdersByUser = async (
   skip: number
 ) => {
   try {
-    return await Order.find({ user: userId }).limit(limit).skip(skip);
+    return await Order.find({ user: userId })
+      .limit(limit)
+      .skip(skip)
+      .populate("user", "name email phone address")
+      .populate("products.product", "name");
     // skipcq
   } catch (err: any) {
     throw new Error(err);
