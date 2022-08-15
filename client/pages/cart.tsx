@@ -95,12 +95,18 @@ export default function Cart() {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
       const order = res.data;
-
       socket.emit("newOrder", order);
-      clearCart();
+
+      const res2 = await axios.post(
+        "/order/create-checkout-session",
+        { products, order, accessToken },
+        {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        }
+      );
+
       setPlacingOrder(false);
-      alert("Order placed successfully");
-      router.push("/orders");
+      router.push(res2.data.url);
     }
   };
 
@@ -166,7 +172,7 @@ export default function Cart() {
               className={styles.checkoutBtn}
               onClick={handleOrder}
             >
-              {placingOrder ? "Placing order..." : "Checkout"}
+              {placingOrder ? "Please Wait" : "Checkout"}
             </button>
           </div>
         </>
