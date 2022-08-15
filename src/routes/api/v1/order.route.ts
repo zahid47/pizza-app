@@ -25,7 +25,12 @@ router
   .route("/create-checkout-session")
   .post(protect("user"), createCheckoutSessionController);
 
-router.route("/payment").get(validateManagePaymentStatusSchema, managePaymentStatusController);
+router
+  .route("/payment")
+  .get(
+    validate(validateManagePaymentStatusSchema),
+    managePaymentStatusController
+  );
 
 router
   .route("/:id")
