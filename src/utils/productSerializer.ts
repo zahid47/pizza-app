@@ -12,7 +12,6 @@ const productSerializer = (body: any, imgURLs: string[]) => {
   const serializedBody: any = {
     name: body.name,
     description: body.description,
-    images: imgURLs,
     ingredients,
     category: body.category,
     isVegan: body.isVegan,
@@ -20,6 +19,10 @@ const productSerializer = (body: any, imgURLs: string[]) => {
     extraIngredients: body.extraIngredients,
     tags,
   };
+
+  if (imgURLs.length) {
+    serializedBody.images = imgURLs;
+  }
 
   return serializedBody;
 };
