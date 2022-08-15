@@ -1,7 +1,5 @@
 # TODO
 
-- [ ] client - fix css in admin - add, edit
-
 ## Later/ Maybe?
 
 - [ ] client - add proper type annotations
