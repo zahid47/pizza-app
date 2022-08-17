@@ -13,6 +13,10 @@ export default function Layout({ children }: { children: any }) {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <p className="announcement">
+        The website is not mobile responsive (yet!!) please view in desktop mode
+        for now. Thanks!
+      </p>
       <NavBar />
       <main>{children}</main>
       <Footer />

@@ -27,3 +27,10 @@ button:disabled {
   color: #9d9d9d;
   color: var(--cheesarella_white);
 }
+
+.announcement {
+  text-align: center;
+  padding: 1rem;
+  background-color: var(--cheesarella_red_dark);
+  color: var(--cheesarella_white);
+}
