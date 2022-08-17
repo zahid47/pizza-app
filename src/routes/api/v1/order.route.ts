@@ -25,6 +25,7 @@ router
   .route("/create-checkout-session")
   .post(protect("user"), createCheckoutSessionController);
 
+//FIXME: anyone can hit this get route and make their order paid, without actually paying (which is really bad!)
 router
   .route("/payment")
   .get(

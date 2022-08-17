@@ -221,10 +221,7 @@ export const managePaymentStatusController = async (
 
     try {
       const access_secret: string = process.env.ACCESS_SECRET;
-      const { valid, expired, payload } = verifyToken(
-        accessToken,
-        access_secret
-      );
+      const { valid, expired } = verifyToken(accessToken, access_secret);
 
       if (!valid)
         return next(
@@ -238,16 +235,6 @@ export const managePaymentStatusController = async (
       if (expired)
         return next(
           createError(401, "jwt", JSON.stringify({ details: "token expired" }))
-        );
-
-      //@ts-ignore
-      if (payload.role !== "admin")
-        return next(
-          createError(
-            403,
-            "jwt",
-            JSON.stringify({ details: "unauthorized, not an admin" })
-          )
         );
 
       if (status === "cancel") {
