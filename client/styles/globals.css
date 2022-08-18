@@ -18,6 +18,10 @@ html {
   scroll-behavior: smooth;
 }
 
+body {
+  min-height: 130vh;
+}
+
 a {
   text-decoration: none;
 }
