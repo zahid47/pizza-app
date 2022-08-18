@@ -34,6 +34,9 @@ export default function SingleProduct({ product }: any) {
       <div className={styles.info}>
         <h1 className={styles.title}>{product.name}</h1>
         <p className={styles.desc}>{product.description}</p>
+        <p className={styles.desc}>
+          {product.isVegan ? <>Vegan</> : <>Non-Vegan</>}
+        </p>
         {/* FIXME: dont hardcode the options */}
         <div onChange={(e: any) => setOption(e.target.value)}>
           <input type="radio" name="option" value="small" defaultChecked />{" "}
