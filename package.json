@@ -55,7 +55,7 @@
     "@types/express-rate-limit": "^6.0.0",
     "@types/jest": "^28.1.6",
     "@types/jsonwebtoken": "^8.5.8",
-    "@types/lodash": "^4.14.182",
+    "@types/lodash": "^4.14.184",
     "@types/morgan": "^1.9.3",
     "@types/multer": "^1.4.7",
     "@types/node": "^18.7.3",
